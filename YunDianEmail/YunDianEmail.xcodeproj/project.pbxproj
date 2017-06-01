@@ -1,0 +1,553 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0C9BE2EF1EE04215000794D6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C9BE2EE1EE04215000794D6 /* main.m */; };
+		0C9BE2F21EE04215000794D6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C9BE2F11EE04215000794D6 /* AppDelegate.m */; };
+		0C9BE2F51EE04215000794D6 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C9BE2F41EE04215000794D6 /* ViewController.m */; };
+		0C9BE2F81EE04215000794D6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C9BE2F61EE04215000794D6 /* Main.storyboard */; };
+		0C9BE2FA1EE04215000794D6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0C9BE2F91EE04215000794D6 /* Assets.xcassets */; };
+		0C9BE2FD1EE04215000794D6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C9BE2FB1EE04215000794D6 /* LaunchScreen.storyboard */; };
+		0C9BE3151EE04929000794D6 /* UIViewAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C9BE3091EE04929000794D6 /* UIViewAdditions.m */; };
+		0C9BE3181EE0496D000794D6 /* YDConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C9BE3171EE0496D000794D6 /* YDConfig.m */; };
+		0C9BE31B1EE04A11000794D6 /* YDTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C9BE31A1EE04A11000794D6 /* YDTools.m */; };
+		0C9BE3201EE04F39000794D6 /* YDBasicNavgationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C9BE31F1EE04F39000794D6 /* YDBasicNavgationViewController.m */; };
+		0C9BE3231EE04F80000794D6 /* YDBasicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C9BE3221EE04F80000794D6 /* YDBasicViewController.m */; };
+		0C9BE3261EE05091000794D6 /* YDValidate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C9BE3251EE05091000794D6 /* YDValidate.m */; };
+		0C9BE3291EE05264000794D6 /* YDHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C9BE3281EE05264000794D6 /* YDHomeViewController.m */; };
+		0C9BE32C1EE054F8000794D6 /* YDHomeEmailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C9BE32B1EE054F8000794D6 /* YDHomeEmailTableViewCell.m */; };
+		6D96BA0D9F31F7C92F5177FE /* libPods-YunDianEmail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A6895A3540B4BA664F237ABB /* libPods-YunDianEmail.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0C9BE2EA1EE04215000794D6 /* YunDianEmail.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YunDianEmail.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0C9BE2EE1EE04215000794D6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		0C9BE2F01EE04215000794D6 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		0C9BE2F11EE04215000794D6 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		0C9BE2F31EE04215000794D6 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		0C9BE2F41EE04215000794D6 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		0C9BE2F71EE04215000794D6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		0C9BE2F91EE04215000794D6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		0C9BE2FC1EE04215000794D6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		0C9BE2FE1EE04215000794D6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0C9BE3081EE04929000794D6 /* UIViewAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIViewAdditions.h; sourceTree = "<group>"; };
+		0C9BE3091EE04929000794D6 /* UIViewAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIViewAdditions.m; sourceTree = "<group>"; };
+		0C9BE3161EE0496D000794D6 /* YDConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YDConfig.h; sourceTree = "<group>"; };
+		0C9BE3171EE0496D000794D6 /* YDConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YDConfig.m; sourceTree = "<group>"; };
+		0C9BE3191EE04A11000794D6 /* YDTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YDTools.h; sourceTree = "<group>"; };
+		0C9BE31A1EE04A11000794D6 /* YDTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YDTools.m; sourceTree = "<group>"; };
+		0C9BE31D1EE04B7E000794D6 /* YunDianEmail_PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YunDianEmail_PrefixHeader.pch; sourceTree = "<group>"; };
+		0C9BE31E1EE04F39000794D6 /* YDBasicNavgationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YDBasicNavgationViewController.h; sourceTree = "<group>"; };
+		0C9BE31F1EE04F39000794D6 /* YDBasicNavgationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YDBasicNavgationViewController.m; sourceTree = "<group>"; };
+		0C9BE3211EE04F80000794D6 /* YDBasicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YDBasicViewController.h; sourceTree = "<group>"; };
+		0C9BE3221EE04F80000794D6 /* YDBasicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YDBasicViewController.m; sourceTree = "<group>"; };
+		0C9BE3241EE05091000794D6 /* YDValidate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YDValidate.h; sourceTree = "<group>"; };
+		0C9BE3251EE05091000794D6 /* YDValidate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YDValidate.m; sourceTree = "<group>"; };
+		0C9BE3271EE05264000794D6 /* YDHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YDHomeViewController.h; sourceTree = "<group>"; };
+		0C9BE3281EE05264000794D6 /* YDHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YDHomeViewController.m; sourceTree = "<group>"; };
+		0C9BE32A1EE054F8000794D6 /* YDHomeEmailTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YDHomeEmailTableViewCell.h; sourceTree = "<group>"; };
+		0C9BE32B1EE054F8000794D6 /* YDHomeEmailTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YDHomeEmailTableViewCell.m; sourceTree = "<group>"; };
+		A6895A3540B4BA664F237ABB /* libPods-YunDianEmail.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-YunDianEmail.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EFABB88ED0B5FC7D30ECE555 /* Pods-YunDianEmail.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YunDianEmail.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YunDianEmail/Pods-YunDianEmail.debug.xcconfig"; sourceTree = "<group>"; };
+		FF9F41CD21A88FEEB674F7D7 /* Pods-YunDianEmail.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YunDianEmail.release.xcconfig"; path = "Pods/Target Support Files/Pods-YunDianEmail/Pods-YunDianEmail.release.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0C9BE2E71EE04215000794D6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6D96BA0D9F31F7C92F5177FE /* libPods-YunDianEmail.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0C9BE2E11EE04215000794D6 = {
+			isa = PBXGroup;
+			children = (
+				0C9BE2EC1EE04215000794D6 /* YunDianEmail */,
+				0C9BE2EB1EE04215000794D6 /* Products */,
+				20200DFA9175476080EEAACC /* Pods */,
+				DD91DBB5B80514255A5FA17E /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		0C9BE2EB1EE04215000794D6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0C9BE2EA1EE04215000794D6 /* YunDianEmail.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0C9BE2EC1EE04215000794D6 /* YunDianEmail */ = {
+			isa = PBXGroup;
+			children = (
+				0C9BE3041EE04929000794D6 /* Basic */,
+				0C9BE3051EE04929000794D6 /* Common */,
+				0C9BE3061EE04929000794D6 /* Library */,
+				0C9BE30A1EE04929000794D6 /* ViewControllers */,
+				0C9BE2F01EE04215000794D6 /* AppDelegate.h */,
+				0C9BE2F11EE04215000794D6 /* AppDelegate.m */,
+				0C9BE2F31EE04215000794D6 /* ViewController.h */,
+				0C9BE2F41EE04215000794D6 /* ViewController.m */,
+				0C9BE2F61EE04215000794D6 /* Main.storyboard */,
+				0C9BE2F91EE04215000794D6 /* Assets.xcassets */,
+				0C9BE2FB1EE04215000794D6 /* LaunchScreen.storyboard */,
+				0C9BE2FE1EE04215000794D6 /* Info.plist */,
+				0C9BE2ED1EE04215000794D6 /* Supporting Files */,
+			);
+			path = YunDianEmail;
+			sourceTree = "<group>";
+		};
+		0C9BE2ED1EE04215000794D6 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				0C9BE2EE1EE04215000794D6 /* main.m */,
+				0C9BE31D1EE04B7E000794D6 /* YunDianEmail_PrefixHeader.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		0C9BE3041EE04929000794D6 /* Basic */ = {
+			isa = PBXGroup;
+			children = (
+				0C9BE31E1EE04F39000794D6 /* YDBasicNavgationViewController.h */,
+				0C9BE31F1EE04F39000794D6 /* YDBasicNavgationViewController.m */,
+				0C9BE3211EE04F80000794D6 /* YDBasicViewController.h */,
+				0C9BE3221EE04F80000794D6 /* YDBasicViewController.m */,
+			);
+			path = Basic;
+			sourceTree = "<group>";
+		};
+		0C9BE3051EE04929000794D6 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				0C9BE3161EE0496D000794D6 /* YDConfig.h */,
+				0C9BE3171EE0496D000794D6 /* YDConfig.m */,
+				0C9BE3191EE04A11000794D6 /* YDTools.h */,
+				0C9BE31A1EE04A11000794D6 /* YDTools.m */,
+				0C9BE3241EE05091000794D6 /* YDValidate.h */,
+				0C9BE3251EE05091000794D6 /* YDValidate.m */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		0C9BE3061EE04929000794D6 /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				0C9BE3071EE04929000794D6 /* 布局坐标类库 */,
+			);
+			path = Library;
+			sourceTree = "<group>";
+		};
+		0C9BE3071EE04929000794D6 /* 布局坐标类库 */ = {
+			isa = PBXGroup;
+			children = (
+				0C9BE3081EE04929000794D6 /* UIViewAdditions.h */,
+				0C9BE3091EE04929000794D6 /* UIViewAdditions.m */,
+			);
+			path = "布局坐标类库";
+			sourceTree = "<group>";
+		};
+		0C9BE30A1EE04929000794D6 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				0C9BE30B1EE04929000794D6 /* HomeViewController */,
+				0C9BE3101EE04929000794D6 /* LoginAndRegisterViewController */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		0C9BE30B1EE04929000794D6 /* HomeViewController */ = {
+			isa = PBXGroup;
+			children = (
+				0C9BE30C1EE04929000794D6 /* Model */,
+				0C9BE30D1EE04929000794D6 /* View */,
+				0C9BE30E1EE04929000794D6 /* ViewController */,
+			);
+			path = HomeViewController;
+			sourceTree = "<group>";
+		};
+		0C9BE30C1EE04929000794D6 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		0C9BE30D1EE04929000794D6 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				0C9BE32A1EE054F8000794D6 /* YDHomeEmailTableViewCell.h */,
+				0C9BE32B1EE054F8000794D6 /* YDHomeEmailTableViewCell.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		0C9BE30E1EE04929000794D6 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				0C9BE3271EE05264000794D6 /* YDHomeViewController.h */,
+				0C9BE3281EE05264000794D6 /* YDHomeViewController.m */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		0C9BE3101EE04929000794D6 /* LoginAndRegisterViewController */ = {
+			isa = PBXGroup;
+			children = (
+				0C9BE3111EE04929000794D6 /* Model */,
+				0C9BE3121EE04929000794D6 /* View */,
+				0C9BE3131EE04929000794D6 /* ViewController */,
+			);
+			path = LoginAndRegisterViewController;
+			sourceTree = "<group>";
+		};
+		0C9BE3111EE04929000794D6 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		0C9BE3121EE04929000794D6 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		0C9BE3131EE04929000794D6 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		20200DFA9175476080EEAACC /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				EFABB88ED0B5FC7D30ECE555 /* Pods-YunDianEmail.debug.xcconfig */,
+				FF9F41CD21A88FEEB674F7D7 /* Pods-YunDianEmail.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		DD91DBB5B80514255A5FA17E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A6895A3540B4BA664F237ABB /* libPods-YunDianEmail.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0C9BE2E91EE04215000794D6 /* YunDianEmail */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0C9BE3011EE04215000794D6 /* Build configuration list for PBXNativeTarget "YunDianEmail" */;
+			buildPhases = (
+				500039F0FEE7C190983548E7 /* [CP] Check Pods Manifest.lock */,
+				0C9BE2E61EE04215000794D6 /* Sources */,
+				0C9BE2E71EE04215000794D6 /* Frameworks */,
+				0C9BE2E81EE04215000794D6 /* Resources */,
+				BD3DE6468510B86B368FEC70 /* [CP] Embed Pods Frameworks */,
+				76AF428E68547A91D33AF753 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = YunDianEmail;
+			productName = YunDianEmail;
+			productReference = 0C9BE2EA1EE04215000794D6 /* YunDianEmail.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0C9BE2E21EE04215000794D6 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0830;
+				ORGANIZATIONNAME = yundian;
+				TargetAttributes = {
+					0C9BE2E91EE04215000794D6 = {
+						CreatedOnToolsVersion = 8.3.2;
+						DevelopmentTeam = 6LBA5SMMB2;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 0C9BE2E51EE04215000794D6 /* Build configuration list for PBXProject "YunDianEmail" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 0C9BE2E11EE04215000794D6;
+			productRefGroup = 0C9BE2EB1EE04215000794D6 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0C9BE2E91EE04215000794D6 /* YunDianEmail */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		0C9BE2E81EE04215000794D6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0C9BE2FD1EE04215000794D6 /* LaunchScreen.storyboard in Resources */,
+				0C9BE2FA1EE04215000794D6 /* Assets.xcassets in Resources */,
+				0C9BE2F81EE04215000794D6 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		500039F0FEE7C190983548E7 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		76AF428E68547A91D33AF753 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YunDianEmail/Pods-YunDianEmail-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BD3DE6468510B86B368FEC70 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YunDianEmail/Pods-YunDianEmail-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0C9BE2E61EE04215000794D6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0C9BE3291EE05264000794D6 /* YDHomeViewController.m in Sources */,
+				0C9BE3231EE04F80000794D6 /* YDBasicViewController.m in Sources */,
+				0C9BE3151EE04929000794D6 /* UIViewAdditions.m in Sources */,
+				0C9BE2F51EE04215000794D6 /* ViewController.m in Sources */,
+				0C9BE31B1EE04A11000794D6 /* YDTools.m in Sources */,
+				0C9BE32C1EE054F8000794D6 /* YDHomeEmailTableViewCell.m in Sources */,
+				0C9BE3201EE04F39000794D6 /* YDBasicNavgationViewController.m in Sources */,
+				0C9BE2F21EE04215000794D6 /* AppDelegate.m in Sources */,
+				0C9BE3181EE0496D000794D6 /* YDConfig.m in Sources */,
+				0C9BE2EF1EE04215000794D6 /* main.m in Sources */,
+				0C9BE3261EE05091000794D6 /* YDValidate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		0C9BE2F61EE04215000794D6 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0C9BE2F71EE04215000794D6 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		0C9BE2FB1EE04215000794D6 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0C9BE2FC1EE04215000794D6 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		0C9BE2FF1EE04215000794D6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		0C9BE3001EE04215000794D6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		0C9BE3021EE04215000794D6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = EFABB88ED0B5FC7D30ECE555 /* Pods-YunDianEmail.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 6LBA5SMMB2;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/YunDianEmail/YunDianEmail_PrefixHeader.pch";
+				INFOPLIST_FILE = YunDianEmail/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.company.YunDianEmail;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		0C9BE3031EE04215000794D6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FF9F41CD21A88FEEB674F7D7 /* Pods-YunDianEmail.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 6LBA5SMMB2;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/YunDianEmail/YunDianEmail_PrefixHeader.pch";
+				INFOPLIST_FILE = YunDianEmail/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.company.YunDianEmail;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0C9BE2E51EE04215000794D6 /* Build configuration list for PBXProject "YunDianEmail" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0C9BE2FF1EE04215000794D6 /* Debug */,
+				0C9BE3001EE04215000794D6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0C9BE3011EE04215000794D6 /* Build configuration list for PBXNativeTarget "YunDianEmail" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0C9BE3021EE04215000794D6 /* Debug */,
+				0C9BE3031EE04215000794D6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0C9BE2E21EE04215000794D6 /* Project object */;
+}
