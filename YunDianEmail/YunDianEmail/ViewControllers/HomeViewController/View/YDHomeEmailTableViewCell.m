@@ -77,10 +77,7 @@
         make.height.equalTo(@30);
     }];
     
-
-    
-
-   
+ 
 
 }
 

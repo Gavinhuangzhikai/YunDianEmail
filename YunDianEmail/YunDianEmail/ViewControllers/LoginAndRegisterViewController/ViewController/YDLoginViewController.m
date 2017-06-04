@@ -197,7 +197,83 @@
 
 - (void)LoginAction:(id)sender
 {
+    [self.view  endEditing:YES];
+    if ([self validateInput]) {
+        _loginButton.userInteractionEnabled = NO;
+        [self storeAuthAccount:_accountTextField.text];
+        self.hud = [YDTools HUDLoadingOnView:self.navigationController.view delegate:self];
+        NSDictionary *dataDic = @{@"username":_accountTextField.text,@"password":[YDTools md5: _passwordTextField.text]};
+        
+        [self loginRequestWithDictionary:dataDic];
+    }
     
+}
+
+#pragma mark - 登录请求
+- (void)loginRequestWithDictionary:(NSDictionary *)dictionary
+{
+        [YDHttpRequest currentRequestType:@"GET" requestURL:YDCheckLoginUrl parameters:dictionary success:^(id responseObj) {
+           NSString * status = responseObj[@"result"];
+            
+            if ([status isEqualToString:@"success"]) {
+             
+                [self.hud hideAnimated:YES];
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//                    [self analyseData:responseObj];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        //登录成功后跳转到指定页面
+                        [self.navigationController dismissViewControllerAnimated:YES completion:^{
+//                            TLRootViewController *rootVC = (TLRootViewController*)[UIApplication sharedApplication].delegate.window.rootViewController;
+//                            [rootVC setSelectedIndex:2];
+                        }];
+                    });
+                });
+
+            }else {
+                 [YDTools loadFailedHUD:self.hud text:status ];
+                
+            }
+            
+            
     
+        } failure:^(NSError *error) {
+            [YDTools loadFailedHUD:self.hud text:YDRequestFailureNote ];
+        }];
+    _loginButton.userInteractionEnabled = YES;
+    
+}
+
+
+#pragma mark - 用户登录信息保存与删除
+- (void)storeAuthAccount:(NSString *)account
+{
+    //    if (![[self AuthAccount]isEqualToString:account]) {
+    //        //推出登录清除用户数据
+    //        [TLUserDataManager deleteUserData];
+    //
+    //    }
+    //    [TLUserDataManager deleteUserID];
+    //    [TLUserDataManager saveUserID:account];
+}
+
+#pragma mark - 登录前验证
+- (BOOL)validateInput
+{
+    if ([YDValidate isEmpty:_accountTextField.text]|| ![YDValidate isValidateMobileNumber:_accountTextField.text])
+    {
+        [YDTools HUDTextOnly:@"请输入正确的手机号" toView:YDWindow];
+        [_accountTextField becomeFirstResponder];
+        return NO;
+    }else if([YDValidate isEmpty:_passwordTextField.text]){
+        [YDTools HUDTextOnly:@"您输入的密码长度不正确" toView:YDWindow];
+        [_passwordTextField becomeFirstResponder];
+        return NO;
+    }else if (![YDValidate isValidateNumberAndLetter:_passwordTextField.text])
+    {
+        [YDTools HUDTextOnly:@"请输入正确的密码" toView:YDWindow];
+        [_passwordTextField becomeFirstResponder];
+        return NO;
+    }
+    return YES;
 }
 @end

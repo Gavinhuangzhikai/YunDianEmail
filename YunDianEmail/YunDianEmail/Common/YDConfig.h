@@ -7,6 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+
+UIKIT_EXTERN NSString *const YDHttpIP;
+UIKIT_EXTERN NSString *const YDRequestFailureNote;
+UIKIT_EXTERN NSString *const YDRequestNullNote;
+UIKIT_EXTERN NSString *const YDRequestLogOutNote;
+UIKIT_EXTERN NSString *const YDRequestWIFINote ;
+
 
 #define YDWindow ((UIWindow *)[[[UIApplication sharedApplication] windows] lastObject])
 #define YDDelegate ((AppDelegate *)[[UIApplication sharedApplication] delegate])
@@ -24,5 +32,11 @@
 #define YDFontAdaptive(fontSize)  DMScreenWidth/320*fontSize
 
 #define YDFont(fontSize)  [UIFont systemFontOfSize:fontSize]
+
+
 // ---------- 颜色 ----------
 #define YDRGB(r, g, b) [UIColor colorWithRed:(r)/255.f green:(g)/255.f blue:(b)/255.f alpha:1.f]
+
+// ---------- URL ----------
+// 登录
+#define YDCheckLoginUrl [YDTools getUrlPathWithHttp:YDHttpIP andURL:@"login/in"]

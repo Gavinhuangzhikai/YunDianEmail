@@ -14,5 +14,6 @@
 #import <MJRefresh.h>
 #import "UIViewAdditions.h"
 #import "Masonry.h"
-
+#import "YDValidate.h"
+#import "YDHttpRequest.h"
 #endif /* YunDianEmail_PrefixHeader_pch */
