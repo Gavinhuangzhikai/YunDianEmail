@@ -13,6 +13,8 @@
 @property (nonatomic,strong) UITextField *passwordTextField;//密码
 @property (nonatomic,strong) UIButton *rememberPasswordBtn;//是否记住密码
 @property (nonatomic,strong) UIButton *loginButton;//登录按钮
+
+@property (nonatomic,strong) UIImageView *enterpriseImageView;//登录按钮
 @end
 
 @implementation YDLoginViewController
@@ -50,6 +52,14 @@
 #pragma mark -创建控件
 - (void)createInterface
 {
+    [self.view addSubview: self.enterpriseImageView];
+    [self.enterpriseImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view.mas_top);
+        make.left.equalTo(self.view.mas_left);
+        make.right.equalTo(self.view.mas_right);
+        make.height.mas_equalTo(self.view.width).multipliedBy(120/894);
+    }];
+    
     [self.view addSubview: self.accountTextField];
     [self.accountTextField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view.mas_centerX);
@@ -108,6 +118,7 @@
         UIImageView *accountImage = [[UIImageView alloc]init];
         accountImage.contentMode = UIViewContentModeScaleAspectFit;
         accountImage.frame = CGRectMake(0, 0, 40, 40);
+        accountImage.image = [UIImage imageNamed:@"login_username.png"];
         [accountLeftView addSubview:accountImage];
         
         _accountTextField.leftView = accountLeftView;
@@ -139,6 +150,7 @@
         UIImageView *passwordImage = [[UIImageView alloc]init];
         passwordImage.contentMode = UIViewContentModeScaleAspectFit;
         passwordImage.frame = CGRectMake(0, 0, 40, 40);
+        passwordImage.image = [UIImage imageNamed:@"login_password.png"];
         [passwordLeftView addSubview:passwordImage];
         
         _passwordTextField.leftView = passwordLeftView;
@@ -182,6 +194,16 @@
         [_loginButton addTarget:self action:@selector(LoginAction:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _loginButton;
+}
+
+- (UIImageView *)enterpriseImageView
+{
+    if (!_enterpriseImageView) {
+        _enterpriseImageView = [[UIImageView alloc] init];
+        _enterpriseImageView.contentMode =  UIViewContentModeScaleAspectFit;
+        _enterpriseImageView.backgroundColor = YDRGB(0, 108, 198);
+    }
+    return _enterpriseImageView;
 }
 
 - (void)rememberPassword:(UIButton *)rembutton

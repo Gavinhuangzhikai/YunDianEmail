@@ -63,7 +63,7 @@
     
     [self.contentView addSubview:self.titleName];
     [self.titleName mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.titleImage.mas_right).with.offset(15);
+        make.left.equalTo(self.titleImage.mas_right).with.offset(10);
         make.centerY.equalTo(self.contentView.mas_centerY);
         make.height.equalTo(@30);
         make.width.equalTo(@80);
@@ -86,7 +86,7 @@
 {
     if (!_titleName) {
         _titleName = [[UILabel alloc] init];
-        _titleName.textColor = YDRGB(233, 233, 233);
+        _titleName.textColor = YDRGB(22, 22, 22);
         _titleName.font = YDFont(15);
     }
     

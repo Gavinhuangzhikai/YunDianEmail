@@ -22,6 +22,8 @@
 
 @property (nonatomic,strong)UITextView *emailText;
 
+@property (nonatomic,strong)UIButton *addContactBtn;
+
 @end
 
 @implementation YDWriteLetterViewController
@@ -203,6 +205,13 @@
         make.height.greaterThanOrEqualTo(@200);
     }];
     
+    [self.writeLetterScroller addSubview:self.addContactBtn];
+    [self.addContactBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.writeLetterScroller.mas_right).with.offset(-10);
+        make.centerY.equalTo(recipientLabel.mas_centerY);
+        make.width.mas_equalTo(20);
+        make.height.mas_equalTo(20);
+    }];
   
 }
 
@@ -309,6 +318,19 @@
     return _emailText;
 }
 
+- (UIButton *)addContactBtn
+{
+    if (!_addContactBtn) {
+        _addContactBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_addContactBtn setImage:[UIImage imageNamed:@"addContact.png"] forState:UIControlStateNormal];
+        [_addContactBtn addTarget:self action:@selector(addContactAction:) forControlEvents:UIControlEventTouchUpInside];
+
+    }
+    return _addContactBtn;
+    
+    
+}
+
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
     
@@ -343,4 +365,9 @@
     
 }
 
+- (void)addContactAction:(id)sender
+{
+    
+    
+}
 @end

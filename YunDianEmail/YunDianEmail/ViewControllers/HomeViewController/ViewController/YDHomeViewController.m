@@ -14,7 +14,7 @@
 #import "YDSearchViewController.h"
 
 #define  titleNameArray @[@"写信",@"收件箱",@"通讯录",@"草稿箱",@"已发送",@"已删除",@"垃圾箱",@""]
-#define  titleNameImageArray @[@"写信",@"收件箱",@"通讯录",@"草稿箱",@"已发送",@"已删除",@"垃圾箱",@""]
+#define  titleNameImageArray @[@"write_letter.png",@"inbox.png",@"contacts.png",@"draft_box.png",@"been_sent.png",@"deleted.png",@"trash_cans.png",@""]
 @interface YDHomeViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 @property(nonatomic,strong)UITableView *homeEmailTableView;
@@ -50,16 +50,14 @@
     
     UIButton *rightSearchBtn=[UIButton buttonWithType:UIButtonTypeCustom];
     rightSearchBtn.frame = CGRectMake(0, 0, 40, 40);
-    [rightSearchBtn setTitle:@"搜索" forState:UIControlStateNormal];
-    [rightSearchBtn setBackgroundImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
-    [rightSearchBtn setBackgroundImage:[UIImage imageNamed:@""] forState:UIControlStateHighlighted];
+    [rightSearchBtn setImage:[UIImage imageNamed:@"search.png"] forState:UIControlStateNormal];
+  
     [rightSearchBtn addTarget:self action:@selector(searchBtnAction) forControlEvents:UIControlEventTouchUpInside];
     
     UIButton *rightSettingBtn=[UIButton buttonWithType:UIButtonTypeCustom];
     rightSettingBtn.frame = CGRectMake(40, 0, 40, 40);
-    [rightSettingBtn setTitle:@"设置" forState:UIControlStateNormal];
-    [rightSettingBtn setBackgroundImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
-    [rightSettingBtn setBackgroundImage:[UIImage imageNamed:@""] forState:UIControlStateHighlighted];
+    [rightSettingBtn setImage:[UIImage imageNamed:@"setting.png"] forState:UIControlStateNormal];
+
     [rightSettingBtn addTarget:self action:@selector(rightBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [rightView addSubview:rightSearchBtn];
     [rightView addSubview:rightSettingBtn];
@@ -173,6 +171,8 @@
 
     YDHomeEmailTableViewCell *cell = [YDHomeEmailTableViewCell cellWithTableView:tableView];
     cell.titleName.text = titleNameArray[indexPath.row];
+    cell.titleImage.image = [UIImage imageNamed:titleNameImageArray[indexPath.row]];
+     cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
     return cell;
 }
 

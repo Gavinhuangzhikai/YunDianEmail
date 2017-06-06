@@ -8,15 +8,21 @@
 
 #import <UIKit/UIKit.h>
 static NSString * const YDNotificationTableViewIdentifier = @"YDNotificationTableViewIdentifier";
+
+typedef void(^OnMyButtonClick)(UISwitch* switc);
+
+
 @interface YDNotificationTableViewCell : UITableViewCell
 
-typedef void(^YDNotificationSelectSwitch)(UISwitch* switc);
+
 
 @property(nonatomic ,strong) UILabel *titleName;
 
 @property(nonatomic ,strong) UISwitch *selectSeitch;
 
-//@property(nonatomic,copy)YDNotificationSelectSwitch 
+@property (nonatomic, copy) OnMyButtonClick switchbutton;
+
+
 
 + (instancetype)cellWithTableView:(UITableView *)tableView ;
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;

@@ -84,7 +84,30 @@
         _settingTableView.separatorInset = UIEdgeInsetsZero;
         _settingTableView.preservesSuperviewLayoutMargins = NO;
         _settingTableView.layoutMargins = UIEdgeInsetsZero;
-        _settingTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    
+        
+        UIView *logoutView =[[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, 55)];
+        UIButton *logoutBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+       
+        [logoutBtn setTitle:@"退出登录" forState:UIControlStateNormal];
+        [logoutBtn setTitleColor:YDRGB(0, 86, 201) forState:UIControlStateNormal];
+        logoutBtn.titleLabel.font = YDFont(13);
+        logoutBtn.backgroundColor = YDRGB(229, 229, 229);
+        [logoutBtn addTarget:self action:@selector(logOut:) forControlEvents:UIControlEventTouchUpInside];
+        [logoutView addSubview:logoutBtn];
+        [logoutBtn.layer setCornerRadius:5.0];
+        [logoutBtn.layer setMasksToBounds:YES];
+        
+        
+        
+        [logoutBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(logoutView.mas_centerX);
+            make.top.equalTo(logoutView.mas_top).with.offset(15);
+            make.width.equalTo(@250);
+            make.height.equalTo(@40);
+        }];
+        
+        _settingTableView.tableFooterView =logoutView;
     }
     
     return _settingTableView;
@@ -131,15 +154,32 @@
             cell.textLabel.text = @"密码修改";
             cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.textLabel.font = YDFont(15);
         }
         return  cell;
         
-    }else if (indexPath.row == 1 || indexPath.row ==2 ){
+    }else if (indexPath.row == 1){
+        __weak __typeof__(self) weakSelf = self;
         YDNotificationTableViewCell *cell = [YDNotificationTableViewCell cellWithTableView:tableView];
         cell.titleName.text = titleArray[indexPath.row];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.switchbutton = ^(UISwitch *switc) {
+            
+        };
         
         return cell;
+    }else if (indexPath.row ==2){
+        __weak __typeof__(self) weakSelf = self;
+        YDNotificationTableViewCell *cell = [YDNotificationTableViewCell cellWithTableView:tableView];
+        cell.titleName.text = titleArray[indexPath.row];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.switchbutton = ^(UISwitch *switc) {
+            
+            
+        };
+        
+        return cell;
+        
     }else if(indexPath.row == 3){
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ideitifier ];
         if (!cell) {
@@ -147,6 +187,7 @@
             cell.textLabel.text = @"清除缓存";
             cell.detailTextLabel.text =@"123KB";
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.textLabel.font = YDFont(15);
         }
         return  cell;
         
@@ -159,6 +200,7 @@
             cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
             cell.detailTextLabel.text =@"123KB";
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.textLabel.font = YDFont(15);
         }
         return  cell;
         
@@ -170,6 +212,7 @@
             cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
             cell.detailTextLabel.text =@"当前版本";
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.textLabel.font = YDFont(15);
         }
         return  cell;
     }else {
@@ -179,6 +222,7 @@
             cell.textLabel.text = @"意见反馈";
             cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.textLabel.font = YDFont(15);
         }
         return  cell;
     }
@@ -186,6 +230,61 @@
 
 }
 
+- (void)logOut:(id)sender
+{
+     __weak __typeof__(self) weakSelf = self;
+    UIAlertController *logoutAlterView = [UIAlertController alertControllerWithTitle:nil message:@"是否退出当前登录" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *logoutAction = [UIAlertAction actionWithTitle:@"退出登录" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction *action) {
+      
+        weakSelf.hud = [YDTools HUDLoadingOnView:self.navigationController.view delegate:self];
+        
+        [weakSelf logoutRequestWithDictionary];
+//        [self dismissViewControllerAnimated:YES completion:nil];
+        
+    }];
+    // 取消按钮
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:(UIAlertActionStyleCancel) handler:^(UIAlertAction *action) {
+        
+      
+        [weakSelf dismissViewControllerAnimated:YES completion:nil];
+        
+    }];
+     [logoutAlterView addAction:cancelAction];
+    [logoutAlterView addAction:logoutAction];
+   
+   
+    [self presentViewController:logoutAlterView animated:YES completion:nil];
 
+}
+
+- (void)logoutRequestWithDictionary
+{
+    [YDHttpRequest currentRequestType:@"GET" requestURL:YDCheckLoginUrl parameters:nil success:^(id responseObj) {
+        NSString * status = responseObj[@"result"];
+        
+        
+        
+        if ([YDValidate isEmpty:status]) {
+            
+            [self.hud hideAnimated:YES];
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+              
+                dispatch_async(dispatch_get_main_queue(), ^{
+       
+                });
+            });
+            
+        }else {
+            [YDTools loadFailedHUD:self.hud text:status ];
+            
+        }
+        
+        
+        
+    } failure:^(NSError *error) {
+        [YDTools loadFailedHUD:self.hud text:YDRequestFailureNote ];
+    }];
+    
+}
 
 @end
