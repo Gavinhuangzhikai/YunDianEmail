@@ -13,6 +13,8 @@
 		0C1D9CDB1EE3F8700089BBE6 /* ThemeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C1D9CDA1EE3F8700089BBE6 /* ThemeManager.m */; };
 		0C1D9CDE1EE403550089BBE6 /* YDFeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C1D9CDD1EE403550089BBE6 /* YDFeedbackViewController.m */; };
 		0C1D9CE11EE404020089BBE6 /* UIPlaceholderTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C1D9CE01EE404020089BBE6 /* UIPlaceholderTextView.m */; };
+		0C23C8461EEBAA09009E3094 /* YDNoDataTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C23C8451EEBAA09009E3094 /* YDNoDataTableViewCell.m */; };
+		0C23C84F1EEC51F2009E3094 /* YDContactEmailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C23C84E1EEC51F2009E3094 /* YDContactEmailView.m */; };
 		0C9BE2EF1EE04215000794D6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C9BE2EE1EE04215000794D6 /* main.m */; };
 		0C9BE2F21EE04215000794D6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C9BE2F11EE04215000794D6 /* AppDelegate.m */; };
 		0C9BE2F51EE04215000794D6 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C9BE2F41EE04215000794D6 /* ViewController.m */; };
@@ -35,7 +37,7 @@
 		0C9BE33E1EE29029000794D6 /* YDInboxTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C9BE33D1EE29029000794D6 /* YDInboxTableViewCell.m */; };
 		0C9BE3411EE2A911000794D6 /* YDWriteLetterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C9BE3401EE2A911000794D6 /* YDWriteLetterViewController.m */; };
 		0C9BE3441EE3189D000794D6 /* YDCheckMailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C9BE3431EE3189D000794D6 /* YDCheckMailViewController.m */; };
-		6D96BA0D9F31F7C92F5177FE /* libPods-YunDianEmail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A6895A3540B4BA664F237ABB /* libPods-YunDianEmail.a */; };
+		4C475D06CEF830D488F1DBBB /* Pods_YunDianEmail.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC1B47E74A3974ADA9E78C55 /* Pods_YunDianEmail.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +53,10 @@
 		0C1D9CDD1EE403550089BBE6 /* YDFeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YDFeedbackViewController.m; sourceTree = "<group>"; };
 		0C1D9CDF1EE404020089BBE6 /* UIPlaceholderTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIPlaceholderTextView.h; sourceTree = "<group>"; };
 		0C1D9CE01EE404020089BBE6 /* UIPlaceholderTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIPlaceholderTextView.m; sourceTree = "<group>"; };
+		0C23C8441EEBAA09009E3094 /* YDNoDataTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YDNoDataTableViewCell.h; sourceTree = "<group>"; };
+		0C23C8451EEBAA09009E3094 /* YDNoDataTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YDNoDataTableViewCell.m; sourceTree = "<group>"; };
+		0C23C84D1EEC51F2009E3094 /* YDContactEmailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YDContactEmailView.h; sourceTree = "<group>"; };
+		0C23C84E1EEC51F2009E3094 /* YDContactEmailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YDContactEmailView.m; sourceTree = "<group>"; };
 		0C9BE2EA1EE04215000794D6 /* YunDianEmail.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YunDianEmail.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C9BE2EE1EE04215000794D6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		0C9BE2F01EE04215000794D6 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -94,7 +100,7 @@
 		0C9BE3401EE2A911000794D6 /* YDWriteLetterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YDWriteLetterViewController.m; sourceTree = "<group>"; };
 		0C9BE3421EE3189D000794D6 /* YDCheckMailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YDCheckMailViewController.h; sourceTree = "<group>"; };
 		0C9BE3431EE3189D000794D6 /* YDCheckMailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YDCheckMailViewController.m; sourceTree = "<group>"; };
-		A6895A3540B4BA664F237ABB /* libPods-YunDianEmail.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-YunDianEmail.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BC1B47E74A3974ADA9E78C55 /* Pods_YunDianEmail.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YunDianEmail.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFABB88ED0B5FC7D30ECE555 /* Pods-YunDianEmail.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YunDianEmail.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YunDianEmail/Pods-YunDianEmail.debug.xcconfig"; sourceTree = "<group>"; };
 		FF9F41CD21A88FEEB674F7D7 /* Pods-YunDianEmail.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YunDianEmail.release.xcconfig"; path = "Pods/Target Support Files/Pods-YunDianEmail/Pods-YunDianEmail.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -104,7 +110,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6D96BA0D9F31F7C92F5177FE /* libPods-YunDianEmail.a in Frameworks */,
+				4C475D06CEF830D488F1DBBB /* Pods_YunDianEmail.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -244,6 +250,10 @@
 				0C1D9CD71EE3BB400089BBE6 /* ThemeTextView.m */,
 				0C1D9CD91EE3F8700089BBE6 /* ThemeManager.h */,
 				0C1D9CDA1EE3F8700089BBE6 /* ThemeManager.m */,
+				0C23C8441EEBAA09009E3094 /* YDNoDataTableViewCell.h */,
+				0C23C8451EEBAA09009E3094 /* YDNoDataTableViewCell.m */,
+				0C23C84D1EEC51F2009E3094 /* YDContactEmailView.h */,
+				0C23C84E1EEC51F2009E3094 /* YDContactEmailView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -314,7 +324,7 @@
 		DD91DBB5B80514255A5FA17E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				A6895A3540B4BA664F237ABB /* libPods-YunDianEmail.a */,
+				BC1B47E74A3974ADA9E78C55 /* Pods_YunDianEmail.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -459,6 +469,7 @@
 				0C9BE2EF1EE04215000794D6 /* main.m in Sources */,
 				0C9BE3261EE05091000794D6 /* YDValidate.m in Sources */,
 				0C1D9CD21EE3A36D0089BBE6 /* YDSearchViewController.m in Sources */,
+				0C23C84F1EEC51F2009E3094 /* YDContactEmailView.m in Sources */,
 				0C9BE32F1EE063A1000794D6 /* YDLoginViewController.m in Sources */,
 				0C9BE3351EE1C5DD000794D6 /* YDSettingViewController.m in Sources */,
 				0C9BE3381EE2451A000794D6 /* YDNotificationTableViewCell.m in Sources */,
@@ -467,6 +478,7 @@
 				0C9BE3321EE1AC6F000794D6 /* YDHttpRequest.m in Sources */,
 				0C1D9CDE1EE403550089BBE6 /* YDFeedbackViewController.m in Sources */,
 				0C9BE33E1EE29029000794D6 /* YDInboxTableViewCell.m in Sources */,
+				0C23C8461EEBAA09009E3094 /* YDNoDataTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

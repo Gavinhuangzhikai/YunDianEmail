@@ -73,7 +73,7 @@
     UILabel *recipientLabel = [[UILabel alloc] init];
     recipientLabel.text = @"收件人:";
     recipientLabel.font = YDFont(12);
-    recipientLabel.textColor =YDRGB(233, 233, 233);
+    recipientLabel.textColor =YDRGB(111, 111, 111);
     recipientLabel.textAlignment = NSTextAlignmentRight;
     [self.writeLetterScroller addSubview:recipientLabel];
     [recipientLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -106,7 +106,7 @@
     scopyForLabel.text = @"抄送:";
     scopyForLabel.font = YDFont(12);
     scopyForLabel.textAlignment = NSTextAlignmentRight;
-    scopyForLabel.textColor =YDRGB(233, 233, 233);
+    scopyForLabel.textColor =YDRGB(111, 111, 111);
     [self.writeLetterScroller addSubview:scopyForLabel];
     [scopyForLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.writeLetterScroller.mas_left).with.offset(10);
@@ -138,7 +138,7 @@
     hedgecopyForLabel.text = @"密送:";
     hedgecopyForLabel.font = YDFont(12);
     hedgecopyForLabel.textAlignment = NSTextAlignmentRight;
-    hedgecopyForLabel.textColor =YDRGB(233, 233, 233);
+    hedgecopyForLabel.textColor =YDRGB(111, 111, 111);
     [self.writeLetterScroller addSubview:hedgecopyForLabel];
     [hedgecopyForLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.writeLetterScroller.mas_left).with.offset(10);
@@ -166,10 +166,10 @@
     }];
     
     UILabel *themeTetxLabel = [[UILabel alloc] init];
-    themeTetxLabel.text = @"密送:";
+    themeTetxLabel.text = @"主题:";
     themeTetxLabel.font = YDFont(12);
     themeTetxLabel.textAlignment = NSTextAlignmentRight;
-    themeTetxLabel.textColor =YDRGB(233, 233, 233);
+    themeTetxLabel.textColor =YDRGB(111, 111, 111);
     [self.writeLetterScroller addSubview:themeTetxLabel];
     [themeTetxLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.writeLetterScroller.mas_left).with.offset(10);
@@ -207,8 +207,8 @@
     
     [self.writeLetterScroller addSubview:self.addContactBtn];
     [self.addContactBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self.writeLetterScroller.mas_right).with.offset(-10);
-        make.centerY.equalTo(recipientLabel.mas_centerY);
+        make.right.equalTo(self.writeLetterScroller.mas_left).with.offset(self.view.width-10);
+        make.top.equalTo(self.writeLetterScroller.mas_top).with.offset(10);
         make.width.mas_equalTo(20);
         make.height.mas_equalTo(20);
     }];
@@ -270,7 +270,7 @@
     if (!_hedgecopyForTextField) {
         _hedgecopyForTextField = [[UITextView alloc] init];
   
-        [_hedgecopyForTextField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
+        [_hedgecopyForTextField setValue:[UIColor darkGrayColor] forKeyPath:@"_placeholderLabel.textColor"];
         _hedgecopyForTextField.autocorrectionType = UITextAutocorrectionTypeNo;
         _hedgecopyForTextField.delegate =self;
         _hedgecopyForTextField.font = YDFont(15);
@@ -302,17 +302,19 @@
 {
     if (!_emailText) {
         _emailText = [[UITextView alloc] init];
-        _emailText.textColor = [UIColor blackColor];
-        _emailText.delegate = self;
-        _emailText.backgroundColor = [UIColor whiteColor];
+        [_emailText setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
         _emailText.autocorrectionType = UITextAutocorrectionTypeNo;
         _emailText.delegate =self;
-        _emailText.font = YDFont(15);
+//         NSNumber *textfont = TEXTFONT;
+        
+        _emailText.font = YDFont([TEXTFONT floatValue]);
+        
         _emailText.textColor = YDRGB(0, 0, 0);
         _emailText.backgroundColor = [UIColor clearColor];
         _emailText.keyboardType =UIKeyboardTypeDefault;
+        _emailText.keyboardType =UIKeyboardTypeDefault;
         _emailText.scrollEnabled = YES;
-        
+        _emailText.returnKeyType = UIReturnKeyDefault;
         
     }
     return _emailText;
@@ -331,9 +333,61 @@
     
 }
 
--(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+-(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
+    if ([textView isEqual:  self.recipientTextField] ||   [textView isEqual: self.scopyForTetxField ]||  [textView isEqual: self.hedgecopyForTextField]  ) {
+        if ([text isEqualToString:@"\n"]){
+            
+            if ([textView.text rangeOfString:@"、"].location != NSNotFound) {
+                NSRange range = [textView.text rangeOfString:@"、" options:NSBackwardsSearch];
+                if (range.length > 0) {
+                    NSMutableAttributedString *attribute = [[NSMutableAttributedString alloc] initWithString:[textView.text  stringByAppendingString:@"、"]];
+                    [attribute addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0, textView.text.length + 1  )];
+                    [attribute addAttribute:NSFontAttributeName value:YDFont(15) range:NSMakeRange(0, textView.text.length + 1  )];
+                    
+                    
+                    textView.attributedText = attribute;
+                }
+                
+                
+                return NO;
+                
+            }else{
+                NSMutableAttributedString *attribute = [[NSMutableAttributedString alloc] initWithString:[textView.text stringByAppendingString:@"、"]];
+                [attribute addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0, textView.text.length  + 1)];
+                [attribute addAttribute:NSFontAttributeName value:YDFont(15) range:NSMakeRange(0, textView.text.length + 1  )];
+                textView.attributedText = attribute;
+                return NO;
+                
+                
+            }
+        }
+        
+        if ([text isEqualToString:@""]) {
+            if([textView.text hasSuffix:@"、"]){
+                NSMutableArray * separator =  [self getRangeStr:textView.text findText:@"、"];
+                if (separator.count <= 1) {
+                    textView.text = @"";
+                }else{
+                    
+                    NSNumber *sepnumber =separator[separator.count - 2];
+                    NSString *textString =  [textView.text substringToIndex:[sepnumber intValue] ];
+                    NSMutableAttributedString *attribute = [[NSMutableAttributedString alloc] initWithString:[textString stringByAppendingString:@"、"]];
+                    [attribute addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0, textString.length+1)];
+                    [attribute addAttribute:NSFontAttributeName value:YDFont(15) range:NSMakeRange(0, textString.length +1 )];
+                    textView.attributedText = attribute;
+                    return NO;
+                }
     
+            }
+            
+            
+        }
+        
+        
+    }
+    
+ 
     return YES;
 }
 
@@ -356,18 +410,169 @@
         }
     }
 
+    
 
 }
 
 - (void)sendEmailAction:(id)sender
 {
+    [self.view endEditing:YES];
     
+
+
+    if ([self validateInput]) {
+        _addContactBtn.userInteractionEnabled = NO;
+
+        [self enmaiSaveRequestWithDictionary:nil];
+
+    }
     
 }
 
 - (void)addContactAction:(id)sender
 {
+    [self.view endEditing:YES];
+    
+}
+
+-(BOOL)isValidateEmail:(NSString *)email
+
+{
+    
+    NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
+    
+    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES%@",emailRegex];
+    
+    return [emailTest evaluateWithObject:email];
+    
+}
+
+- (NSMutableArray *)getRangeStr:(NSString *)text findText:(NSString *)findText
+{
+    
+    NSMutableArray *arrayRanges = [NSMutableArray arrayWithCapacity:3];
+    
+    if (findText == nil && [findText isEqualToString:@""])
+    {
+        
+        return nil;
+        
+    }
+    
+    NSRange rang = [text rangeOfString:findText]; //获取第一次出现的range
+    
+    if (rang.location != NSNotFound && rang.length != 0)
+    {
+        
+        [arrayRanges addObject:[NSNumber numberWithInteger:rang.location]];//将第一次的加入到数组中
+        
+        NSRange rang1 = {0,0};
+        
+        NSInteger location = 0;
+        
+        NSInteger length = 0;
+        
+        for (int i = 0;; i++)
+        {
+            
+            if (0 == i)
+            {
+                
+                //去掉这个abc字符串
+                location = rang.location + rang.length;
+                
+                length = text.length - rang.location - rang.length;
+                
+                rang1 = NSMakeRange(location, length);
+                
+            }
+            else
+            {
+                
+                location = rang1.location + rang1.length;
+                
+                length = text.length - rang1.location - rang1.length;
+                
+                rang1 = NSMakeRange(location, length);
+                
+            }
+            
+            //在一个range范围内查找另一个字符串的range
+            
+            rang1 = [text rangeOfString:findText options:NSCaseInsensitiveSearch range:rang1];
+            
+            if (rang1.location == NSNotFound && rang1.length == 0)
+            {
+                
+                break;
+                
+            }
+            else//添加符合条件的location进数组
+                
+                [arrayRanges addObject:[NSNumber numberWithInteger:rang1.location]];
+            
+        }
+        
+        return arrayRanges;
+        
+    }
+    
+    return nil;
+    
+}
+
+
+- (BOOL)validateInput
+{
+    if ([YDValidate isEmpty:_recipientTextField.text])
+    {
+        
+        [YDTools HUDTextOnly:@"请输入收件人" toView:YDWindow];
+        [_recipientTextField becomeFirstResponder];
+        return NO;
+    }else if([YDValidate isEmpty:_themeTetxField.text]){
+        [YDTools HUDTextOnly:@"请输入的主题" toView:YDWindow];
+        [_themeTetxField becomeFirstResponder];
+        return NO;
+    }else if([YDValidate isEmpty:_emailText.text]){
+        [YDTools HUDTextOnly:@"请输入的内容" toView:YDWindow];
+        [_emailText becomeFirstResponder];
+        return NO;
+    }
+
+    return YES;
+
+}
+
+- (void)enmaiSaveRequestWithDictionary:(NSDictionary *)dictionary
+{
+    [YDHttpRequest currentRequestType:@"POST" requestURL:YDEmailSavetUrl parameters:dictionary success:^(id responseObj) {
+        NSString * status = responseObj[@"result"];
+        
+        if ([status isEqualToString:@"success"]) {
+            
+            [self.hud hideAnimated:YES];
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                //                    [self analyseData:responseObj];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    
+         
+                });
+            });
+            
+        }else {
+            [YDTools loadFailedHUD:self.hud text:status ];
+            
+        }
+        
+        
+        
+    } failure:^(NSError *error) {
+        [YDTools loadFailedHUD:self.hud text:YDRequestFailureNote ];
+    }];
+    _addContactBtn.userInteractionEnabled = YES;
     
     
 }
+
 @end

@@ -46,7 +46,7 @@
     [self.titleName mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.contentView.mas_left).with.offset(15);
         make.centerY.equalTo(self.contentView.mas_centerY);
-        make.width.equalTo(@120);
+        make.width.equalTo(@150);
         make.height.equalTo(@30);
     }];
     
@@ -79,7 +79,7 @@
         _selectSeitch.backgroundColor = [UIColor whiteColor];
         _selectSeitch.onTintColor = [UIColor blueColor];
         _selectSeitch.tintColor = [UIColor redColor];
-        _selectSeitch.thumbTintColor =[UIColor whiteColor];
+        _selectSeitch.thumbTintColor =[UIColor darkGrayColor];
         [_selectSeitch addTarget:self action:@selector(selectNotification:) forControlEvents:UIControlEventTouchUpInside];
 
     }

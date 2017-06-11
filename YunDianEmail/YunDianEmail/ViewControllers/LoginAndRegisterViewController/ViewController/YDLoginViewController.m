@@ -7,6 +7,8 @@
 //
 
 #import "YDLoginViewController.h"
+#import "YDHomeViewController.h"
+#import "YDBasicNavgationViewController.h"
 
 @interface YDLoginViewController ()<UITextFieldDelegate>
 @property (nonatomic,strong) UITextField *accountTextField;//帐号
@@ -57,24 +59,32 @@
         make.top.equalTo(self.view.mas_top);
         make.left.equalTo(self.view.mas_left);
         make.right.equalTo(self.view.mas_right);
-        make.height.mas_equalTo(self.view.width).multipliedBy(120/894);
+        make.height.mas_equalTo(200);
+//        make.height.mas_equalTo(self.view.mas_width).multipliedBy(120/894);
     }];
     
     [self.view addSubview: self.accountTextField];
     [self.accountTextField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view.mas_centerX);
-        make.centerY.equalTo(self.view.mas_centerY);
-        make.width.equalTo(@300);
-        make.height.equalTo(@30);
+        make.top.equalTo(self.enterpriseImageView.mas_bottom).with.offset(20);
+        make.width.equalTo(@250);
+        make.height.equalTo(@44);
     }];
+    
+    UIView *line=[[UIView alloc]initWithFrame:CGRectMake(40,43, 180, 1)];
+    line.backgroundColor=YDRGB(90, 139, 210);
+    [_accountTextField addSubview:line];
     
     [self.view addSubview: self.passwordTextField];
     [self.passwordTextField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view.mas_centerX);
         make.top.equalTo(self.accountTextField.mas_bottom).with.offset(20);
-        make.width.equalTo(@300);
-        make.height.equalTo(@30);
+        make.width.equalTo(@250);
+        make.height.equalTo(@44);
     }];
+    UIView *linetwo=[[UIView alloc]initWithFrame:CGRectMake(40,43, 180, 1)];
+    linetwo.backgroundColor=YDRGB(90, 139, 210);
+    [_passwordTextField addSubview:linetwo];
     
     [self.view addSubview: self.rememberPasswordBtn];
     [self.rememberPasswordBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -85,14 +95,14 @@
     }];
     
     UILabel *rememberPasswordLabel = [[ UILabel alloc]init];
-    rememberPasswordLabel.textColor = YDRGB(233, 255, 255);
-    rememberPasswordLabel.font = YDFont(15);
+    rememberPasswordLabel.textColor = YDRGB(230, 230, 230);
+    rememberPasswordLabel.font = YDFont(13);
     rememberPasswordLabel.text = @"记住密码";
     [self.view addSubview:rememberPasswordLabel];
     [rememberPasswordLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.rememberPasswordBtn.mas_right).with.offset(10);
         make.top.equalTo(self.passwordTextField.mas_bottom).with.offset(20);
-        make.width.equalTo(@50);
+        make.width.equalTo(@80);
         make.height.equalTo(@30);
     }];
     
@@ -101,8 +111,8 @@
     [self.loginButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view.mas_centerX);
         make.top.equalTo(self.rememberPasswordBtn.mas_bottom).with.offset(20);
-        make.width.equalTo(@300);
-        make.height.equalTo(@30);
+        make.width.equalTo(@250);
+        make.height.equalTo(@35);
     }];
 }
 
@@ -113,23 +123,24 @@
     if (!_accountTextField) {
         
         _accountTextField = [[UITextField alloc]init];
-        UIView *accountLeftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 60, 40)];
+        UIView *accountLeftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 40, 44)];
         accountLeftView.backgroundColor = [UIColor clearColor];
         UIImageView *accountImage = [[UIImageView alloc]init];
         accountImage.contentMode = UIViewContentModeScaleAspectFit;
-        accountImage.frame = CGRectMake(0, 0, 40, 40);
+        accountImage.frame = CGRectMake(0, 0, 32, 44);
         accountImage.image = [UIImage imageNamed:@"login_username.png"];
         [accountLeftView addSubview:accountImage];
         
         _accountTextField.leftView = accountLeftView;
         _accountTextField.leftViewMode = UITextFieldViewModeAlways;
-        [_accountTextField setBorderStyle:UITextBorderStyleRoundedRect];
-        _accountTextField.placeholder = @"输入账号";
-        [_accountTextField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
+        [_accountTextField setBorderStyle:UITextBorderStyleNone];
+        _accountTextField.placeholder = @"  请输入账号";
         _accountTextField.autocorrectionType = UITextAutocorrectionTypeNo;
         _accountTextField.delegate =self;
         _accountTextField.font = YDFont(15);
         _accountTextField.textColor = YDRGB(0, 0, 0);
+    
+        
         _accountTextField.backgroundColor = [UIColor clearColor];
         _accountTextField.keyboardType =UIKeyboardTypeNumberPad;
         
@@ -145,18 +156,18 @@
         
         _passwordTextField = [[UITextField alloc]init];
         _passwordTextField.backgroundColor = [UIColor clearColor];
-        UIView *passwordLeftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 60, 40)];
+        UIView *passwordLeftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 40, 44)];
         passwordLeftView.backgroundColor = [UIColor clearColor];
         UIImageView *passwordImage = [[UIImageView alloc]init];
         passwordImage.contentMode = UIViewContentModeScaleAspectFit;
-        passwordImage.frame = CGRectMake(0, 0, 40, 40);
+        passwordImage.frame = CGRectMake(0, 0, 32, 44);
         passwordImage.image = [UIImage imageNamed:@"login_password.png"];
         [passwordLeftView addSubview:passwordImage];
         
         _passwordTextField.leftView = passwordLeftView;
         _passwordTextField.leftViewMode = UITextFieldViewModeAlways;
-        [_passwordTextField setBorderStyle:UITextBorderStyleRoundedRect];
-        _passwordTextField.placeholder = @"输入密码";
+        [_passwordTextField setBorderStyle:UITextBorderStyleNone];
+        _passwordTextField.placeholder = @"  输入密码";
         _passwordTextField.autocorrectionType = UITextAutocorrectionTypeNo;
         _passwordTextField.delegate =self;
         _passwordTextField.font = YDFont(15);
@@ -186,11 +197,11 @@
         
         _loginButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_loginButton setTitle:@"登 录" forState:UIControlStateNormal];
-        _loginButton.backgroundColor = YDRGB(30, 118, 156);
-        [_loginButton setTitleColor:YDRGB(255, 255, 255) forState:UIControlStateNormal];
-        [_loginButton setTitleColor:YDRGB(160, 160, 160) forState:UIControlStateHighlighted];
+        _loginButton.backgroundColor = YDRGB(230, 230, 230);
+        _loginButton.titleLabel.font = YDFont(15);
+        [_loginButton setTitleColor:YDRGB(0, 93, 201) forState:UIControlStateNormal];
         [_loginButton.layer setMasksToBounds:YES];
-        [_loginButton.layer setCornerRadius:30.0];
+        [_loginButton.layer setCornerRadius:5.0];
         [_loginButton addTarget:self action:@selector(LoginAction:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _loginButton;
@@ -200,8 +211,9 @@
 {
     if (!_enterpriseImageView) {
         _enterpriseImageView = [[UIImageView alloc] init];
-        _enterpriseImageView.contentMode =  UIViewContentModeScaleAspectFit;
+        _enterpriseImageView.contentMode =  UIViewContentModeCenter;
         _enterpriseImageView.backgroundColor = YDRGB(0, 108, 198);
+        _enterpriseImageView.image = [UIImage imageNamed:@"enterprise.png"];
     }
     return _enterpriseImageView;
 }
@@ -223,7 +235,7 @@
     if ([self validateInput]) {
         _loginButton.userInteractionEnabled = NO;
         [self storeAuthAccount:_accountTextField.text];
-        self.hud = [YDTools HUDLoadingOnView:self.navigationController.view delegate:self];
+        self.hud = [YDTools HUDLoadingOnView:self.view delegate:self];
         NSDictionary *dataDic = @{@"username":_accountTextField.text,@"password":[YDTools md5: _passwordTextField.text]};
         
         [self loginRequestWithDictionary:dataDic];
@@ -234,7 +246,7 @@
 #pragma mark - 登录请求
 - (void)loginRequestWithDictionary:(NSDictionary *)dictionary
 {
-        [YDHttpRequest currentRequestType:@"GET" requestURL:YDCheckLoginUrl parameters:dictionary success:^(id responseObj) {
+        [YDHttpRequest currentRequestType:@"LOGIN" requestURL:YDCheckLoginUrl parameters:dictionary success:^(id responseObj) {
            NSString * status = responseObj[@"result"];
             
             if ([status isEqualToString:@"success"]) {
@@ -243,11 +255,10 @@
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 //                    [self analyseData:responseObj];
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        //登录成功后跳转到指定页面
-                        [self.navigationController dismissViewControllerAnimated:YES completion:^{
-//                            TLRootViewController *rootVC = (TLRootViewController*)[UIApplication sharedApplication].delegate.window.rootViewController;
-//                            [rootVC setSelectedIndex:2];
-                        }];
+   
+                        YDHomeViewController *controller = [[YDHomeViewController alloc] init];
+                        [UIApplication sharedApplication].keyWindow.rootViewController = [[YDBasicNavgationViewController alloc] initWithRootViewController:controller];
+                                            
                     });
                 });
 
@@ -281,21 +292,22 @@
 #pragma mark - 登录前验证
 - (BOOL)validateInput
 {
-    if ([YDValidate isEmpty:_accountTextField.text]|| ![YDValidate isValidateMobileNumber:_accountTextField.text])
+    if ([YDValidate isEmpty:_accountTextField.text])
     {
-        [YDTools HUDTextOnly:@"请输入正确的手机号" toView:YDWindow];
+        [YDTools HUDTextOnly:@"请输入账号" toView:YDWindow];
         [_accountTextField becomeFirstResponder];
         return NO;
     }else if([YDValidate isEmpty:_passwordTextField.text]){
-        [YDTools HUDTextOnly:@"您输入的密码长度不正确" toView:YDWindow];
-        [_passwordTextField becomeFirstResponder];
-        return NO;
-    }else if (![YDValidate isValidateNumberAndLetter:_passwordTextField.text])
-    {
-        [YDTools HUDTextOnly:@"请输入正确的密码" toView:YDWindow];
+        [YDTools HUDTextOnly:@"请输入的密码" toView:YDWindow];
         [_passwordTextField becomeFirstResponder];
         return NO;
     }
+//    else if (![YDValidate isValidateNumberAndLetter:_passwordTextField.text])
+//    {
+//        [YDTools HUDTextOnly:@"请输入正确的密码" toView:YDWindow];
+//        [_passwordTextField becomeFirstResponder];
+//        return NO;
+//    }
     return YES;
 }
 @end

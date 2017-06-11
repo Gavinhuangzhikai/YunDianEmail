@@ -32,11 +32,33 @@ UIKIT_EXTERN NSString *const YDRequestWIFINote ;
 #define YDFontAdaptive(fontSize)  DMScreenWidth/320*fontSize
 
 #define YDFont(fontSize)  [UIFont systemFontOfSize:fontSize]
+#define TEXTFONT [[NSUserDefaults standardUserDefaults] objectForKey:@"tetxFond"]
+#define SetTEXTFONT(param) [[NSUserDefaults standardUserDefaults] setObject:(param)  forKey:@"tetxFond"]
 
 
+#define LOGINSESSION [[NSUserDefaults standardUserDefaults] objectForKey:@"loginsession"]
+#define SetLOGINSESSION(param) [[NSUserDefaults standardUserDefaults] setObject:(param)  forKey:@"loginsession"]
 // ---------- 颜色 ----------
 #define YDRGB(r, g, b) [UIColor colorWithRed:(r)/255.f green:(g)/255.f blue:(b)/255.f alpha:1.f]
 
 // ---------- URL ----------
 // 登录
 #define YDCheckLoginUrl [YDTools getUrlPathWithHttp:YDHttpIP andURL:@"login/in"]
+
+#define YDReadEmailUrl [YDTools getUrlPathWithHttp:YDHttpIP andURL:@"email/read"]
+
+
+#define YDGetdelnumEmailUrl [YDTools getUrlPathWithHttp:YDHttpIP andURL:@"eamil/getdelnum"]
+
+
+#define YDChangePasswordUrl [YDTools getUrlPathWithHttp:YDHttpIP andURL:@"home/password"]
+
+
+#define YDHomeInfoUrl [YDTools getUrlPathWithHttp:YDHttpIP andURL:@"home/info"]
+
+
+
+#define YDCheckLoginOutUrl [YDTools getUrlPathWithHttp:YDHttpIP andURL:@"login/out"]
+
+#define YDEmailSavetUrl [YDTools getUrlPathWithHttp:YDHttpIP andURL:@"email/save"]
+

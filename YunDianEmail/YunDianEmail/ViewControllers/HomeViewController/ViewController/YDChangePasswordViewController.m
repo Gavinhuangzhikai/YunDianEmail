@@ -189,9 +189,14 @@
 
 - (void)changePasswordAction:(id)sender
 {
+    [self.view endEditing:YES];
     if ([self validateInput]) {
         
+        _changePasswordBtn.userInteractionEnabled = NO;
+        self.hud = [YDTools HUDLoadingOnView:self.view delegate:self];
+        NSDictionary *dataDic = @{@"oldpassword":[YDTools md5 :_oldPasswordTextField.text],@"newpassword":[YDTools md5: _newPasswordTextField.text]};
         
+        [self changePasswordRequestWithDictionary:dataDic];
         
     }
     
@@ -216,7 +221,51 @@
         [self.confirmPasswordTextField becomeFirstResponder];
          return NO;
     }
+    
+    if (![self.newPasswordTextField.text isEqualToString:self.confirmPasswordTextField.text ]) {
+        [YDTools HUDTextOnly:@"新密码不相同" toView:YDWindow];
+        [self.confirmPasswordTextField becomeFirstResponder];
+        return NO;
+    }
     return YES;
 }
+
+
+#pragma mark - 登录请求
+- (void)changePasswordRequestWithDictionary:(NSDictionary *)dictionary
+{
+    [YDHttpRequest currentRequestType:@"POST" requestURL:YDChangePasswordUrl parameters:dictionary success:^(id responseObj) {
+        NSString * status = responseObj[@"result"];
+        
+        if ([status isEqualToString:@"ok"]) {
+            
+            [self.hud hideAnimated:YES];
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                //                    [self analyseData:responseObj];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                  [YDTools HUDTextOnly:@"密码修改成功" toView:YDWindow];
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                            [self.navigationController popViewControllerAnimated:NO];
+                    });
+
+                });
+            });
+            
+        }else {
+            [YDTools loadFailedHUD:self.hud text:status ];
+            
+        }
+        
+        
+        
+    } failure:^(NSError *error) {
+        [YDTools loadFailedHUD:self.hud text:YDRequestFailureNote ];
+    }];
+    _changePasswordBtn.userInteractionEnabled = YES;
+    
+}
+
+
+
 
 @end

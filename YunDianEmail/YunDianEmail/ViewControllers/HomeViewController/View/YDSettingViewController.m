@@ -125,9 +125,54 @@
         YDChangePasswordViewController *changPasswordVtr = [[YDChangePasswordViewController alloc]init];
         [self.navigationController pushViewController:changPasswordVtr animated:NO];
     }else if(indexPath.row == 3){
-        
+        NSString * cachePath = [NSSearchPathForDirectoriesInDomains (NSCachesDirectory , NSUserDomainMask , YES ) firstObject];
+        NSArray * files = [[NSFileManager defaultManager ] subpathsAtPath :cachePath];
+        //NSLog ( @"cachpath = %@" , cachePath);
+        for ( NSString * p in files) {
+            
+            NSError * error = nil ;
+            //获取文件全路径
+            NSString * fileAbsolutePath = [cachePath stringByAppendingPathComponent :p];
+            
+            if ([[NSFileManager defaultManager ] fileExistsAtPath :fileAbsolutePath]) {
+                [[NSFileManager defaultManager ] removeItemAtPath :fileAbsolutePath error :&error];
+            }
+        }
+        [tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
     }else if (indexPath.row ==4){
+        UIAlertController *settingFontAlterView = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *smallAction = [UIAlertAction actionWithTitle:@"小" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction *action) {
+            
+            SetTEXTFONT(@15);
+            [tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:4 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+              [self dismissViewControllerAnimated:YES completion:nil];
+            
+        }];
         
+        UIAlertAction *middleAction = [UIAlertAction actionWithTitle:@"中" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction *action) {
+            
+            SetTEXTFONT(@18);
+               [tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:4 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [self dismissViewControllerAnimated:YES completion:nil];
+            
+        }];
+        
+        UIAlertAction *bigAction = [UIAlertAction actionWithTitle:@"大" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction *action) {
+            
+            SetTEXTFONT(@21);
+            [tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:4 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [self dismissViewControllerAnimated:YES completion:nil];
+            
+        }];
+      
+
+        [settingFontAlterView addAction:smallAction];
+        [settingFontAlterView addAction:middleAction];
+        [settingFontAlterView addAction:bigAction];
+        
+        [self presentViewController:settingFontAlterView animated:YES completion:nil];
+        
+
         
     }else if (indexPath.row == 6){
   
@@ -151,11 +196,12 @@
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ideitifier ];
         if (!cell) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ideitifier];
+        }
             cell.textLabel.text = @"密码修改";
             cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.textLabel.font = YDFont(15);
-        }
+        
         return  cell;
         
     }else if (indexPath.row == 1){
@@ -184,46 +230,62 @@
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ideitifier ];
         if (!cell) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:ideitifier];
+        }
             cell.textLabel.text = @"清除缓存";
-            cell.detailTextLabel.text =@"123KB";
+            cell.detailTextLabel.text =[NSString stringWithFormat:@"%.2fKB",([self readCacheSize]*1024)];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.textLabel.font = YDFont(15);
-        }
+        
         return  cell;
         
     }else if (indexPath.row == 4)
     {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ideitifier ];
         if (!cell) {
+            
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:ideitifier];
+        }
             cell.textLabel.text = @"字体大小";
             cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
-            cell.detailTextLabel.text =@"123KB";
+            NSNumber *textfont = TEXTFONT;
+            if( [textfont   isEqual: @18])
+            {
+                cell.detailTextLabel.text =@"中";
+            }else if ([textfont   isEqual: @21]){
+                
+                cell.detailTextLabel.text =@"大";
+            }else if ([textfont   isEqual: @15]){
+                
+                cell.detailTextLabel.text =@"小";
+            }
+            
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.textLabel.font = YDFont(15);
-        }
+        
         return  cell;
         
     }else if (indexPath.row == 5){
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ideitifier ];
         if (!cell) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:ideitifier];
+        }
             cell.textLabel.text = @"检测更新";
             cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
             cell.detailTextLabel.text =@"当前版本";
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.textLabel.font = YDFont(15);
-        }
+        
         return  cell;
     }else {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ideitifier ];
         if (!cell) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ideitifier];
+        }
             cell.textLabel.text = @"意见反馈";
             cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.textLabel.font = YDFont(15);
-        }
+        
         return  cell;
     }
     
@@ -259,7 +321,7 @@
 
 - (void)logoutRequestWithDictionary
 {
-    [YDHttpRequest currentRequestType:@"GET" requestURL:YDCheckLoginUrl parameters:nil success:^(id responseObj) {
+    [YDHttpRequest currentRequestType:@"GET" requestURL:YDCheckLoginOutUrl parameters:nil success:^(id responseObj) {
         NSString * status = responseObj[@"result"];
         
         
@@ -286,5 +348,39 @@
     }];
     
 }
+
+-( float )readCacheSize
+{
+    NSString *cachePath = [NSSearchPathForDirectoriesInDomains (NSCachesDirectory , NSUserDomainMask , YES) firstObject];
+    return [ self folderSizeAtPath :cachePath];
+}
+
+- ( float ) folderSizeAtPath:( NSString *) folderPath{
+    
+    NSFileManager * manager = [NSFileManager defaultManager];
+    if (![manager fileExistsAtPath :folderPath]) return 0 ;
+    NSEnumerator *childFilesEnumerator = [[manager subpathsAtPath :folderPath] objectEnumerator];
+    NSString * fileName;
+    long long folderSize = 0 ;
+    while ((fileName = [childFilesEnumerator nextObject]) != nil ){
+        //获取文件全路径
+        NSString * fileAbsolutePath = [folderPath stringByAppendingPathComponent :fileName];
+        folderSize += [ self fileSizeAtPath :fileAbsolutePath];
+    }
+    
+    return folderSize/( 1024.0 * 1024.0);
+    
+}
+
+- ( long long ) fileSizeAtPath:( NSString *) filePath{
+    NSFileManager * manager = [NSFileManager defaultManager];
+    if ([manager fileExistsAtPath :filePath]){
+        return [[manager attributesOfItemAtPath :filePath error : nil] fileSize];
+    }
+    return 0;
+}
+
+
+
 
 @end

@@ -7,6 +7,9 @@
 //
 
 #import "AppDelegate.h"
+#import "YDHomeViewController.h"
+#import "YDLoginViewController.h"
+#import "YDBasicNavgationViewController.h"
 
 @interface AppDelegate ()
 
@@ -16,8 +19,30 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
-    return YES;
+    
+    if (TEXTFONT == nil) {
+        SetTEXTFONT(@18);
+    }
+
+  
+    if (  LOGINSESSION == nil) {
+        self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+        YDLoginViewController *controller = [[YDLoginViewController alloc] init];
+        self.window.rootViewController = controller;
+        [self.window makeKeyAndVisible];
+        return YES;
+    }else{
+
+ 
+        self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+        YDHomeViewController *controller = [[YDHomeViewController alloc] init];
+        self.window.rootViewController = [[YDBasicNavgationViewController alloc] initWithRootViewController:controller];
+        [self.window makeKeyAndVisible];
+        return YES;
+        
+    }
+    
+
 }
 
 
