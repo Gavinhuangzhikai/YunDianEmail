@@ -16,7 +16,7 @@
 @property (nonatomic,strong) UILabel *timeLabel;
 
 @property (nonatomic,strong) UIImageView *annexImage;
-
+@property (nonatomic,strong) UIImageView *isOrRead;
 @end
 @implementation YDInboxTableViewCell
 
@@ -52,11 +52,23 @@
 
 - (void)creatInterface
 {
+
+    [self.contentView addSubview:self.isOrRead];
+    [self.isOrRead mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.contentView.mas_left).with.offset(15);
+        make.bottom.equalTo(self.contentView.mas_centerY).with.offset(-8);
+        make.height.equalTo(@15);
+        make.width.equalTo(@15);
+    }];
+    
+    
+    
+    self.isOrRead.hidden = YES;
     [self.contentView addSubview:self.senderLabel];
     [self.senderLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.contentView.mas_left).with.offset(15);
-        make.bottom.equalTo(self.contentView.mas_centerY).with.offset(-10);
-        make.height.equalTo(@30);
+        make.bottom.equalTo(self.contentView.mas_centerY).with.offset(-5);
+        make.height.equalTo(@15);
     }];
     
 
@@ -64,16 +76,16 @@
     [self.themeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.contentView.mas_left).with.offset(15);
         make.top.equalTo(self.contentView.mas_centerY);
-        make.height.equalTo(@30);
-        make.right.equalTo(self.contentView.mas_right).with.offset(-15);
+        make.height.equalTo(@15);
+        make.right.equalTo(self.contentView.mas_right).with.offset(-5);
     }];
     
     [self.contentView addSubview:self.timeLabel];
     [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self.contentView.mas_right).with.offset(-15);
-        make.bottom.equalTo(self.contentView.mas_centerY).with.offset(-10);
-        make.height.equalTo(@20);
-        make.width.equalTo(@40);
+        make.right.equalTo(self.contentView.mas_right).with.offset(-5);
+        make.bottom.equalTo(self.contentView.mas_centerY).with.offset(-5);
+        make.height.equalTo(@12);
+        make.width.equalTo(@90);
     }];
     
     [self.contentView addSubview:self.annexImage];
@@ -91,12 +103,28 @@
 {
     if (!_senderLabel) {
         _senderLabel = [[UILabel alloc] init];
-        _senderLabel.textColor = YDRGB(233, 233, 233);
-        _senderLabel.font = YDFont(15);
+        _senderLabel.textColor = YDRGB(0, 0, 87);
+        _senderLabel.font = YDFont(12);
     }
     
     return _senderLabel;
 }
+
+- (UIImageView *)isOrRead
+{
+    if (!_isOrRead) {
+        _isOrRead = [[UIImageView alloc] init];
+//        _isOrRead.frame = CGRectMake(15, self.contentView.width/2 -20, 15, 15);
+        _isOrRead.contentMode = UIViewContentModeScaleAspectFit;
+        _isOrRead.backgroundColor = YDRGB(0, 112, 204);
+        _isOrRead.layer.cornerRadius = 7.5;
+        _isOrRead.layer.masksToBounds = YES;
+        
+    }
+    return _isOrRead;
+}
+
+
 - (UIImageView *)annexImage
 {
     if (!_annexImage) {
@@ -111,8 +139,8 @@
 {
     if (!_themeLabel) {
         _themeLabel = [[UILabel alloc] init];
-        _themeLabel.textColor = YDRGB(233, 233, 233);
-        _themeLabel.font = YDFont(15);
+        _themeLabel.textColor = YDRGB(0, 0, 102);
+        _themeLabel.font = YDFont(12);
     }
     
     return _themeLabel;
@@ -122,10 +150,39 @@
 {
     if (!_timeLabel) {
         _timeLabel = [[UILabel alloc] init];
-        _timeLabel.textColor = YDRGB(233, 233, 233);
-        _timeLabel.font = YDFont(15);
+        _timeLabel.textColor = YDRGB(91, 91, 91);
+        _timeLabel.font = YDFont(8);
     }
     
     return _timeLabel;
+}
+
+- (void)refreshDataWithCell:(YDInBoxRowsModel *)inboxrows
+{
+    self.senderLabel.text = inboxrows.tomail;
+    self.themeLabel.text = inboxrows.subject;
+    self.timeLabel.text  = inboxrows.sentDate;
+    
+    if ([inboxrows.isNew isEqualToString:@"0"]) {
+
+        self.isOrRead.hidden = NO;
+        
+
+//        [UIView animateWithDuration:0.1f animations:^{
+//            [self.contentView layoutIfNeeded];
+//        }];
+    }else{
+        self.isOrRead.hidden = YES;
+        
+//        CGRect frame = self.senderLabel.frame;
+//        [self.senderLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+//            make.left.equalTo(self.contentView.mas_right).with.offset(35);
+//            make.bottom.equalTo(self.contentView.mas_centerY).with.offset(-5);
+//            make.height.equalTo(@15);
+//        }];
+//        
+    }
+    
+    
 }
 @end

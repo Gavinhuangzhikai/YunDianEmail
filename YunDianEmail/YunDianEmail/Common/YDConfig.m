@@ -11,7 +11,7 @@
 
 
 
-NSString *const YDHttpIP = @"https://220.165.162.109:8443/mailSY/controller/";
+NSString *const YDHttpIP = @"https://220.165.162.211:8443/mailSY/controller/";
 
 NSString *const YDRequestFailureNote = @"您的网络好像有点问题~";
 NSString *const YDRequestNullNote = @"已无更多数据";

@@ -37,6 +37,8 @@
 		0C9BE33E1EE29029000794D6 /* YDInboxTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C9BE33D1EE29029000794D6 /* YDInboxTableViewCell.m */; };
 		0C9BE3411EE2A911000794D6 /* YDWriteLetterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C9BE3401EE2A911000794D6 /* YDWriteLetterViewController.m */; };
 		0C9BE3441EE3189D000794D6 /* YDCheckMailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C9BE3431EE3189D000794D6 /* YDCheckMailViewController.m */; };
+		0CBCD0B91EEEE26E007A3AC3 /* YDBasicDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CBCD0B81EEEE26E007A3AC3 /* YDBasicDataModel.m */; };
+		0CBCD0BC1EEEE28E007A3AC3 /* YDInBoxModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CBCD0BB1EEEE28E007A3AC3 /* YDInBoxModel.m */; };
 		4C475D06CEF830D488F1DBBB /* Pods_YunDianEmail.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC1B47E74A3974ADA9E78C55 /* Pods_YunDianEmail.framework */; };
 /* End PBXBuildFile section */
 
@@ -100,6 +102,10 @@
 		0C9BE3401EE2A911000794D6 /* YDWriteLetterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YDWriteLetterViewController.m; sourceTree = "<group>"; };
 		0C9BE3421EE3189D000794D6 /* YDCheckMailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YDCheckMailViewController.h; sourceTree = "<group>"; };
 		0C9BE3431EE3189D000794D6 /* YDCheckMailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YDCheckMailViewController.m; sourceTree = "<group>"; };
+		0CBCD0B71EEEE26E007A3AC3 /* YDBasicDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YDBasicDataModel.h; sourceTree = "<group>"; };
+		0CBCD0B81EEEE26E007A3AC3 /* YDBasicDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YDBasicDataModel.m; sourceTree = "<group>"; };
+		0CBCD0BA1EEEE28E007A3AC3 /* YDInBoxModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YDInBoxModel.h; sourceTree = "<group>"; };
+		0CBCD0BB1EEEE28E007A3AC3 /* YDInBoxModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YDInBoxModel.m; sourceTree = "<group>"; };
 		BC1B47E74A3974ADA9E78C55 /* Pods_YunDianEmail.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YunDianEmail.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFABB88ED0B5FC7D30ECE555 /* Pods-YunDianEmail.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YunDianEmail.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YunDianEmail/Pods-YunDianEmail.debug.xcconfig"; sourceTree = "<group>"; };
 		FF9F41CD21A88FEEB674F7D7 /* Pods-YunDianEmail.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YunDianEmail.release.xcconfig"; path = "Pods/Target Support Files/Pods-YunDianEmail/Pods-YunDianEmail.release.xcconfig"; sourceTree = "<group>"; };
@@ -171,6 +177,8 @@
 				0C9BE31F1EE04F39000794D6 /* YDBasicNavgationViewController.m */,
 				0C9BE3211EE04F80000794D6 /* YDBasicViewController.h */,
 				0C9BE3221EE04F80000794D6 /* YDBasicViewController.m */,
+				0CBCD0B71EEEE26E007A3AC3 /* YDBasicDataModel.h */,
+				0CBCD0B81EEEE26E007A3AC3 /* YDBasicDataModel.m */,
 			);
 			path = Basic;
 			sourceTree = "<group>";
@@ -229,6 +237,8 @@
 		0C9BE30C1EE04929000794D6 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				0CBCD0BA1EEEE28E007A3AC3 /* YDInBoxModel.h */,
+				0CBCD0BB1EEEE28E007A3AC3 /* YDInBoxModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -475,9 +485,11 @@
 				0C9BE3381EE2451A000794D6 /* YDNotificationTableViewCell.m in Sources */,
 				0C9BE33B1EE2884B000794D6 /* YDInboxViewController.m in Sources */,
 				0C1D9CD81EE3BB400089BBE6 /* ThemeTextView.m in Sources */,
+				0CBCD0B91EEEE26E007A3AC3 /* YDBasicDataModel.m in Sources */,
 				0C9BE3321EE1AC6F000794D6 /* YDHttpRequest.m in Sources */,
 				0C1D9CDE1EE403550089BBE6 /* YDFeedbackViewController.m in Sources */,
 				0C9BE33E1EE29029000794D6 /* YDInboxTableViewCell.m in Sources */,
+				0CBCD0BC1EEEE28E007A3AC3 /* YDInBoxModel.m in Sources */,
 				0C23C8461EEBAA09009E3094 /* YDNoDataTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

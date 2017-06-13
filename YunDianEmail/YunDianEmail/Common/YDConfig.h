@@ -56,6 +56,7 @@ UIKIT_EXTERN NSString *const YDRequestWIFINote ;
 
 #define YDHomeInfoUrl [YDTools getUrlPathWithHttp:YDHttpIP andURL:@"home/info"]
 
+#define YDEmailFindoUrl [YDTools getUrlPathWithHttp:YDHttpIP andURL:@"email/find"]
 
 
 #define YDCheckLoginOutUrl [YDTools getUrlPathWithHttp:YDHttpIP andURL:@"login/out"]

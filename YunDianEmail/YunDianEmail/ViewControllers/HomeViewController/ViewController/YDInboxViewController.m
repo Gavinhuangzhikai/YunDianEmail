@@ -10,6 +10,8 @@
 #import "YDInboxTableViewCell.h"
 #import "YDCheckMailViewController.h"
 #import "YDNoDataTableViewCell.h"
+#import "YDInBoxModel.h"
+#import "YDWriteLetterViewController.h"
 
 static NSString *const alertsNoDataCellIdentifier = @"alertsNoDataCellIdentifier";
 
@@ -75,7 +77,8 @@ static NSString *const alertsNoDataCellIdentifier = @"alertsNoDataCellIdentifier
     switch (self.mailType) {
         case YUDIANINBOXTYPE:
         {
-             [self readRequestWithType:@"POST" withURL:YDReadEmailUrl withDictionary:nil];
+            NSDictionary *dataDic = @{@"emailType":@"0"};
+             [self readRequestWithType:@"GET" withURL:YDEmailFindoUrl withDictionary:nil];
         }
             break;
         case YUDIANDraftBoxTYPE:
@@ -119,7 +122,7 @@ static NSString *const alertsNoDataCellIdentifier = @"alertsNoDataCellIdentifier
 - (UITableView *)inboxTableView
 {
     if (!_inboxTableView) {
-        _inboxTableView = [[UITableView alloc]initWithFrame:self.view.frame style:UITableViewStylePlain];
+        _inboxTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, self.view.width, self.view.height -64) style:UITableViewStylePlain];
         _inboxTableView.delegate = self;
         _inboxTableView.dataSource = self;
         _inboxTableView.separatorInset = UIEdgeInsetsZero;
@@ -181,35 +184,41 @@ static NSString *const alertsNoDataCellIdentifier = @"alertsNoDataCellIdentifier
         return cell;
     }
     
+    NSLog(@"%ld",(long)indexPath.row);
     YDInboxTableViewCell *cell = [YDInboxTableViewCell cellWithTableView:tableView];
+    [cell refreshDataWithCell:self.inboxArray[indexPath.row]];
     return cell;
 }
 
 
 - (void)rightBtnAction
 {
-      
+    YDWriteLetterViewController *writeVtr = [[YDWriteLetterViewController alloc]init];
+    [self.navigationController pushViewController:writeVtr animated:NO];
+    
+}
+
+- (void)searchBtnAction
+{
+    
     
 }
 
 - (void)readRequestWithType:(NSString *)requestType   withURL:(NSString *)urlString    withDictionary:(NSDictionary *)dictionary
 {
     [YDHttpRequest currentRequestType:requestType requestURL:urlString parameters:dictionary success:^(id responseObj) {
-        NSString * status = responseObj[@"result"];
-        
-        if ([status isEqualToString:@"success"]) {
-            
+        if ([responseObj isKindOfClass:[NSDictionary class]]){
+
             [self.hud hideAnimated:YES];
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                //                    [self analyseData:responseObj];
+                [self analyseData:responseObj];
                 dispatch_async(dispatch_get_main_queue(), ^{
-             ;
+                    [self.inboxTableView  reloadData];
                     
                 });
             });
-            
         }else {
-            [YDTools loadFailedHUD:self.hud text:status ];
+            [YDTools loadFailedHUD:self.hud text:@"请求失败" ];
             
         }
 
@@ -217,11 +226,17 @@ static NSString *const alertsNoDataCellIdentifier = @"alertsNoDataCellIdentifier
     } failure:^(NSError *error) {
         [YDTools loadFailedHUD:self.hud text:YDRequestFailureNote ];
     }];
- 
+}
 
+- (void)analyseData:(id)responseObj
+{
+      YDInBoxModel *inBoxModel = [[YDInBoxModel alloc] initWithDictionary:responseObj] ;
+    
+      [self.inboxArray removeAllObjects];
+    
+       self.inboxArray=  [inBoxModel.rows  copy];
     
     
 }
-
 
 @end

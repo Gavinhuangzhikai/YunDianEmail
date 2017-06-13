@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "YDInBoxModel.h"
 static NSString * const YDInboxTableViewIdentifier = @"YDInboxTableViewIdentifier";
 @interface YDInboxTableViewCell : UITableViewCell
 + (instancetype)cellWithTableView:(UITableView *)tableView;
 
 - (id) initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;
+- (void)refreshDataWithCell:(YDInBoxRowsModel *)inboxrows;
 @end

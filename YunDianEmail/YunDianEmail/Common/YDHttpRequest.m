@@ -82,7 +82,7 @@
     //关闭缓存避免干扰测试
     
     session.requestSerializer.cachePolicy=NSURLRequestReloadIgnoringLocalCacheData;
- NSString *valueString = LOGINSESSION;
+    NSString *valueString = LOGINSESSION;
        [session.requestSerializer setValue:valueString forHTTPHeaderField:@"Cookie"];
     
     [session GET:url parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
