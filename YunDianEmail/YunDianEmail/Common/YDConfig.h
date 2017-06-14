@@ -58,6 +58,9 @@ UIKIT_EXTERN NSString *const YDRequestWIFINote ;
 
 #define YDEmailFindoUrl [YDTools getUrlPathWithHttp:YDHttpIP andURL:@"email/find"]
 
+#define YDDraftFindUrl [YDTools getUrlPathWithHttp:YDHttpIP andURL:@"draftbox/find"]
+
+
 
 #define YDCheckLoginOutUrl [YDTools getUrlPathWithHttp:YDHttpIP andURL:@"login/out"]
 

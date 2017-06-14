@@ -422,8 +422,8 @@
 
     if ([self validateInput]) {
         _addContactBtn.userInteractionEnabled = NO;
-
-        [self enmaiSaveRequestWithDictionary:nil];
+       NSDictionary *dataDic = @{@"formmail":self.recipientTextField.text,@"ccmail":self.scopyForTetxField.text,@"bccmail":self.hedgecopyForTextField.text,@"subject":self.themeTetxField.text,@"bodyText":self.emailText.text};
+       [self enmaiSaveRequestWithDictionary:dataDic];
 
     }
     

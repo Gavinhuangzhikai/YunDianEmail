@@ -77,29 +77,33 @@ static NSString *const alertsNoDataCellIdentifier = @"alertsNoDataCellIdentifier
     switch (self.mailType) {
         case YUDIANINBOXTYPE:
         {
-            NSDictionary *dataDic = @{@"emailType":@"0"};
-             [self readRequestWithType:@"GET" withURL:YDEmailFindoUrl withDictionary:nil];
+            NSDictionary *dataDic = @{@"emailType":@"1",@"status":@"1"};
+             [self readRequestWithType:@"GET" withURL:YDEmailFindoUrl withDictionary:dataDic];
         }
             break;
         case YUDIANDraftBoxTYPE:
         {
-              [self readRequestWithType:@"GET" withURL:YDGetdelnumEmailUrl withDictionary:nil];
+              [self readRequestWithType:@"GET" withURL:YDDraftFindUrl withDictionary:nil];
         }
             break;
         case YUDIANBeenSentTYPE:
         {
-           
+            NSDictionary *dataDic = @{@"emailType":@"0",@"status":@"1"};
+            [self readRequestWithType:@"GET" withURL:YDEmailFindoUrl withDictionary:dataDic];
+
 
         }
             break;
         case YUDIANBeenDeletedtTYPE:
         {
-            
+            NSDictionary *dataDic = @{@"status":@"-1"};
+            [self readRequestWithType:@"GET" withURL:YDEmailFindoUrl withDictionary:dataDic];
+
         }
             break;
         case YUDIANBeenTrashCansTYPE:
         {
-            
+            [self readRequestWithType:@"GET" withURL:YDGetdelnumEmailUrl withDictionary:nil];
         }
            
             

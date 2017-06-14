@@ -31,6 +31,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.title = @"查看邮件";
     // Do any additional setup after loading the view.
 }
 
@@ -77,7 +78,7 @@
     senderLabel.text = @"发件人:";
     senderLabel.font = YDFont(12);
     senderLabel.textAlignment = NSTextAlignmentRight;
-    senderLabel.textColor =YDRGB(233, 233, 233);
+    senderLabel.textColor =YDRGB(111, 111, 111);
     [self.checkMailScrollView addSubview:senderLabel];
     [senderLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.checkMailScrollView.mas_left).with.offset(10);
@@ -99,7 +100,7 @@
     recipientLabel.text = @"收件人:";
     recipientLabel.font = YDFont(12);
     recipientLabel.textAlignment = NSTextAlignmentRight;
-    recipientLabel.textColor =YDRGB(233, 233, 233);
+    recipientLabel.textColor =YDRGB(111, 111, 111);
     [self.checkMailScrollView addSubview:recipientLabel];
     [recipientLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.checkMailScrollView.mas_left).with.offset(10);
@@ -120,11 +121,11 @@
     timLabel.text = @"时间:";
     timLabel.font = YDFont(12);
     timLabel.textAlignment = NSTextAlignmentRight;
-    timLabel.textColor =YDRGB(233, 233, 233);
+    timLabel.textColor =YDRGB(111, 111, 111);
     [self.checkMailScrollView addSubview:timLabel];
     [timLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.checkMailScrollView.mas_left).with.offset(10);
-        make.top.equalTo(self.theSenderLabel.mas_bottom).with.offset(5);
+        make.top.equalTo(self.theRecipientLabel.mas_bottom).with.offset(5);
         make.width.equalTo(@60);
         make.height.equalTo(@20);
     }];
@@ -150,7 +151,7 @@
     
     [self.checkMailScrollView addSubview:self.contentEmail];
     [self.contentEmail mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(timLabel.mas_right).with.offset(5);
+        make.left.equalTo(self.view.mas_left).with.offset(5);
         make.top.equalTo(line.mas_bottom).with.offset(5);
         make.width.mas_equalTo(self.view.width -10);;
         make.height.greaterThanOrEqualTo(@80);
@@ -177,7 +178,7 @@
 {
     if (!_captionLabel) {
         _captionLabel = [[UILabel alloc] init];
-        _captionLabel.textColor = YDRGB(233, 233, 233);
+        _captionLabel.textColor = YDRGB(0, 0, 0);
         _captionLabel.font = YDFont(15);
     }
     
@@ -188,7 +189,7 @@
 {
     if (!_theSenderLabel) {
         _theSenderLabel = [[UILabel alloc] init];
-        _theSenderLabel.textColor = YDRGB(233, 233, 233);
+        _theSenderLabel.textColor = YDRGB(0, 0, 0);
         _theSenderLabel.font = YDFont(15);
     }
     
@@ -199,7 +200,7 @@
 {
     if (!_theRecipientLabel) {
         _theRecipientLabel = [[UILabel alloc] init];
-        _theRecipientLabel.textColor = YDRGB(233, 233, 233);
+        _theRecipientLabel.textColor = YDRGB(0, 0, 0);
         _theRecipientLabel.font = YDFont(15);
     }
     
@@ -210,7 +211,7 @@
 {
     if (!_timeLabel) {
         _timeLabel = [[UILabel alloc] init];
-        _timeLabel.textColor = YDRGB(233, 233, 233);
+        _timeLabel.textColor = YDRGB(0, 0, 0);
         _timeLabel.font = YDFont(15);
     }
     
