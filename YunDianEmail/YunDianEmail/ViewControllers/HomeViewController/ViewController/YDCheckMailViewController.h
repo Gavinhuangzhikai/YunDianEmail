@@ -7,7 +7,8 @@
 //
 
 #import "YDBasicViewController.h"
-
+#import "YDInBoxModel.h"
 @interface YDCheckMailViewController : YDBasicViewController
 
+@property (nonatomic,strong)YDInBoxRowsModel *inboxRows;
 @end

@@ -179,7 +179,7 @@
     if (!_captionLabel) {
         _captionLabel = [[UILabel alloc] init];
         _captionLabel.textColor = YDRGB(0, 0, 0);
-        _captionLabel.font = YDFont(15);
+        _captionLabel.font = YDFont(20);
     }
     
     return _captionLabel;
@@ -189,7 +189,7 @@
 {
     if (!_theSenderLabel) {
         _theSenderLabel = [[UILabel alloc] init];
-        _theSenderLabel.textColor = YDRGB(0, 0, 0);
+        _theSenderLabel.textColor = YDRGB(111, 111, 111);
         _theSenderLabel.font = YDFont(15);
     }
     
@@ -200,7 +200,7 @@
 {
     if (!_theRecipientLabel) {
         _theRecipientLabel = [[UILabel alloc] init];
-        _theRecipientLabel.textColor = YDRGB(0, 0, 0);
+        _theRecipientLabel.textColor = YDRGB(111, 111, 111);
         _theRecipientLabel.font = YDFont(15);
     }
     
@@ -211,7 +211,7 @@
 {
     if (!_timeLabel) {
         _timeLabel = [[UILabel alloc] init];
-        _timeLabel.textColor = YDRGB(0, 0, 0);
+        _timeLabel.textColor = YDRGB(111, 111, 111);
         _timeLabel.font = YDFont(15);
     }
     
@@ -247,6 +247,22 @@
     return _annexBtn;
 }
 
+- (void)setInboxRows:(YDInBoxRowsModel *)inboxRows
+{
+    
+    self.captionLabel.text = inboxRows.subject;
+    
+    
+    self.theSenderLabel.text = inboxRows.tomail;
+    
+    self.theRecipientLabel.text = inboxRows.formmail;
+    
+    self.timeLabel.text = inboxRows.sentDate;
+    
+    self.contentEmail.text = inboxRows.bodyText;
+    
+    _inboxRows = inboxRows;
+}
 - (void)checkAnnex:(UIButton *)button
 {
     

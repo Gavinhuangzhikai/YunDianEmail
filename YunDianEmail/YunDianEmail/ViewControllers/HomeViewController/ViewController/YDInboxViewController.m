@@ -12,6 +12,7 @@
 #import "YDNoDataTableViewCell.h"
 #import "YDInBoxModel.h"
 #import "YDWriteLetterViewController.h"
+#import "YDSearchViewController.h"
 
 static NSString *const alertsNoDataCellIdentifier = @"alertsNoDataCellIdentifier";
 
@@ -77,7 +78,7 @@ static NSString *const alertsNoDataCellIdentifier = @"alertsNoDataCellIdentifier
     switch (self.mailType) {
         case YUDIANINBOXTYPE:
         {
-            NSDictionary *dataDic = @{@"emailType":@"1",@"status":@"1"};
+            NSDictionary *dataDic = @{@"emailType":@"1"};
              [self readRequestWithType:@"GET" withURL:YDEmailFindoUrl withDictionary:dataDic];
         }
             break;
@@ -165,6 +166,7 @@ static NSString *const alertsNoDataCellIdentifier = @"alertsNoDataCellIdentifier
     }else{
     
     YDCheckMailViewController *checkMail = [[YDCheckMailViewController alloc] init];
+        checkMail.inboxRows =  self.inboxArray[indexPath.row];
     [self.navigationController pushViewController:checkMail animated:NO];
     }
     
@@ -205,7 +207,8 @@ static NSString *const alertsNoDataCellIdentifier = @"alertsNoDataCellIdentifier
 - (void)searchBtnAction
 {
     
-    
+    YDSearchViewController *searchVtr = [[YDSearchViewController alloc] init];
+    [self.navigationController pushViewController:searchVtr animated:NO];
 }
 
 - (void)readRequestWithType:(NSString *)requestType   withURL:(NSString *)urlString    withDictionary:(NSDictionary *)dictionary
@@ -242,5 +245,8 @@ static NSString *const alertsNoDataCellIdentifier = @"alertsNoDataCellIdentifier
     
     
 }
+
+
+
 
 @end

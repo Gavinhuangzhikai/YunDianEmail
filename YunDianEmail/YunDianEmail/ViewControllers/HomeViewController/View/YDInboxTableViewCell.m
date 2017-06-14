@@ -66,7 +66,7 @@
     self.isOrRead.hidden = YES;
     [self.contentView addSubview:self.senderLabel];
     [self.senderLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.contentView.mas_left).with.offset(15);
+        make.left.equalTo(self.contentView.mas_left).with.offset(32);
         make.bottom.equalTo(self.contentView.mas_centerY).with.offset(-5);
         make.height.equalTo(@15);
     }];

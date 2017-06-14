@@ -10,6 +10,7 @@
 #import "YDNotificationTableViewCell.h"
 #import "YDChangePasswordViewController.h"
 #import "YDFeedbackViewController.h"
+#import "YDLoginViewController.h"
 #define  titleArray @[@"密码修改",@"新邮件通知提醒",@"通知显示邮件详情",@"清除缓存",@"字体大小",@"检测更新",@"意见反馈"]
 @interface YDSettingViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -332,7 +333,13 @@
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
               
                 dispatch_async(dispatch_get_main_queue(), ^{
-       
+                    UIWindow  *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+                    YDLoginViewController *controller = [[YDLoginViewController alloc] init];
+                    window.rootViewController = controller;
+                    [window makeKeyAndVisible];
+
+                    
+                    
                 });
             });
             
