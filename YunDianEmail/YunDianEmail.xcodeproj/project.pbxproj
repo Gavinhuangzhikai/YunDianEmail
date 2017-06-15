@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0C1CD87C1EF2CB9A0071143F /* YDContactsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C1CD87B1EF2CB9A0071143F /* YDContactsViewController.m */; };
 		0C1D9CD21EE3A36D0089BBE6 /* YDSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C1D9CD11EE3A36D0089BBE6 /* YDSearchViewController.m */; };
 		0C1D9CD51EE3A3CB0089BBE6 /* YDChangePasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C1D9CD41EE3A3CB0089BBE6 /* YDChangePasswordViewController.m */; };
 		0C1D9CD81EE3BB400089BBE6 /* ThemeTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C1D9CD71EE3BB400089BBE6 /* ThemeTextView.m */; };
@@ -43,6 +44,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0C1CD87A1EF2CB9A0071143F /* YDContactsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YDContactsViewController.h; sourceTree = "<group>"; };
+		0C1CD87B1EF2CB9A0071143F /* YDContactsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YDContactsViewController.m; sourceTree = "<group>"; };
 		0C1D9CD01EE3A36D0089BBE6 /* YDSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YDSearchViewController.h; sourceTree = "<group>"; };
 		0C1D9CD11EE3A36D0089BBE6 /* YDSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YDSearchViewController.m; sourceTree = "<group>"; };
 		0C1D9CD31EE3A3CB0089BBE6 /* YDChangePasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YDChangePasswordViewController.h; sourceTree = "<group>"; };
@@ -285,6 +288,8 @@
 				0C1D9CD41EE3A3CB0089BBE6 /* YDChangePasswordViewController.m */,
 				0C1D9CDC1EE403550089BBE6 /* YDFeedbackViewController.h */,
 				0C1D9CDD1EE403550089BBE6 /* YDFeedbackViewController.m */,
+				0C1CD87A1EF2CB9A0071143F /* YDContactsViewController.h */,
+				0C1CD87B1EF2CB9A0071143F /* YDContactsViewController.m */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -468,6 +473,7 @@
 				0C9BE3231EE04F80000794D6 /* YDBasicViewController.m in Sources */,
 				0C9BE3151EE04929000794D6 /* UIViewAdditions.m in Sources */,
 				0C1D9CD51EE3A3CB0089BBE6 /* YDChangePasswordViewController.m in Sources */,
+				0C1CD87C1EF2CB9A0071143F /* YDContactsViewController.m in Sources */,
 				0C9BE2F51EE04215000794D6 /* ViewController.m in Sources */,
 				0C9BE31B1EE04A11000794D6 /* YDTools.m in Sources */,
 				0C9BE32C1EE054F8000794D6 /* YDHomeEmailTableViewCell.m in Sources */,

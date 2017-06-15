@@ -14,6 +14,7 @@
 #import "YDWriteLetterViewController.h"
 #import "YDSearchViewController.h"
 
+
 static NSString *const alertsNoDataCellIdentifier = @"alertsNoDataCellIdentifier";
 
 @interface YDInboxViewController ()<UITableViewDelegate,UITableViewDataSource>
@@ -74,21 +75,25 @@ static NSString *const alertsNoDataCellIdentifier = @"alertsNoDataCellIdentifier
 #pragma mark - 网络请求
 - (void)getDataFromNet
 {
-   
+    self.hud = [YDTools HUDLoadingOnView:self.view delegate:self]; 
     switch (self.mailType) {
+            
         case YUDIANINBOXTYPE:
         {
+            self.title = @"收件箱";
             NSDictionary *dataDic = @{@"emailType":@"1"};
              [self readRequestWithType:@"GET" withURL:YDEmailFindoUrl withDictionary:dataDic];
         }
             break;
         case YUDIANDraftBoxTYPE:
         {
+            self.title = @"草稿箱";
               [self readRequestWithType:@"GET" withURL:YDDraftFindUrl withDictionary:nil];
         }
             break;
         case YUDIANBeenSentTYPE:
         {
+            self.title = @"已发送";
             NSDictionary *dataDic = @{@"emailType":@"0",@"status":@"1"};
             [self readRequestWithType:@"GET" withURL:YDEmailFindoUrl withDictionary:dataDic];
 
@@ -97,6 +102,7 @@ static NSString *const alertsNoDataCellIdentifier = @"alertsNoDataCellIdentifier
             break;
         case YUDIANBeenDeletedtTYPE:
         {
+            self.title = @"已删除";
             NSDictionary *dataDic = @{@"status":@"-1"};
             [self readRequestWithType:@"GET" withURL:YDEmailFindoUrl withDictionary:dataDic];
 
@@ -104,6 +110,7 @@ static NSString *const alertsNoDataCellIdentifier = @"alertsNoDataCellIdentifier
             break;
         case YUDIANBeenTrashCansTYPE:
         {
+            self.title = @"垃圾箱";
             [self readRequestWithType:@"GET" withURL:YDGetdelnumEmailUrl withDictionary:nil];
         }
            
@@ -118,9 +125,11 @@ static NSString *const alertsNoDataCellIdentifier = @"alertsNoDataCellIdentifier
 - (void)createInterface
 {
     [self.view addSubview:self.inboxTableView];
-    
-    
-    
+     __weak __typeof__(self) weakSelf = self;
+    self.inboxTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        [weakSelf getDataFromNet];
+    }];
+
 }
 
 #pragma mark - Layz init
@@ -134,7 +143,6 @@ static NSString *const alertsNoDataCellIdentifier = @"alertsNoDataCellIdentifier
         _inboxTableView.preservesSuperviewLayoutMargins = NO;
         _inboxTableView.layoutMargins = UIEdgeInsetsZero;
         [_inboxTableView registerClass:[YDNoDataTableViewCell class] forCellReuseIdentifier:alertsNoDataCellIdentifier];
-        
         [_inboxTableView registerClass:[YDInboxTableViewCell class] forCellReuseIdentifier:YDInboxTableViewIdentifier];
         _inboxTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     }

@@ -7,8 +7,8 @@
 //
 
 #import "YDWriteLetterViewController.h"
-
-@interface YDWriteLetterViewController ()<UITextFieldDelegate,UITextViewDelegate>
+#import "YDContactsViewController.h"
+@interface YDWriteLetterViewController ()<UITextFieldDelegate,UITextViewDelegate,UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic,strong)UIScrollView *writeLetterScroller;
 
@@ -23,6 +23,7 @@
 @property (nonatomic,strong)UITextView *emailText;
 
 @property (nonatomic,strong)UIButton *addContactBtn;
+
 
 @end
 
@@ -43,6 +44,7 @@
 - (void)initParameters
 {
     [super initParameters];
+  
 }
 
 #pragma mark - 界面初始化
@@ -212,6 +214,7 @@
         make.width.mas_equalTo(20);
         make.height.mas_equalTo(20);
     }];
+    
   
 }
 
@@ -333,6 +336,8 @@
     
 }
 
+
+
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
     if ([textView isEqual:  self.recipientTextField] ||   [textView isEqual: self.scopyForTetxField ]||  [textView isEqual: self.hedgecopyForTextField]  ) {
@@ -348,8 +353,6 @@
                     
                     textView.attributedText = attribute;
                 }
-                
-                
                 return NO;
                 
             }else{
@@ -391,6 +394,80 @@
     return YES;
 }
 
+
+
+
+//-(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+//{
+//    if ([textView isEqual:  self.recipientTextField] ||   [textView isEqual: self.scopyForTetxField ]||  [textView isEqual: self.hedgecopyForTextField]  ) {
+//        if ([text isEqualToString:@"\n"]){
+//            
+//            if ([textView.text rangeOfString:@"</strong>"].location != NSNotFound) {
+//                NSRange range = [textView.text rangeOfString:@"</strong>" options:NSBackwardsSearch];
+//                if (range.length > 0) {
+//                    NSString *strHTML =[NSString stringWithFormat:@"%@<strong>%@</strong>  ",[textView.text substringToIndex:range.location],[textView.text substringFromIndex:(range.location+ range.length)] ];
+//                    NSAttributedString *attributedString = [[NSAttributedString alloc] initWithData:[strHTML dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType } documentAttributes:nil error:nil];
+//                    textView.attributedText = attributedString;
+//                }
+//                return NO;
+//                
+//            }else{
+//                NSString *strHTML =[NSString stringWithFormat:@"<strong>%@</strong>  ",textView.text];
+//                NSAttributedString *attributedString = [[NSAttributedString alloc] initWithData:[strHTML dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType } documentAttributes:nil error:nil];
+//                textView.attributedText = attributedString;
+//
+//                
+////                NSMutableAttributedString *attribute = [[NSMutableAttributedString alloc] initWithString:[textView.text stringByAppendingString:@"、"]];
+////                [attribute addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0, textView.text.length  + 1)];
+////                [attribute addAttribute:NSFontAttributeName value:YDFont(15) range:NSMakeRange(0, textView.text.length + 1  )];
+////                textView.attributedText = attribute;
+//                return NO;
+//                
+//                
+//            }
+//        }
+//        
+//        if ([text isEqualToString:@""]) {
+//            if([textView.text hasSuffix:@"</strong>"]){
+//                
+//                  NSRange range = [textView.text rangeOfString:@"<strong>" options:NSBackwardsSearch];
+//              
+//                NSString *strHTML =[NSString stringWithFormat:@"%@  ",[textView.text substringToIndex:range.location]];
+//                NSAttributedString *attributedString = [[NSAttributedString alloc] initWithData:[strHTML dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType } documentAttributes:nil error:nil];
+//                textView.attributedText = attributedString;
+//                
+//                
+//                
+////                NSMutableArray * separator =  [self getRangeStr:textView.text findText:@"、"];
+////                if (separator.count <= 1) {
+////                    textView.text = @"";
+////                }else{
+////                    
+////                    NSNumber *sepnumber =separator[separator.count - 2];
+////                    NSString *textString =  [textView.text substringToIndex:[sepnumber intValue] ];
+////                    NSMutableAttributedString *attribute = [[NSMutableAttributedString alloc] initWithString:[textString stringByAppendingString:@"、"]];
+////                    [attribute addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0, textString.length+1)];
+////                    [attribute addAttribute:NSFontAttributeName value:YDFont(15) range:NSMakeRange(0, textString.length +1 )];
+////                    textView.attributedText = attribute;
+////                    return NO;
+////                }
+//                
+//            }
+//            
+//            
+//        }
+//        
+//        
+//    }
+//    
+//    
+//    return YES;
+//}
+
+
+
+
+
 -(void)textViewDidChange:(UITextView *)textView{
     
     if ([textView isEqual:self.emailText]) {
@@ -409,16 +486,13 @@
             }];
         }
     }
-
-    
-
 }
 
 - (void)sendEmailAction:(id)sender
 {
     [self.view endEditing:YES];
     
-
+   self.hud = [YDTools HUDLoadingOnView:self.view delegate:self]; 
 
     if ([self validateInput]) {
         _addContactBtn.userInteractionEnabled = NO;
@@ -433,6 +507,12 @@
 {
     [self.view endEditing:YES];
     
+//    NSString *reg = @"(?i)(?<=<strong>)[^<strong>]*(?=</strong)";
+//    NSPredicate *  pred = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", reg];
+//    NSArray *array =    [pred filteredArrayUsingPredicate:self.recipientTextField.text];
+    YDContactsViewController *contactsVtr = [[YDContactsViewController alloc] init];
+    contactsVtr.contactsType =  YUDIANContactsFromTYPEIsWritter;
+    [self.navigationController  pushViewController:contactsVtr animated:YES];     
 }
 
 -(BOOL)isValidateEmail:(NSString *)email

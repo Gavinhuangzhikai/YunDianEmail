@@ -41,7 +41,7 @@
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     self.backgroundColor = [UIColor clearColor];
 
-    self.label = [[UILabel alloc]initWithFrame:CGRectMake(0, 150, self.width, 20)];
+    self.label = [[UILabel alloc]initWithFrame:CGRectMake(0, 150, YDScreenWidth, 20)];
     _label.text = @"暂无邮件";
     _label.textAlignment = NSTextAlignmentCenter;
     _label.textColor = [UIColor darkGrayColor];

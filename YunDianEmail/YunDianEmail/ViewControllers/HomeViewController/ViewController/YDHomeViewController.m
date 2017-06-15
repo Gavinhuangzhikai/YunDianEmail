@@ -13,6 +13,7 @@
 #import "YDInboxViewController.h"
 #import "YDSearchViewController.h"
 #import "YDLoginViewController.h"
+#import "YDContactsViewController.h"
 
 #define  titleNameArray @[@"写信",@"收件箱",@"通讯录",@"草稿箱",@"已发送",@"已删除",@"垃圾箱"]
 #define  titleNameImageArray @[@"write_letter.png",@"inbox.png",@"contacts.png",@"draft_box.png",@"been_sent.png",@"deleted.png",@"trash_cans.png"]
@@ -135,6 +136,9 @@
         
     }else if (indexPath.row == 2)
     {
+        YDContactsViewController *contactsVtr = [[YDContactsViewController alloc]init];
+         contactsVtr.contactsType =  YUDIANContactsFromTYPEIsHome;
+        [self.navigationController pushViewController:contactsVtr animated:NO];
         
     }else if (indexPath.row == 3)
     { 

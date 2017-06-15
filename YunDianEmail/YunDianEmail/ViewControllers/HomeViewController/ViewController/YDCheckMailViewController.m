@@ -227,7 +227,7 @@
         _contentEmail.backgroundColor = [UIColor whiteColor];
     
         _contentEmail.scrollEnabled = YES;
-        
+        [_contentEmail setEditable:NO];
         
     }
     return _contentEmail;

@@ -66,3 +66,4 @@ UIKIT_EXTERN NSString *const YDRequestWIFINote ;
 
 #define YDEmailSavetUrl [YDTools getUrlPathWithHttp:YDHttpIP andURL:@"email/save"]
 
+#define YDEmailContactstUrl [YDTools getUrlPathWithHttp:YDHttpIP andURL:@"email/contacts"]

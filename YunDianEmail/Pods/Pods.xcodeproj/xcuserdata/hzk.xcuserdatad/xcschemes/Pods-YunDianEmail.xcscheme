@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "522AB1BF0360781808E85B0349817EF4"
+               BlueprintIdentifier = "43E744B8303C6F4C7A3FEB18C5769EAD"
                BuildableName = "Pods_YunDianEmail.framework"
                BlueprintName = "Pods-YunDianEmail"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "522AB1BF0360781808E85B0349817EF4"
+            BlueprintIdentifier = "43E744B8303C6F4C7A3FEB18C5769EAD"
             BuildableName = "Pods_YunDianEmail.framework"
             BlueprintName = "Pods-YunDianEmail"
             ReferencedContainer = "container:Pods.xcodeproj">
