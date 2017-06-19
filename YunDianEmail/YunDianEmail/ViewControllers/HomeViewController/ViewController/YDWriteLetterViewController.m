@@ -24,6 +24,11 @@
 
 @property (nonatomic,strong)UIButton *addContactBtn;
 
+@property (nonatomic,strong)UIButton *addScopyContactBtn;
+
+
+@property (nonatomic,strong)UIButton *addHedgecopyContactBtn;
+
 
 @end
 
@@ -210,12 +215,27 @@
     [self.writeLetterScroller addSubview:self.addContactBtn];
     [self.addContactBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.writeLetterScroller.mas_left).with.offset(self.view.width-10);
-        make.top.equalTo(self.writeLetterScroller.mas_top).with.offset(10);
+        make.centerY.equalTo(recipientLabel.mas_centerY);
         make.width.mas_equalTo(20);
         make.height.mas_equalTo(20);
     }];
     
-  
+    [self.writeLetterScroller addSubview:self.addScopyContactBtn];
+    [self.addScopyContactBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.writeLetterScroller.mas_left).with.offset(self.view.width-10);
+        make.centerY.equalTo(scopyForLabel.mas_centerY);
+        make.width.mas_equalTo(20);
+        make.height.mas_equalTo(20);
+    }];
+    
+    [self.writeLetterScroller addSubview:self.addHedgecopyContactBtn];
+    [self.addHedgecopyContactBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.writeLetterScroller.mas_left).with.offset(self.view.width-10);
+        make.centerY.equalTo(hedgecopyForLabel.mas_centerY);
+        make.width.mas_equalTo(20);
+        make.height.mas_equalTo(20);
+    }];
+    
 }
 
 #pragma mark - Layz init
@@ -328,6 +348,7 @@
     if (!_addContactBtn) {
         _addContactBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [_addContactBtn setImage:[UIImage imageNamed:@"addContact.png"] forState:UIControlStateNormal];
+        _addContactBtn.tag = 100;
         [_addContactBtn addTarget:self action:@selector(addContactAction:) forControlEvents:UIControlEventTouchUpInside];
 
     }
@@ -336,6 +357,34 @@
     
 }
 
+- (UIButton *)addScopyContactBtn
+{
+    if (!_addScopyContactBtn) {
+        _addScopyContactBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_addScopyContactBtn setImage:[UIImage imageNamed:@"addContact.png"] forState:UIControlStateNormal];
+        _addScopyContactBtn.tag = 101;
+        [_addScopyContactBtn addTarget:self action:@selector(addContactAction:) forControlEvents:UIControlEventTouchUpInside];
+        
+    }
+    return _addScopyContactBtn;
+    
+    
+}
+
+
+- (UIButton *)addHedgecopyContactBtn
+{
+    if (!_addHedgecopyContactBtn) {
+        _addHedgecopyContactBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_addHedgecopyContactBtn setImage:[UIImage imageNamed:@"addContact.png"] forState:UIControlStateNormal];
+        _addHedgecopyContactBtn.tag =102;
+        [_addHedgecopyContactBtn addTarget:self action:@selector(addContactAction:) forControlEvents:UIControlEventTouchUpInside];
+        
+    }
+    return _addHedgecopyContactBtn;
+    
+    
+}
 
 
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
@@ -503,16 +552,26 @@
     
 }
 
-- (void)addContactAction:(id)sender
+- (void)addContactAction:(UIButton *)button
 {
     [self.view endEditing:YES];
     
-//    NSString *reg = @"(?i)(?<=<strong>)[^<strong>]*(?=</strong)";
-//    NSPredicate *  pred = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", reg];
-//    NSArray *array =    [pred filteredArrayUsingPredicate:self.recipientTextField.text];
     YDContactsViewController *contactsVtr = [[YDContactsViewController alloc] init];
     contactsVtr.contactsType =  YUDIANContactsFromTYPEIsWritter;
-    [self.navigationController  pushViewController:contactsVtr animated:YES];     
+    __weak __typeof__(self) weakSelf = self;
+    contactsVtr.addContacts = ^(NSString *contactsName) {
+        
+        if (button.tag == 100) {
+          weakSelf.recipientTextField.text =   [weakSelf.recipientTextField.text stringByAppendingString:[NSString stringWithFormat:@"%@、",contactsName]];
+        }else if (button.tag == 101){
+          weakSelf.scopyForTetxField.text =   [weakSelf.recipientTextField.text stringByAppendingString:[NSString stringWithFormat:@"%@、",contactsName]];
+        }else if (button.tag == 102){
+         weakSelf.hedgecopyForTextField.text =   [weakSelf.recipientTextField.text stringByAppendingString:[NSString stringWithFormat:@"%@、",contactsName]];
+            
+        }
+
+    };
+    [self.navigationController  pushViewController:contactsVtr animated:YES];
 }
 
 -(BOOL)isValidateEmail:(NSString *)email

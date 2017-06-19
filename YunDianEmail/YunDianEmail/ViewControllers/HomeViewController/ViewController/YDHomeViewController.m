@@ -14,6 +14,8 @@
 #import "YDSearchViewController.h"
 #import "YDLoginViewController.h"
 #import "YDContactsViewController.h"
+#import "YDUserDataManager.h"
+#import "YDUserDataModel.h"
 
 #define  titleNameArray @[@"写信",@"收件箱",@"通讯录",@"草稿箱",@"已发送",@"已删除",@"垃圾箱"]
 #define  titleNameImageArray @[@"write_letter.png",@"inbox.png",@"contacts.png",@"draft_box.png",@"been_sent.png",@"deleted.png",@"trash_cans.png"]
@@ -79,6 +81,12 @@
     [rightView addSubview:rightSettingBtn];
     
     self.navigationItem.rightBarButtonItem= [[UIBarButtonItem alloc] initWithCustomView:rightView];
+    
+    YDUserDataModel *userModel = [YDUserDataModel mj_objectWithKeyValues:[YDUserDataManager readUserData]];
+    if (userModel != nil && userModel.userName != nil) {
+        self.title = userModel.userName;
+    }
+    
     [self createInterface];
     
 }
@@ -86,7 +94,7 @@
 #pragma mark - 网络请求
 - (void)getDataFromNet
 {
-      [self getEmailUserInfo];
+  
 }
 
 #pragma mark -创建控件
@@ -173,16 +181,16 @@
 - ( NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath
 {
      __weak typeof(self) weakself = self;
-    UITableViewRowAction *readAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"全标已读" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
-
-   
+    UITableViewRowAction *readAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"标为已读" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+        
+        [weakself.homeEmailTableView  reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil]  withRowAnimation:UITableViewRowAnimationNone];
     }];
     
     
     
-    UITableViewRowAction *clearAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"清空" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+    UITableViewRowAction *clearAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"删除" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
       
-        
+        [weakself.homeEmailTableView  reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil]  withRowAnimation:UITableViewRowAnimationNone];
    
     }];
      clearAction.backgroundColor = YDRGB(255, 133, 0);
@@ -222,28 +230,6 @@
     YDSettingViewController *settingVtr = [[YDSettingViewController alloc] init];
     [self.navigationController pushViewController:settingVtr animated:NO];
     
-    
-}
-
-- (void)getEmailUserInfo
-{
-    [YDHttpRequest currentRequestType:@"GET" requestURL:YDHomeInfoUrl parameters:@{} success:^(id responseObj) {
-     
-            [self.hud hideAnimated:YES];
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                //                    [self analyseData:responseObj];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    ;
-                      self.title = responseObj[@"email"];
-                });
-            });
-
-        
-        
-    } failure:^(NSError *error) {
-        [YDTools loadFailedHUD:self.hud text:YDRequestFailureNote ];
-    }];
-
     
 }
 

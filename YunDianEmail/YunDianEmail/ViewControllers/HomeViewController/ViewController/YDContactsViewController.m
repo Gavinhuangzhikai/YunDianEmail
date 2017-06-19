@@ -8,6 +8,7 @@
 
 #import "YDContactsViewController.h"
 #import "FMDB.h"
+#import "YDContactsModel.h"
 
 @interface YDContactsViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic,strong)UITableView *contactsTabelView;
@@ -40,7 +41,7 @@
 {
     [super initUIView];
     
-    
+    self.title = @"通讯录";
     
     
     [self createInterface];
@@ -53,6 +54,7 @@
       if (_contactsType == YUDIANContactsFromTYPEIsHome) {
     [self getContactsInfo];
       }else{
+             [self getContactsInfo];
           //1.获得数据库文件的路径
           NSString *doc=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
           NSString *fileName=[doc stringByAppendingPathComponent:@"contacts.sqlite"];
@@ -78,16 +80,16 @@
 {
     if (_contactsType == YUDIANContactsFromTYPEIsWritter) {
         UIButton *leftBtn=[UIButton buttonWithType:UIButtonTypeCustom];
-        leftBtn.frame = CGRectMake(0, 0, 30, 30);
+        leftBtn.frame = CGRectMake(0, 0, 40, 30);
         [leftBtn setTitle:@"取消" forState:UIControlStateNormal];
         [leftBtn addTarget:self action:@selector(canncleBtnAction) forControlEvents:UIControlEventTouchUpInside];
-      
+        
         
         self.navigationItem.leftBarButtonItem= [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
-
+        
     }
     
-    
+    [self.view addSubview:self.contactsTabelView];
     
 }
 
@@ -95,7 +97,7 @@
 - (UITableView *)contactsTabelView
 {
     if (!_contactsTabelView) {
-        _contactsTabelView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+        _contactsTabelView = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStylePlain];
         
         _contactsTabelView.delegate = self;
         _contactsTabelView.dataSource = self;
@@ -112,11 +114,19 @@
 #pragma mark - UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 20;
+    return 40;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (_contactsType == YUDIANContactsFromTYPEIsWritter) {
+        if(self.addContacts) {
+            YDContactsInfoModel *nameModel  = self.contactsArray[indexPath.row];
+            self.addContacts(nameModel.val);
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+    }
+
 }
 
 
@@ -135,7 +145,9 @@
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellideitifier];
     }
-    cell.textLabel.text = self.contactsArray[indexPath.row];
+    YDContactsInfoModel *contactsModel = self.contactsArray[indexPath.row];
+    
+    cell.textLabel.text = contactsModel.val;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     return  cell;
@@ -161,8 +173,9 @@
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             [self analyseData:responseObj];
             dispatch_async(dispatch_get_main_queue(), ^{
+                [self.contactsTabelView reloadData];
                 ;
-        });
+            });
         });
         
         
@@ -177,6 +190,12 @@
 
 - (void)analyseData:(id)responseObj
 {
+    
+    YDContactsModel *contactsModel = [[YDContactsModel alloc] initWithDictionary:responseObj] ;
+    
+    [self.contactsArray removeAllObjects];
+    
+    self.contactsArray=  [contactsModel.rows  mutableCopy];
     
     //1.获得数据库文件的路径
     NSString *doc=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];

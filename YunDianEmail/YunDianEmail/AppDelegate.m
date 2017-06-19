@@ -11,6 +11,8 @@
 #import "YDLoginViewController.h"
 #import "YDBasicNavgationViewController.h"
 #import "FMDB.h"
+#import "YDUserDataManager.h"
+#import "YDUserDataModel.h"
 
 @interface AppDelegate ()
 {
@@ -36,7 +38,7 @@
     
     if ([_db open]) {
         //4.创表
-        BOOL result=[_db executeUpdate:@"CREATETABLE IF NOT EXISTS personContacts (id integer PRIMARY KEY AUTOINCREMENT, name text NOT NULL,person_id' VARCHAR(255));"];
+        BOOL result=[_db executeUpdate:@"CREATETABLE IF NOT EXISTS emailInfo (id integer PRIMARY KEY AUTOINCREMENT, name text NOT NULL,person_id' VARCHAR(255));"];
         if (result) {
             NSLog(@"创表成功");
         }else
@@ -53,22 +55,23 @@
         SetTEXTFONT(@18);
     }
 
-  
-    if (  LOGINSESSION == nil) {
-        self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-        YDLoginViewController *controller = [[YDLoginViewController alloc] init];
-        self.window.rootViewController = controller;
-        [self.window makeKeyAndVisible];
-        return YES;
-    }else{
-
- 
+    YDUserDataModel *userModel = [YDUserDataModel mj_objectWithKeyValues:[YDUserDataManager readUserData]];
+    if (  userModel.loginStatus == YES  && userModel.session != nil  ) {
         self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
         YDHomeViewController *controller = [[YDHomeViewController alloc] init];
         self.window.rootViewController = [[YDBasicNavgationViewController alloc] initWithRootViewController:controller];
         [self.window makeKeyAndVisible];
         return YES;
-        
+
+        }else{
+
+           self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+           YDLoginViewController *controller = [[YDLoginViewController alloc] init];
+           self.window.rootViewController = controller;
+           [self.window makeKeyAndVisible];
+           return YES;
+
+             
     }
     
 

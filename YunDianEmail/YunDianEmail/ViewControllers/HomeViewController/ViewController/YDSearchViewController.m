@@ -101,7 +101,11 @@
         _searchEmailTabelView.preservesSuperviewLayoutMargins = NO;
         _searchEmailTabelView.layoutMargins = UIEdgeInsetsZero;
         _searchEmailTabelView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-    
+        [[UIBarButtonItem appearanceWhenContainedInInstancesOfClasses:@[[UISearchBar class]]] setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor redColor], NSFontAttributeName: [UIFont systemFontOfSize:16]} forState:UIControlStateNormal];
+        
+        // 修改标题文字
+        [[UIBarButtonItem appearanceWhenContainedInInstancesOfClasses:@[[UISearchBar class]]] setTitle:@"souSuo"];
+
     }
     return _searchEmailTabelView;
 }
@@ -138,6 +142,8 @@
             textBtn.frame =CGRectMake(i * tableView.width/4, 0,  tableView.width/4, 40);
             [textBtn setTitleColor:YDRGB(111, 111, 111) forState:UIControlStateNormal];
             textBtn.titleLabel.font =YDFont(15);
+            textBtn.tag = 1000 + i;
+            [textBtn addTarget:self action:@selector(searchClassification:) forControlEvents:UIControlEventTouchUpInside];
             [backView addSubview:textBtn];
         }
         
@@ -216,5 +222,43 @@
     return img;
 }
 
+
+- (void)searchRequestWithType:(NSString *)requestType   withURL:(NSString *)urlString    withDictionary:(NSDictionary *)dictionary
+{
+    [YDHttpRequest currentRequestType:requestType requestURL:urlString parameters:dictionary success:^(id responseObj) {
+        if ([responseObj isKindOfClass:[NSDictionary class]]){
+            
+            [self.hud hideAnimated:YES];
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//                [self analyseData:responseObj];
+                dispatch_async(dispatch_get_main_queue(), ^{
+//                    [self.inboxTableView  reloadData];
+                    
+                });
+            });
+        }else {
+            [YDTools loadFailedHUD:self.hud text:@"请求失败" ];
+            
+        }
+        
+        
+    } failure:^(NSError *error) {
+        [YDTools loadFailedHUD:self.hud text:YDRequestFailureNote ];
+    }];
+}
+
+- (void)searchClassification:(UIButton *)button
+{
+    if (button.tag == 1000) {
+        
+    }else if (button.tag == 1001){
+        
+    }else if (button.tag == 1002){
+        
+    }else if (button.tag == 1003){
+        
+    }
+    
+}
 
 @end

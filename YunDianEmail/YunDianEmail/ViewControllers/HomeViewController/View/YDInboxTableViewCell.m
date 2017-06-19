@@ -57,8 +57,8 @@
     [self.isOrRead mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.contentView.mas_left).with.offset(15);
         make.bottom.equalTo(self.contentView.mas_centerY).with.offset(-8);
-        make.height.equalTo(@15);
-        make.width.equalTo(@15);
+        make.height.equalTo(@8);
+        make.width.equalTo(@8);
     }];
     
     
@@ -66,7 +66,7 @@
     self.isOrRead.hidden = YES;
     [self.contentView addSubview:self.senderLabel];
     [self.senderLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.contentView.mas_left).with.offset(32);
+        make.left.equalTo(self.contentView.mas_left).with.offset(25);
         make.bottom.equalTo(self.contentView.mas_centerY).with.offset(-5);
         make.height.equalTo(@15);
     }];
@@ -167,19 +167,24 @@
 
         self.isOrRead.hidden = NO;
         
-
+        [self.senderLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.contentView.mas_left).with.offset(25);
+            make.bottom.equalTo(self.contentView.mas_centerY).with.offset(-5);
+            make.height.equalTo(@15);
+        }];
+        
 //        [UIView animateWithDuration:0.1f animations:^{
 //            [self.contentView layoutIfNeeded];
 //        }];
     }else{
         self.isOrRead.hidden = YES;
         
-//        CGRect frame = self.senderLabel.frame;
-//        [self.senderLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-//            make.left.equalTo(self.contentView.mas_right).with.offset(35);
-//            make.bottom.equalTo(self.contentView.mas_centerY).with.offset(-5);
-//            make.height.equalTo(@15);
-//        }];
+        [self.senderLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.contentView.mas_left).with.offset(15);
+            make.bottom.equalTo(self.contentView.mas_centerY).with.offset(-5);
+            make.height.equalTo(@15);
+        }];
+
 //        
     }
     

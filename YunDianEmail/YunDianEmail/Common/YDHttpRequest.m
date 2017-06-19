@@ -8,6 +8,8 @@
 
 #import "YDHttpRequest.h"
 #import "AFNetworking.h"
+#import "YDUserDataModel.h"
+#import "YDUserDataManager.h"
 @implementation YDHttpRequest
 
 
@@ -82,8 +84,12 @@
     //关闭缓存避免干扰测试
     
     session.requestSerializer.cachePolicy=NSURLRequestReloadIgnoringLocalCacheData;
-    NSString *valueString = LOGINSESSION;
-       [session.requestSerializer setValue:valueString forHTTPHeaderField:@"Cookie"];
+
+    YDUserDataModel *userModel = [YDUserDataModel mj_objectWithKeyValues:[YDUserDataManager readUserData]];
+    [session.requestSerializer setValue:userModel.session forHTTPHeaderField:@"Cookie"];
+    
+
+    
     
     [session GET:url parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
          NSLog(@"%@",downloadProgress);
@@ -136,8 +142,13 @@
 
 
 
-   NSString *valueString = LOGINSESSION;
-    [session.requestSerializer setValue:valueString forHTTPHeaderField:@"Cookie"];
+//   NSString *valueString = LOGINSESSION;
+//    [session.requestSerializer setValue:valueString forHTTPHeaderField:@"Cookie"];
+    
+    YDUserDataModel *userModel = [YDUserDataModel mj_objectWithKeyValues:[YDUserDataManager readUserData]];
+    [session.requestSerializer setValue:userModel.session forHTTPHeaderField:@"Cookie"];
+
+    
 
     session.securityPolicy.allowInvalidCertificates=YES;
     
@@ -205,31 +216,10 @@
     } progress:^(NSProgress * _Nonnull uploadProgress) {
         NSLog(@"%@",uploadProgress);
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-//        if (complex) {
-//            NSHTTPURLResponse *response = (NSHTTPURLResponse *)task.response;
-//        }
-        
-//        if (complex) {
-  
+
         
         
-//        }
-        
-//
-//        NSHTTPCookieStorage *cookieJar = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-//        for (NSHTTPCookie *cookie in [cookieJar cookies]) {
-//            [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:cookie];
-////            NSData * data  = [NSKeyedArchiver archivedDataWithRootObject:cookie];
-//            
-//            NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL: [NSURL URLWithString:url]];
-//            NSData *data = [NSKeyedArchiver archivedDataWithRootObject:cookies];
-//
-//            SetLOGINSESSION(data);
-//        }
-//        NSLog(@"%@",responseObject);
-        
-        
-        id dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableLeaves error:nil];
+        id dict =  [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableLeaves error:nil];
         
         
         if (![dict isKindOfClass:[NSDictionary class]]) {
@@ -243,15 +233,18 @@
                 NSHTTPURLResponse *responsess = (NSHTTPURLResponse *)task.response;
                 NSString  * seesionss = (responsess.allHeaderFields)[@"Set-Cookie"];
                 
-                SetLOGINSESSION(seesionss);
+                NSMutableDictionary *dataDic = [NSMutableDictionary dictionaryWithDictionary:dict];
                 
+                [dataDic setValue:seesionss forKey:@"session"];
+                success(dataDic);
+                 return ;
             }
-//            NSHTTPURLResponse *response = (NSHTTPURLResponse *)task.response;
-//            SetLOGINSESSION(response.allHeaderFields[@"Set-Cookie"]);
-             success(dict);
+          
         }
-        
-       
+        NSError *error = [NSError errorWithDomain:@"201" code:201 userInfo:nil];
+        NSLog(@"-------请求返回结果不是合理数据格式-----");
+        failure(error);
+
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         failure(error);
     }];

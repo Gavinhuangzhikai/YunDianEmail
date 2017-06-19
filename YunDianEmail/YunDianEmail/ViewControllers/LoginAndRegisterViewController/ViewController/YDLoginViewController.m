@@ -9,6 +9,8 @@
 #import "YDLoginViewController.h"
 #import "YDHomeViewController.h"
 #import "YDBasicNavgationViewController.h"
+#import "YDUserDataManager.h"
+#import "YDUserDataModel.h"
 
 @interface YDLoginViewController ()<UITextFieldDelegate>
 @property (nonatomic,strong) UITextField *accountTextField;//帐号
@@ -100,7 +102,7 @@
     rememberPasswordLabel.text = @"记住密码";
     [self.view addSubview:rememberPasswordLabel];
     [rememberPasswordLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.rememberPasswordBtn.mas_right).with.offset(10);
+        make.left.equalTo(self.rememberPasswordBtn.mas_right).with.offset(3);
         make.top.equalTo(self.passwordTextField.mas_bottom).with.offset(20);
         make.width.equalTo(@80);
         make.height.equalTo(@30);
@@ -114,6 +116,13 @@
         make.width.equalTo(@250);
         make.height.equalTo(@35);
     }];
+    
+    YDUserDataModel *userModel = [YDUserDataModel mj_objectWithKeyValues:[YDUserDataManager readUserData]];
+    
+    self.accountTextField.text = userModel.userAccount;
+    
+    self.passwordTextField.text = userModel.userPassword;
+    
 }
 
 #pragma mark - Layz init
@@ -139,8 +148,7 @@
         _accountTextField.delegate =self;
         _accountTextField.font = YDFont(15);
         _accountTextField.textColor = YDRGB(0, 0, 0);
-    
-        
+  
         _accountTextField.backgroundColor = [UIColor clearColor];
         _accountTextField.keyboardType =UIKeyboardTypeNumberPad;
         
@@ -183,8 +191,8 @@
 {
     if (!_rememberPasswordBtn) {
         _rememberPasswordBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_rememberPasswordBtn setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
-        [_rememberPasswordBtn setImage:[UIImage imageNamed:@""] forState:UIControlStateSelected];
+        [_rememberPasswordBtn setImage:[UIImage imageNamed:@"同意_none"] forState:UIControlStateNormal];
+        [_rememberPasswordBtn setImage:[UIImage imageNamed:@"同意_selected"] forState:UIControlStateSelected];
         [_rememberPasswordBtn addTarget:self action:@selector(rememberPassword:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _rememberPasswordBtn;
@@ -234,7 +242,6 @@
     [self.view  endEditing:YES];
     if ([self validateInput]) {
         _loginButton.userInteractionEnabled = NO;
-        [self storeAuthAccount:_accountTextField.text];
         self.hud = [YDTools HUDLoadingOnView:self.view delegate:self];
         NSDictionary *dataDic = @{@"username":_accountTextField.text,@"password":[YDTools md5: _passwordTextField.text]};
         
@@ -251,13 +258,13 @@
             
             if ([status isEqualToString:@"success"]) {
              
-                [self.hud hideAnimated:YES];
+//                [self.hud hideAnimated:YES];
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//                    [self analyseData:responseObj];
+                    [self analyseData: responseObj];
                     dispatch_async(dispatch_get_main_queue(), ^{
-   
-                        YDHomeViewController *controller = [[YDHomeViewController alloc] init];
-                        [UIApplication sharedApplication].keyWindow.rootViewController = [[YDBasicNavgationViewController alloc] initWithRootViewController:controller];
+       
+                        [self getEmailUserInfo];
+                        
                                             
                     });
                 });
@@ -274,19 +281,6 @@
         }];
     _loginButton.userInteractionEnabled = YES;
     
-}
-
-
-#pragma mark - 用户登录信息保存与删除
-- (void)storeAuthAccount:(NSString *)account
-{
-    //    if (![[self AuthAccount]isEqualToString:account]) {
-    //        //推出登录清除用户数据
-    //        [TLUserDataManager deleteUserData];
-    //
-    //    }
-    //    [TLUserDataManager deleteUserID];
-    //    [TLUserDataManager saveUserID:account];
 }
 
 #pragma mark - 登录前验证
@@ -309,5 +303,61 @@
 //        return NO;
 //    }
     return YES;
+}
+
+
+- (void)getEmailUserInfo
+{
+    [YDHttpRequest currentRequestType:@"GET" requestURL:YDHomeInfoUrl parameters:@{} success:^(id responseObj) {
+        
+        [self.hud hideAnimated:YES];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            [self analyseUserNameData:responseObj];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                YDHomeViewController *controller = [[YDHomeViewController alloc] init];
+                [UIApplication sharedApplication].keyWindow.rootViewController = [[YDBasicNavgationViewController alloc] initWithRootViewController:controller];
+    
+            });
+        });
+        
+        
+        
+    } failure:^(NSError *error) {
+        [YDTools loadFailedHUD:self.hud text:YDRequestFailureNote ];
+    }];
+    
+    
+}
+
+
+
+- (void)analyseData:(id)respon
+{
+    if (self.rememberPasswordBtn.selected == YES) {
+        YDUserDataModel *userData =[[YDUserDataModel alloc] init];
+        userData.userAccount = self.accountTextField.text;
+        userData.userPassword = self.passwordTextField.text;
+        userData.session = respon[@"session"];
+        [YDUserDataManager saveUserData:userData.mj_keyValues];
+    }else{
+        YDUserDataModel *userData =[[YDUserDataModel alloc] init];
+        userData.session = respon[@"session"];
+        [YDUserDataManager saveUserData:userData.mj_keyValues];
+        
+        
+    }
+    
+}
+
+- (void)analyseUserNameData:(id)responser
+{
+    
+    YDUserDataModel *userModel = [YDUserDataModel mj_objectWithKeyValues:[YDUserDataManager readUserData]];
+    userModel.userName = responser[@"email"];
+    userModel.loginStatus = YES;
+    [YDUserDataManager saveUserData:userModel.mj_keyValues];
+
+    
 }
 @end

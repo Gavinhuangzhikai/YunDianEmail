@@ -12,6 +12,10 @@ typedef NS_ENUM(NSInteger, YUDIANContactsFromTYPE) {
     YUDIANContactsFromTYPEIsWritter,          //写信
     
 };
+
+typedef void(^OnAddMyContactsClick)(NSString *contactsName);
 @interface YDContactsViewController : YDBasicViewController
 @property(nonatomic,assign)YUDIANContactsFromTYPE  contactsType;
+
+@property (nonatomic, copy) OnAddMyContactsClick addContacts;
 @end

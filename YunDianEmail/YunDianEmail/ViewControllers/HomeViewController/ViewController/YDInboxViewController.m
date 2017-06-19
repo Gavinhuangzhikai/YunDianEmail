@@ -88,7 +88,8 @@ static NSString *const alertsNoDataCellIdentifier = @"alertsNoDataCellIdentifier
         case YUDIANDraftBoxTYPE:
         {
             self.title = @"草稿箱";
-              [self readRequestWithType:@"GET" withURL:YDDraftFindUrl withDictionary:nil];
+            NSDictionary *dataDic = @{@"emailType":@"0",@"status":@"0"};
+              [self readRequestWithType:@"GET" withURL:YDEmailFindoUrl withDictionary:dataDic];
         }
             break;
         case YUDIANBeenSentTYPE:
@@ -174,11 +175,34 @@ static NSString *const alertsNoDataCellIdentifier = @"alertsNoDataCellIdentifier
     }else{
     
     YDCheckMailViewController *checkMail = [[YDCheckMailViewController alloc] init];
-        checkMail.inboxRows =  self.inboxArray[indexPath.row];
+       YDInBoxRowsModel *  inboxRows =  self.inboxArray[indexPath.row];
+        checkMail.emailID = inboxRows.ID;
     [self.navigationController pushViewController:checkMail animated:NO];
     }
     
 }
+
+- ( NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    __weak typeof(self) weakself = self;
+    UITableViewRowAction *readAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"全标已读" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+        
+        
+    }];
+    
+    
+    
+    UITableViewRowAction *clearAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"清空" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+        
+        
+        
+    }];
+    clearAction.backgroundColor = YDRGB(255, 133, 0);
+    
+    return @[clearAction,readAction];
+    
+}
+
 
 #pragma mark - UITableViewDataSource
 
@@ -249,7 +273,7 @@ static NSString *const alertsNoDataCellIdentifier = @"alertsNoDataCellIdentifier
     
       [self.inboxArray removeAllObjects];
     
-       self.inboxArray=  [inBoxModel.rows  copy];
+       self.inboxArray=  [inBoxModel.rows  mutableCopy];
     
     
 }

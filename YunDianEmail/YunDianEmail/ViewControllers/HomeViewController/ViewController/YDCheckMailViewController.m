@@ -58,7 +58,9 @@
 
 #pragma mark - 网络请求
 - (void)getDataFromNet
-{
+{   self.hud = [YDTools HUDLoadingOnView:self.view delegate:self]; 
+     NSDictionary *dataDic = @{@"id":self.emailID};
+    [self getEmailRequestWithType:@"GET" withURL:YDEmailGetUrl withDictionary:dataDic];
 }
 
 #pragma mark -创建控件
@@ -68,9 +70,9 @@
     
     [self.checkMailScrollView addSubview:self.captionLabel];
     [self.captionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.checkMailScrollView.mas_right).with.offset(10);
+        make.left.equalTo(self.checkMailScrollView.mas_right).with.offset(15);
         make.top.equalTo(self.checkMailScrollView.mas_top).with.offset(10);
-        make.width.mas_equalTo(self.view.width -20);;
+        make.width.mas_equalTo(self.view.width -30);;
         make.height.greaterThanOrEqualTo(@40);
     }];
     
@@ -83,7 +85,7 @@
     [senderLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.checkMailScrollView.mas_left).with.offset(10);
         make.top.equalTo(self.captionLabel.mas_bottom).with.offset(5);
-        make.width.equalTo(@60);
+        make.width.equalTo(@45);
         make.height.equalTo(@20);
     }];
 
@@ -105,7 +107,7 @@
     [recipientLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.checkMailScrollView.mas_left).with.offset(10);
         make.top.equalTo(self.theSenderLabel.mas_bottom).with.offset(5);
-        make.width.equalTo(@60);
+        make.width.equalTo(@45);
         make.height.equalTo(@20);
     }];
     
@@ -126,7 +128,7 @@
     [timLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.checkMailScrollView.mas_left).with.offset(10);
         make.top.equalTo(self.theRecipientLabel.mas_bottom).with.offset(5);
-        make.width.equalTo(@60);
+        make.width.equalTo(@45);
         make.height.equalTo(@20);
     }];
     
@@ -180,6 +182,8 @@
         _captionLabel = [[UILabel alloc] init];
         _captionLabel.textColor = YDRGB(0, 0, 0);
         _captionLabel.font = YDFont(20);
+        _captionLabel.numberOfLines = 2;
+        _captionLabel.lineBreakMode = NSLineBreakByCharWrapping;
     }
     
     return _captionLabel;
@@ -247,22 +251,65 @@
     return _annexBtn;
 }
 
-- (void)setInboxRows:(YDInBoxRowsModel *)inboxRows
+//- (void)setInboxRows:(YDInBoxRowsModel *)inboxRows
+//{
+//    
+//    self.captionLabel.text = inboxRows.subject;
+//    
+//    
+//    self.theSenderLabel.text = inboxRows.tomail;
+//    
+//    self.theRecipientLabel.text = inboxRows.formmail;
+//    
+//    self.timeLabel.text = inboxRows.sentDate;
+//    
+//    self.contentEmail.text = inboxRows.bodyText;
+//    
+//    _inboxRows = inboxRows;
+//}
+     
+     
+     
+ - (void)getEmailRequestWithType:(NSString *)requestType   withURL:(NSString *)urlString    withDictionary:(NSDictionary *)dictionary
 {
-    
-    self.captionLabel.text = inboxRows.subject;
-    
-    
-    self.theSenderLabel.text = inboxRows.tomail;
-    
-    self.theRecipientLabel.text = inboxRows.formmail;
-    
-    self.timeLabel.text = inboxRows.sentDate;
-    
-    self.contentEmail.text = inboxRows.bodyText;
-    
-    _inboxRows = inboxRows;
+    [YDHttpRequest currentRequestType:requestType requestURL:urlString parameters:dictionary success:^(id responseObj) {
+        if ([responseObj isKindOfClass:[NSDictionary class]]){
+            
+            [self.hud hideAnimated:YES];
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                [self analyseData:responseObj];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    self.captionLabel.text = self.inboxRows.subject;
+                    
+                    
+                    self.theSenderLabel.text = self.inboxRows.tomail;
+                    
+                    self.theRecipientLabel.text = self.inboxRows.formmail;
+                    
+                    self.timeLabel.text = self.inboxRows.sentDate;
+                    
+                    self.contentEmail.text = self.inboxRows.bodyText;
+                    
+                });
+            });
+        }else {
+            [YDTools loadFailedHUD:self.hud text:@"请求失败" ];
+            
+        }
+        
+        
+    } failure:^(NSError *error) {
+        [YDTools loadFailedHUD:self.hud text:YDRequestFailureNote ];
+    }];
 }
+ 
+ -(void)analyseData:(id)responseObj
+{
+    self.inboxRows = [[YDInBoxRowsModel alloc] initWithDictionary:responseObj] ;
+    
+}
+
+     
 - (void)checkAnnex:(UIButton *)button
 {
     

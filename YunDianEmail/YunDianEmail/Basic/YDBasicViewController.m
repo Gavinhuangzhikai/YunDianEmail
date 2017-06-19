@@ -43,9 +43,8 @@
 {
     
     UIButton *backBtn=[UIButton  buttonWithType:UIButtonTypeCustom ];
-    backBtn.frame = CGRectMake(0, 0, 40, 40);
-    [backBtn setBackgroundImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
-    [backBtn setBackgroundImage:[UIImage imageNamed:@"backSelect"] forState:UIControlStateHighlighted];
+    backBtn.frame = CGRectMake(0, 0, 15, 20);
+    [backBtn setBackgroundImage:[UIImage imageNamed:@"icon_返回"] forState:UIControlStateNormal];
     [backBtn addTarget:self action:@selector(backAction) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem= [[UIBarButtonItem alloc] initWithCustomView:backBtn];
     

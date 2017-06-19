@@ -11,4 +11,6 @@
 @interface YDCheckMailViewController : YDBasicViewController
 
 @property (nonatomic,strong)YDInBoxRowsModel *inboxRows;
+
+@property (nonatomic,strong)NSString *  emailID;
 @end
