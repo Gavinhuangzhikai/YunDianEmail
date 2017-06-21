@@ -8,12 +8,15 @@
 
 #import "YDSearchViewController.h"
 #import <CoreGraphics/CoreGraphics.h>
+#import "EmailDataBase.h"
 
-@interface YDSearchViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface YDSearchViewController ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
 
-@property (nonatomic,strong)UISearchBar *searchEmail;
+@property (nonatomic,strong)UITextField *searchEmail;
 
 @property (nonatomic,strong)UITableView *searchEmailTabelView;
+
+@property (nonatomic,strong)UIButton *searchBtn;
 
 @end
 
@@ -59,7 +62,14 @@
 //        make.right.equalTo(self.view.mas_right).with.offset(-15);
 //        make.height.equalTo(@30);
 //    }];
-//    
+//
+    [self.view addSubview:self.searchBtn];
+    [self.searchBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.searchEmail.mas_centerY);
+        make.right.equalTo(self.view.mas_right).with.offset(-10);
+        make.height.equalTo(@30);
+        make.width.equalTo(@60);
+    }];
     [self.view addSubview:self.searchEmailTabelView];
     [self.searchEmailTabelView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view.mas_left);
@@ -70,20 +80,29 @@
 }
 
 #pragma mark - Layz init
-- (UISearchBar *)searchEmail
+- (UITextField *)searchEmail
 {
     if (!_searchEmail) {
-        _searchEmail = [[UISearchBar alloc]initWithFrame:CGRectMake(15, 10, self.view.width -80, 30)];
+        _searchEmail = [[UITextField alloc] initWithFrame:CGRectMake(15, 10, self.view.width -80, 30)];
         _searchEmail.placeholder = @"搜索所有邮件";
-        _searchEmail.backgroundColor =[UIColor whiteColor];
-        UIImage* searchBarBg = [self GetImageWithColor:[UIColor clearColor] andHeight:32.0f];
-        //设置背景图片
-        [_searchEmail setBackgroundImage:searchBarBg];
-        //设置背景色
-        [_searchEmail setBackgroundColor:YDRGB(230, 230, 230)];
-        //设置文本框背景
-        [_searchEmail setSearchFieldBackgroundImage:searchBarBg forState:UIControlStateNormal];
-       
+        _searchEmail.backgroundColor = YDRGB(230, 230, 230);
+  
+        UIImageView *searchImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 40, 44)];
+        searchImage.contentMode = UIViewContentModeScaleAspectFit;
+        searchImage.frame = CGRectMake(0, 0, 32, 44);
+        searchImage.image = [UIImage imageNamed:@"search.png"];
+  
+        
+        _searchEmail.leftView = searchImage;
+        _searchEmail.leftViewMode = UITextFieldViewModeAlways;
+        [_searchEmail setBorderStyle:UITextBorderStyleNone];
+        _searchEmail.autocorrectionType = UITextAutocorrectionTypeNo;
+        _searchEmail.delegate =self;
+        _searchEmail.font = YDFont(15);
+        _searchEmail.textColor = YDRGB(0, 0, 0);
+        
+        _searchEmail.backgroundColor = [UIColor clearColor];
+        _searchEmail.keyboardType =UIKeyboardTypeDefault;
 
     }
     return _searchEmail;
@@ -110,6 +129,19 @@
     return _searchEmailTabelView;
 }
 
+- (UIButton *)searchBtn
+{
+    if(!_searchBtn){
+        
+        _searchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_searchBtn setTitle:@"搜索" forState:UIControlStateNormal];
+        _searchBtn.backgroundColor = YDRGB(255, 255, 255);
+        _searchBtn.titleLabel.font = YDFont(15);
+        [_searchBtn setTitleColor:YDRGB(0, 0, 0) forState:UIControlStateNormal];
+        [_searchBtn addTarget:self action:@selector(searchAction:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _searchBtn;
+}
 
 #pragma mark - UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -170,7 +202,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section == 0) {
-        return 0;
+        return [[[EmailDataBase sharedDataBase]querySearchInfo] count];
     }
     return 1 ;
 }
@@ -178,6 +210,17 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.section == 0) {
+        static NSString *searideitifier = @"SearchinfoEmailCell";
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:searideitifier ];
+        if (!cell) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:searideitifier];
+        }
+        cell.textLabel.text = [[EmailDataBase sharedDataBase]querySearchInfo][indexPath.row];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        return  cell;
+    }else{
     
     
     static NSString *ideitifier = @"SearchEmailCell";
@@ -189,6 +232,7 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     return  cell;
+    }
 
 }
 
@@ -259,6 +303,17 @@
         
     }
     
+}
+
+- (void)searchAction:(id)sender
+{   self.hud = [YDTools HUDLoadingOnView:self.view delegate:self];
+
+    if (self.searchEmail.text.length > 0) {
+        [[EmailDataBase sharedDataBase] addSearchInfo:self.searchEmail.text];
+        [self.searchEmailTabelView  reloadData];
+    }
+//    NSDictionary *dataDic = @{@"subject":self.searchEmail.text,@"emailType":[YDTools md5: _passwordTextField.text]};
+//    [self searchRequestWithType:<#(NSString *)#> withURL:YDEmailFindoUrl withDictionary:<#(NSDictionary *)#>]
 }
 
 @end

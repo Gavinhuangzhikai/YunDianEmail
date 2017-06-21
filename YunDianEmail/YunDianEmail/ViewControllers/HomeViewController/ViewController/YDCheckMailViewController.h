@@ -8,9 +8,11 @@
 
 #import "YDBasicViewController.h"
 #import "YDInBoxModel.h"
+typedef void(^RefrushInboxData)();
+
 @interface YDCheckMailViewController : YDBasicViewController
 
 @property (nonatomic,strong)YDInBoxRowsModel *inboxRows;
-
+@property (nonatomic, copy) RefrushInboxData refrushData;
 @property (nonatomic,strong)NSString *  emailID;
 @end

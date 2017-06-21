@@ -7,7 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "YDInBoxModel.h"
 
 @interface EmailDataBase : NSObject
++(instancetype)sharedDataBase;
+- (void)addEmailInfo:(YDInBoxRowsModel *)inboxEmail;
+- (void)addSearchInfo:(NSString *)search;
+- (void)deleteEmailInfo;
+
+- (void)deleteSearchInfo:(NSString *)search;
+- (void)deleteOneEmailInfo:(YDInBoxRowsModel *)inboxEmail;
+- (NSArray *)querySearchInfo;
 
 @end

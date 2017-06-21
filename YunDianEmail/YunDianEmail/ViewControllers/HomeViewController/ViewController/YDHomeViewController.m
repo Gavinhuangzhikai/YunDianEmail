@@ -82,11 +82,11 @@
     
     self.navigationItem.rightBarButtonItem= [[UIBarButtonItem alloc] initWithCustomView:rightView];
     
-    YDUserDataModel *userModel = [YDUserDataModel mj_objectWithKeyValues:[YDUserDataManager readUserData]];
-    if (userModel != nil && userModel.userName != nil) {
-        self.title = userModel.userName;
-    }
-    
+//    YDUserDataModel *userModel = [YDUserDataModel mj_objectWithKeyValues:[YDUserDataManager readUserData]];
+//    if (userModel != nil && userModel.userName != nil) {
+//        self.title = userModel.userName;
+//    }
+    self.title = @"云电邮箱";
     [self createInterface];
     
 }

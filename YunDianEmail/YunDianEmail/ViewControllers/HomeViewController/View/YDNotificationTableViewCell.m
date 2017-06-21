@@ -54,7 +54,7 @@
     [self.selectSeitch mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.contentView.mas_right).with.offset(-15);
         make.centerY.equalTo(self.contentView.mas_centerY);
-        make.width.equalTo(@60);
+        make.width.equalTo(@48);
         make.height.equalTo(@30);
     }];
     
@@ -76,10 +76,12 @@
 {
     if (!_selectSeitch) {
         _selectSeitch = [[UISwitch alloc] init];
-        _selectSeitch.backgroundColor = [UIColor whiteColor];
+        _selectSeitch.backgroundColor = [UIColor darkGrayColor];
         _selectSeitch.onTintColor = [UIColor blueColor];
-        _selectSeitch.tintColor = [UIColor redColor];
-        _selectSeitch.thumbTintColor =[UIColor darkGrayColor];
+        _selectSeitch.tintColor = [UIColor whiteColor];
+        _selectSeitch.thumbTintColor =[UIColor whiteColor];
+        _selectSeitch.layer.cornerRadius = 15.5f;
+        _selectSeitch.layer.masksToBounds = YES;
         [_selectSeitch addTarget:self action:@selector(selectNotification:) forControlEvents:UIControlEventTouchUpInside];
 
     }
@@ -93,4 +95,16 @@
         self.switchbutton(sswitch);
     }
 }
+
+
+- (UIViewController*)viewController {
+    for (UIView* next = [self superview]; next; next = next.superview) {
+        UIResponder* nextResponder = [next nextResponder];
+        if ([nextResponder isKindOfClass:[UIViewController class]]) {
+            return (UIViewController*)nextResponder;
+        }
+    }
+    return nil;
+}
+
 @end

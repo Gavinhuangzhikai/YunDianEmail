@@ -13,7 +13,7 @@
 #import "FMDB.h"
 #import "YDUserDataManager.h"
 #import "YDUserDataModel.h"
-
+#import "EmailDataBase.h"
 @interface AppDelegate ()
 {
      FMDatabase  *_db;
@@ -25,30 +25,30 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    
-    NSString *documentsPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
-    
-    // 文件路径
-    
-    NSString *filePath = [documentsPath stringByAppendingPathComponent:@"contacts.sqlite"];
-    
-    // 实例化FMDataBase对象
-    
-    _db = [FMDatabase databaseWithPath:filePath];
-    
-    if ([_db open]) {
-        //4.创表
-        BOOL result=[_db executeUpdate:@"CREATETABLE IF NOT EXISTS emailInfo (id integer PRIMARY KEY AUTOINCREMENT, name text NOT NULL,person_id' VARCHAR(255));"];
-        if (result) {
-            NSLog(@"创表成功");
-        }else
-        {
-            NSLog(@"创表失败");
-        }
-    }
-    
-    
-    [_db close];
+  
+//    NSString *documentsPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+//    
+//    // 文件路径
+//    
+//    NSString *filePath = [documentsPath stringByAppendingPathComponent:@"contacts.sqlite"];
+//    
+//    // 实例化FMDataBase对象
+//    
+//    _db = [FMDatabase databaseWithPath:filePath];
+//    
+//    if ([_db open]) {
+//        //4.创表
+//        BOOL result=[_db executeUpdate:@"CREATETABLE IF NOT EXISTS emailInfo (id integer PRIMARY KEY AUTOINCREMENT, name text NOT NULL,person_id' VARCHAR(255));"];
+//        if (result) {
+//            NSLog(@"创表成功");
+//        }else
+//        {
+//            NSLog(@"创表失败");
+//        }
+//    }
+//    
+//    
+//    [_db close];
 
     
     if (TEXTFONT == nil) {

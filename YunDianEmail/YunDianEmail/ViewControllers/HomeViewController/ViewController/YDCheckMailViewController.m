@@ -290,6 +290,11 @@
                     
                     self.contentEmail.text = self.inboxRows.bodyText;
                     
+                    
+                    if (self.refrushData) {
+                        self.refrushData();
+                    }
+                    
                 });
             });
         }else {
@@ -315,5 +320,7 @@
     
     
 }
+
+
 
 @end

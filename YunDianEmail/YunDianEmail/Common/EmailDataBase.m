@@ -8,7 +8,7 @@
 
 #import "EmailDataBase.h"
 #import "FMDB.h"
-#import "YDInBoxModel.h"
+
 
 static EmailDataBase *_EmailDBCtl = nil;
 @interface EmailDataBase()
@@ -21,14 +21,16 @@ static EmailDataBase *_EmailDBCtl = nil;
 
 +(instancetype)sharedDataBase{
     
-    if (_EmailDBCtl == nil) {
-        
-        _EmailDBCtl = [[EmailDataBase alloc] init];
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _EmailDBCtl = [[EmailDataBase alloc]init];
         
         [_EmailDBCtl initDataBase];
-        
-    }
-     return _EmailDBCtl;
+    });
+    return _EmailDBCtl;
+    
+
     
 }
 
@@ -83,9 +85,9 @@ static EmailDataBase *_EmailDBCtl = nil;
     
     if ([_db open]) {
         //4.创表
-        BOOL result=[_db executeUpdate:@"CREATETABLE IF NOT EXISTS emailInfo (id integer PRIMARY KEY AUTOINCREMENT, bodyText text NOT NULL,classification text NOT NUL,containAttach integer NOT NULL,dataDatetime text NOT NULL,emailType text NOT NULL,emailType text NOT NULL,formmail text NOT NULL,formname text NOT NULL,isNew integer NOT NULL,sentDate text NOT NULL,size integer NOT NULL,subject text NOT NULL,tomail text NOT NULL,toname text NOT NULL,userFileId text NOT NULL);"];
+        BOOL result=[_db executeUpdate:@"CREATE TABLE IF NOT EXISTS emailInfo (id integer PRIMARY KEY AUTOINCREMENT, bodyText text NOT NULL,classification text NOT NULL,containAttach integer NOT NULL,dataDatetime text NOT NULL,emailType text NOT NULL,formmail text NOT NULL,formname text NOT NULL,isNew integer NOT NULL,sentDate text NOT NULL,size integer NOT NULL,subject text NOT NULL,tomail text NOT NULL,toname text NOT NULL,userFileId text NOT NULL);"];
         
-        BOOL resultsearch=[_db executeUpdate:@"CREATETABLE IF NOT EXISTS searchInfo (id integer PRIMARY KEY AUTOINCREMENT, searchString text NOT NULL);"];
+        BOOL resultsearch=[_db executeUpdate:@"CREATE TABLE IF NOT EXISTS searchInfo (searchString text NOT NULL);"];
         if (result && resultsearch) {
             NSLog(@"创表成功");
         }else
@@ -107,10 +109,26 @@ static EmailDataBase *_EmailDBCtl = nil;
     
 }
 
-- (void)addSearchInfo:(NSString *)search withNumber:(NSNumber*)stringNumber{
+- (void)addSearchInfo:(NSString *)search{
     [_db open];
-    [_db executeUpdate:@"INSERT INTO searchInfo(id, bodyText);",stringNumber,search];
     
+//    FMResultSet *resultSet = [_db executeQuery:@"SELECT * FROM searchInfo"];
+//    while ([resultSet next]) {
+//
+//    
+//        NSString *name = [resultSet stringForColumn:@"searchString"];
+//        
+//        if ([name isEqualToString:search]) {
+//            
+//            [_db executeUpdate:@"INSERT INTO searchInfo(bodyText);",search];
+// 
+//        }
+//        
+// 
+//    }
+    
+
+      [_db executeUpdate:@"INSERT INTO searchInfo(searchString)VALUES(?)",search];
     [_db close];
     
 }
@@ -123,9 +141,9 @@ static EmailDataBase *_EmailDBCtl = nil;
     [_db close];
 }
 
-- (void)deleteSearchInfo:(NSString *)search withNumber:(NSNumber*)stringNumber{
+- (void)deleteSearchInfo:(NSString *)search {
     [_db open];
-      [_db executeUpdate:@"DELETE FROM searchInfo WHERE id = ?",stringNumber];
+      [_db executeUpdate:@"DELETE FROM searchInfo WHERE searchString = ?",search];
     
     [_db close];
     
@@ -137,6 +155,21 @@ static EmailDataBase *_EmailDBCtl = nil;
     [_db executeUpdate:@"DELETE FROM emailInfo WHERE id = ?",inboxEmail.ID];
     
     [_db close];
+}
+
+- (NSArray *)querySearchInfo
+{
+    [_db open];
+    FMResultSet *resultSet = [_db executeQuery:@"SELECT * FROM searchInfo"];
+    NSMutableArray *dataArray = [NSMutableArray array];
+         // 2.遍历结果
+     while ([resultSet next]) {
+         
+         NSString *name = [resultSet stringForColumn:@"searchString"];
+      
+         [dataArray addObject:name];
+    }
+    return [dataArray copy];
 }
 
 @end

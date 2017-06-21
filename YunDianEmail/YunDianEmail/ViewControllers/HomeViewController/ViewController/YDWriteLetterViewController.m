@@ -396,7 +396,7 @@
                 NSRange range = [textView.text rangeOfString:@"、" options:NSBackwardsSearch];
                 if (range.length > 0) {
                     NSMutableAttributedString *attribute = [[NSMutableAttributedString alloc] initWithString:[textView.text  stringByAppendingString:@"、"]];
-                    [attribute addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0, textView.text.length + 1  )];
+                    [attribute addAttribute:NSForegroundColorAttributeName value:YDRGB(0, 0, 0) range:NSMakeRange(0, textView.text.length + 1  )];
                     [attribute addAttribute:NSFontAttributeName value:YDFont(15) range:NSMakeRange(0, textView.text.length + 1  )];
                     
                     
@@ -406,7 +406,7 @@
                 
             }else{
                 NSMutableAttributedString *attribute = [[NSMutableAttributedString alloc] initWithString:[textView.text stringByAppendingString:@"、"]];
-                [attribute addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0, textView.text.length  + 1)];
+                [attribute addAttribute:NSForegroundColorAttributeName value:YDRGB(0, 0, 0) range:NSMakeRange(0, textView.text.length  + 1)];
                 [attribute addAttribute:NSFontAttributeName value:YDFont(15) range:NSMakeRange(0, textView.text.length + 1  )];
                 textView.attributedText = attribute;
                 return NO;
@@ -545,7 +545,12 @@
 
     if ([self validateInput]) {
         _addContactBtn.userInteractionEnabled = NO;
-       NSDictionary *dataDic = @{@"formmail":self.recipientTextField.text,@"ccmail":self.scopyForTetxField.text,@"bccmail":self.hedgecopyForTextField.text,@"subject":self.themeTetxField.text,@"bodyText":self.emailText.text};
+        
+        NSArray *formmail = [ self.recipientTextField.text componentsSeparatedByString:@"、"];
+        NSArray *ccmail = [ self.scopyForTetxField.text componentsSeparatedByString:@"、"];
+        NSArray *bccmail = [ self.hedgecopyForTextField.text componentsSeparatedByString:@"、"];
+        
+       NSDictionary *dataDic = @{@"formmail":formmail,@"ccmail":ccmail,@"bccmail":bccmail,@"subject":self.themeTetxField.text,@"bodyText":self.emailText.text};
        [self enmaiSaveRequestWithDictionary:dataDic];
 
     }
@@ -688,9 +693,9 @@
     [YDHttpRequest currentRequestType:@"POST" requestURL:YDEmailSavetUrl parameters:dictionary success:^(id responseObj) {
         NSString * status = responseObj[@"result"];
         
-        if ([status isEqualToString:@"success"]) {
+        if ([status isEqualToString:@"ok"]) {
             
-            [self.hud hideAnimated:YES];
+            [YDTools loadFailedHUD:self.hud text:@"发送成功" ];
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 //                    [self analyseData:responseObj];
                 dispatch_async(dispatch_get_main_queue(), ^{

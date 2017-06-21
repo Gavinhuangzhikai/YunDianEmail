@@ -22,12 +22,15 @@ static NSString *const alertsNoDataCellIdentifier = @"alertsNoDataCellIdentifier
 @property(nonatomic ,strong) UITableView *inboxTableView;
 
 @property(nonatomic ,strong) NSMutableArray *inboxArray;
+
+@property(nonatomic ,strong) YDInBoxModel *inboxModel;
 @end
 
 @implementation YDInboxViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshAction:) name:@"refreshInbox" object:nil];
     // Do any additional setup after loading the view.
 }
 
@@ -104,7 +107,7 @@ static NSString *const alertsNoDataCellIdentifier = @"alertsNoDataCellIdentifier
         case YUDIANBeenDeletedtTYPE:
         {
             self.title = @"已删除";
-            NSDictionary *dataDic = @{@"status":@"-1"};
+            NSDictionary *dataDic = @{@"emailType":@"0",@"status":@"-1"};
             [self readRequestWithType:@"GET" withURL:YDEmailFindoUrl withDictionary:dataDic];
 
         }
@@ -127,9 +130,19 @@ static NSString *const alertsNoDataCellIdentifier = @"alertsNoDataCellIdentifier
 {
     [self.view addSubview:self.inboxTableView];
      __weak __typeof__(self) weakSelf = self;
+//    self.inboxTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+//        [weakSelf getDataFromNet];
+//    }];
+    
+    
     self.inboxTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         [weakSelf getDataFromNet];
-    }];
+        
+          }];
+  
+  
+    
+//    [self.inboxTableView.header beginRefreshing];
 
 }
 
@@ -177,6 +190,14 @@ static NSString *const alertsNoDataCellIdentifier = @"alertsNoDataCellIdentifier
     YDCheckMailViewController *checkMail = [[YDCheckMailViewController alloc] init];
        YDInBoxRowsModel *  inboxRows =  self.inboxArray[indexPath.row];
         checkMail.emailID = inboxRows.ID;
+        
+    __weak __typeof__(self) weakSelf = self;
+    checkMail.refrushData = ^{
+        YDInBoxRowsModel *inrow = weakSelf.inboxArray[indexPath.row];
+        inrow.isNew = @"1";
+        [weakSelf.inboxArray replaceObjectAtIndex:indexPath.row withObject:inrow];
+        [weakSelf.inboxTableView reloadData];
+    };
     [self.navigationController pushViewController:checkMail animated:NO];
     }
     
@@ -185,9 +206,12 @@ static NSString *const alertsNoDataCellIdentifier = @"alertsNoDataCellIdentifier
 - ( NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     __weak typeof(self) weakself = self;
-    UITableViewRowAction *readAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"全标已读" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+    UITableViewRowAction *readAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"标为已读" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
         
+        YDInBoxRowsModel *inrow = weakself.inboxArray[indexPath.row];
         
+         NSDictionary *dataDic = @{@"id":inrow.ID};
+        [weakself updateIsNewRequestWithType:@"POST" withURL:YDEmailUpdateUrl withDictionary:dataDic];
     }];
     
     
@@ -209,10 +233,10 @@ static NSString *const alertsNoDataCellIdentifier = @"alertsNoDataCellIdentifier
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     
-    if (self.inboxArray.count == 0) {
+    if (self.inboxModel.rows.count == 0) {
         return 1;
     }
-    return self.inboxArray.count;
+    return self.inboxModel.rows.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -224,7 +248,7 @@ static NSString *const alertsNoDataCellIdentifier = @"alertsNoDataCellIdentifier
     
     NSLog(@"%ld",(long)indexPath.row);
     YDInboxTableViewCell *cell = [YDInboxTableViewCell cellWithTableView:tableView];
-    [cell refreshDataWithCell:self.inboxArray[indexPath.row]];
+    [cell refreshDataWithCell:self.inboxModel.rows[indexPath.row]];
     return cell;
 }
 
@@ -254,6 +278,47 @@ static NSString *const alertsNoDataCellIdentifier = @"alertsNoDataCellIdentifier
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self.inboxTableView  reloadData];
                     
+                    switch (self.mailType) {
+                            
+                        case YUDIANINBOXTYPE:
+                        {
+                            
+                             self.title = [NSString stringWithFormat:@"收件箱(%@)",self.inboxModel.isnew];
+                        }
+                            break;
+                        case YUDIANDraftBoxTYPE:
+                        {
+                            
+                            self.title = [NSString stringWithFormat:@"草稿箱(%@)",self.inboxModel.isnew];
+                        }
+                            break;
+                        case YUDIANBeenSentTYPE:
+                        {
+                         
+                            self.title = [NSString stringWithFormat:@"已发送(%@)",self.inboxModel.isnew];
+                            
+                            
+                        }
+                            break;
+                        case YUDIANBeenDeletedtTYPE:
+                        {
+                           
+                          self.title = [NSString stringWithFormat:@"已删除(%@)",self.inboxModel.isnew];
+                            
+                        }
+                            break;
+                        case YUDIANBeenTrashCansTYPE:
+                        {
+                           self.title = [NSString stringWithFormat:@"垃圾箱(%@)",self.inboxModel.isnew];
+                        }
+                            
+                            
+                        default:
+                            break;
+                    }
+
+                 
+                    
                 });
             });
         }else {
@@ -267,18 +332,52 @@ static NSString *const alertsNoDataCellIdentifier = @"alertsNoDataCellIdentifier
     }];
 }
 
+- (void)updateIsNewRequestWithType:(NSString *)requestType   withURL:(NSString *)urlString    withDictionary:(NSDictionary *)dictionary
+{
+    [YDHttpRequest currentRequestType:requestType requestURL:urlString parameters:dictionary success:^(id responseObj) {
+        if ([responseObj isKindOfClass:[NSDictionary class]]){
+            
+            [self.hud hideAnimated:YES];
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+             
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self  getDataFromNet];
+                });
+            });
+        }else {
+            [YDTools loadFailedHUD:self.hud text:@"请求失败" ];
+            
+        }
+        
+        
+    } failure:^(NSError *error) {
+        [YDTools loadFailedHUD:self.hud text:YDRequestFailureNote ];
+    }];
+}
+
+
 - (void)analyseData:(id)responseObj
 {
-      YDInBoxModel *inBoxModel = [[YDInBoxModel alloc] initWithDictionary:responseObj] ;
+       self.inboxModel = [[YDInBoxModel alloc] initWithDictionary:responseObj] ;
     
       [self.inboxArray removeAllObjects];
     
-       self.inboxArray=  [inBoxModel.rows  mutableCopy];
+      self.inboxArray=  [self.inboxModel.rows  mutableCopy];
     
     
 }
 
 
 
+//- (void)refreshAction:(NSNotificationCenter *)center
+//{
+//    [self getDataFromNet];
+//    
+//}
+//
+//- (void)dealloc{
+//    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshInbox" object:nil];
+//    
+//}
 
 @end
