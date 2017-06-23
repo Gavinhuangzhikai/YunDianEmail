@@ -8,7 +8,7 @@
 
 #import "YDWriteLetterViewController.h"
 #import "YDContactsViewController.h"
-@interface YDWriteLetterViewController ()<UITextFieldDelegate,UITextViewDelegate,UITableViewDelegate,UITableViewDataSource>
+@interface YDWriteLetterViewController ()<UITextFieldDelegate,UITextViewDelegate>
 
 @property (nonatomic,strong)UIScrollView *writeLetterScroller;
 
@@ -541,7 +541,7 @@
 {
     [self.view endEditing:YES];
     
-   self.hud = [YDTools HUDLoadingOnView:self.view delegate:self]; 
+    self.hud = [YDTools HUDLoadingOnView:self.view delegate:self];
 
     if ([self validateInput]) {
         _addContactBtn.userInteractionEnabled = NO;
@@ -567,11 +567,13 @@
     contactsVtr.addContacts = ^(NSString *contactsName) {
         
         if (button.tag == 100) {
-          weakSelf.recipientTextField.text =   [weakSelf.recipientTextField.text stringByAppendingString:[NSString stringWithFormat:@"%@、",contactsName]];
+       [weakSelf.recipientTextField insertText:[NSString stringWithFormat:@"%@、",contactsName]];
+                                                
+//                                                stringByAppendingString:[NSString stringWithFormat:@"%@、",contactsName]];
         }else if (button.tag == 101){
-          weakSelf.scopyForTetxField.text =   [weakSelf.recipientTextField.text stringByAppendingString:[NSString stringWithFormat:@"%@、",contactsName]];
+         [weakSelf.recipientTextField insertText:[NSString stringWithFormat:@"%@、",contactsName]];
         }else if (button.tag == 102){
-         weakSelf.hedgecopyForTextField.text =   [weakSelf.recipientTextField.text stringByAppendingString:[NSString stringWithFormat:@"%@、",contactsName]];
+        [weakSelf.recipientTextField insertText:[NSString stringWithFormat:@"%@、",contactsName]];
             
         }
 
@@ -692,15 +694,23 @@
 {
     [YDHttpRequest currentRequestType:@"POST" requestURL:YDEmailSavetUrl parameters:dictionary success:^(id responseObj) {
         NSString * status = responseObj[@"result"];
-        
+
         if ([status isEqualToString:@"ok"]) {
             
-            [YDTools loadFailedHUD:self.hud text:@"发送成功" ];
+             [YDTools loadFailedHUD:self.hud text:@"发送成功" ];
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 //                    [self analyseData:responseObj];
                 dispatch_async(dispatch_get_main_queue(), ^{
+                    if (self.refrushData) {
+                        self.refrushData();
+                    }
+                 
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        [self.navigationController popViewControllerAnimated:YES];
+                        
+                    });
                     
-         
+               
                 });
             });
             

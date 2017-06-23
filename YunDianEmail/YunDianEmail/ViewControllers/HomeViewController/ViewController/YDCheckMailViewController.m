@@ -229,8 +229,9 @@
         _contentEmail.textColor = [UIColor blackColor];
       
         _contentEmail.backgroundColor = [UIColor whiteColor];
-    
-        _contentEmail.scrollEnabled = YES;
+        _contentEmail.alwaysBounceVertical = NO;
+        
+        _contentEmail.scrollEnabled = NO;
         [_contentEmail setEditable:NO];
         
     }
@@ -288,12 +289,18 @@
                     
                     self.timeLabel.text = self.inboxRows.sentDate;
                     
-                    self.contentEmail.text = self.inboxRows.bodyText;
-                    
+//                    self.contentEmail.text = self.inboxRows.bodyText;
+                    NSAttributedString * strAtt = [[NSAttributedString alloc] initWithData:[self.inboxRows.bodyText dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType } documentAttributes:nil error:nil];
+                
+                    self.contentEmail.attributedText = strAtt;
                     
                     if (self.refrushData) {
                         self.refrushData();
                     }
+                    
+                    CGFloat height =  [self.contentEmail.attributedText boundingRectWithSize:CGSizeMake(YDScreenWidth-10, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin context:nil].size.height;
+                    self.contentEmail.height = height;
+                    
                     
                 });
             });

@@ -42,12 +42,7 @@
 - (void)initUIView
 {
     
-    UIButton *backBtn=[UIButton  buttonWithType:UIButtonTypeCustom ];
-    backBtn.frame = CGRectMake(0, 0, 15, 20);
-    [backBtn setBackgroundImage:[UIImage imageNamed:@"icon_返回"] forState:UIControlStateNormal];
-    [backBtn addTarget:self action:@selector(backAction) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.leftBarButtonItem= [[UIBarButtonItem alloc] initWithCustomView:backBtn];
-    
+      
     
     self.view.backgroundColor = [UIColor whiteColor];
     
@@ -83,11 +78,6 @@
 }
 
 #pragma mark - ---------------- 事件 ------------------
-#pragma mark - 返回
-- (void)backAction
-{
-    [self.navigationController popViewControllerAnimated:YES ];
-}
 
 #pragma mark - 刷新
 - (void)refreshAction

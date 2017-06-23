@@ -71,3 +71,6 @@ UIKIT_EXTERN NSString *const YDRequestWIFINote ;
 #define YDEmailGetUrl [YDTools getUrlPathWithHttp:YDHttpIP andURL:@"email/get"]
 
 #define YDEmailUpdateUrl [YDTools getUrlPathWithHttp:YDHttpIP andURL:@"email/updateIsNew"]
+
+#define YDEmailUpdateStateUrl [YDTools getUrlPathWithHttp:YDHttpIP andURL:@"email/updateState"]
+

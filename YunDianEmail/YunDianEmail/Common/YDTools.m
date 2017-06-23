@@ -73,7 +73,7 @@
     hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"jg_hud_error"]];
     hud.label.text = text;
     hud.label.font = [UIFont systemFontOfSize:13.0f];
-    [hud hideAnimated:YES afterDelay:2.0f];
+    [hud hideAnimated:YES afterDelay:3.0f];
 }
 
 #pragma mark - 两种不同颜色的字符串

@@ -33,14 +33,27 @@
 - (void)setNavgation
 {
 }
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+-(void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+    if (self.viewControllers.count>0) {
+        UIButton *backBtn=[UIButton  buttonWithType:UIButtonTypeCustom ];
+        backBtn.frame = CGRectMake(0, 0, 15, 20);
+        [backBtn setBackgroundImage:[UIImage imageNamed:@"icon_返回"] forState:UIControlStateNormal];
+        [backBtn addTarget:self action:@selector(backAction) forControlEvents:UIControlEventTouchUpInside];
+//        self.navigationItem.leftBarButtonItem= [[UIBarButtonItem alloc] initWithCustomView:backBtn];
+
+        viewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
+    }
+    [super pushViewController:viewController animated:animated];
+    
 }
-*/
+
+#pragma mark - ---------------- 事件 ------------------
+#pragma mark - 返回
+- (void)backAction
+{
+    [self popViewControllerAnimated:YES];
+}
 
 @end

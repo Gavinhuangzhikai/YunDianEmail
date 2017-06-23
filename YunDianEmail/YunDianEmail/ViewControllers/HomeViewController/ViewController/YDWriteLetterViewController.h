@@ -8,6 +8,9 @@
 
 #import "YDBasicViewController.h"
 
-@interface YDWriteLetterViewController : YDBasicViewController
 
+typedef void(^RefrushWriteLetterData)();
+
+@interface YDWriteLetterViewController : YDBasicViewController
+@property (nonatomic, copy) RefrushWriteLetterData refrushData;
 @end

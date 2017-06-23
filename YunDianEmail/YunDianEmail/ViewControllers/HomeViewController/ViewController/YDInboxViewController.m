@@ -78,51 +78,8 @@ static NSString *const alertsNoDataCellIdentifier = @"alertsNoDataCellIdentifier
 #pragma mark - 网络请求
 - (void)getDataFromNet
 {
-    self.hud = [YDTools HUDLoadingOnView:self.view delegate:self]; 
-    switch (self.mailType) {
-            
-        case YUDIANINBOXTYPE:
-        {
-            self.title = @"收件箱";
-            NSDictionary *dataDic = @{@"emailType":@"1"};
-             [self readRequestWithType:@"GET" withURL:YDEmailFindoUrl withDictionary:dataDic];
-        }
-            break;
-        case YUDIANDraftBoxTYPE:
-        {
-            self.title = @"草稿箱";
-            NSDictionary *dataDic = @{@"emailType":@"0",@"status":@"0"};
-              [self readRequestWithType:@"GET" withURL:YDEmailFindoUrl withDictionary:dataDic];
-        }
-            break;
-        case YUDIANBeenSentTYPE:
-        {
-            self.title = @"已发送";
-            NSDictionary *dataDic = @{@"emailType":@"0",@"status":@"1"};
-            [self readRequestWithType:@"GET" withURL:YDEmailFindoUrl withDictionary:dataDic];
-
-
-        }
-            break;
-        case YUDIANBeenDeletedtTYPE:
-        {
-            self.title = @"已删除";
-            NSDictionary *dataDic = @{@"emailType":@"0",@"status":@"-1"};
-            [self readRequestWithType:@"GET" withURL:YDEmailFindoUrl withDictionary:dataDic];
-
-        }
-            break;
-        case YUDIANBeenTrashCansTYPE:
-        {
-            self.title = @"垃圾箱";
-            [self readRequestWithType:@"GET" withURL:YDGetdelnumEmailUrl withDictionary:nil];
-        }
-           
-            
-        default:
-            break;
-    }
-    
+    self.hud = [YDTools HUDLoadingOnView:self.view delegate:self];
+    [self requestNetWorkFromServer];
 }
 
 #pragma mark -创建控件
@@ -130,20 +87,61 @@ static NSString *const alertsNoDataCellIdentifier = @"alertsNoDataCellIdentifier
 {
     [self.view addSubview:self.inboxTableView];
      __weak __typeof__(self) weakSelf = self;
-//    self.inboxTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-//        [weakSelf getDataFromNet];
-//    }];
     
     
     self.inboxTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        [weakSelf getDataFromNet];
+        [weakSelf requestNetWorkFromServer];
         
-          }];
-  
-  
-    
-//    [self.inboxTableView.header beginRefreshing];
+     }];
+}
 
+-(void)requestNetWorkFromServer
+{
+    switch (self.mailType) {
+            
+        case YUDIANINBOXTYPE:
+        {
+            self.title = @"收件箱";
+            NSDictionary *dataDic = @{@"emailType":@"1"};
+            [self readRequestWithType:@"GET" withURL:YDEmailFindoUrl withDictionary:dataDic];
+        }
+            break;
+        case YUDIANDraftBoxTYPE:
+        {
+            self.title = @"草稿箱";
+            NSDictionary *dataDic = @{@"emailType":@"0",@"status":@"0"};
+            [self readRequestWithType:@"GET" withURL:YDDraftFindUrl withDictionary:dataDic];
+        }
+            break;
+        case YUDIANBeenSentTYPE:
+        {
+            self.title = @"已发送";
+            NSDictionary *dataDic = @{@"emailType":@"0"};
+            [self readRequestWithType:@"GET" withURL:YDEmailFindoUrl withDictionary:dataDic];
+            
+            
+        }
+            break;
+        case YUDIANBeenDeletedtTYPE:
+        {
+            self.title = @"已删除";
+            NSDictionary *dataDic = @{@"status":@"-1"};
+            [self readRequestWithType:@"GET" withURL:YDEmailFindoUrl withDictionary:dataDic];
+            
+        }
+            break;
+        case YUDIANBeenTrashCansTYPE:
+        {
+            self.title = @"垃圾箱";
+            [self readRequestWithType:@"GET" withURL:YDGetdelnumEmailUrl withDictionary:nil];
+        }
+            
+            
+        default:
+            break;
+    }
+    
+    
 }
 
 #pragma mark - Layz init
@@ -196,7 +194,7 @@ static NSString *const alertsNoDataCellIdentifier = @"alertsNoDataCellIdentifier
         YDInBoxRowsModel *inrow = weakSelf.inboxArray[indexPath.row];
         inrow.isNew = @"1";
         [weakSelf.inboxArray replaceObjectAtIndex:indexPath.row withObject:inrow];
-        [weakSelf.inboxTableView reloadData];
+        [weakSelf.inboxTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexPath.row inSection:indexPath.section]] withRowAnimation:UITableViewRowAnimationNone];
     };
     [self.navigationController pushViewController:checkMail animated:NO];
     }
@@ -216,9 +214,18 @@ static NSString *const alertsNoDataCellIdentifier = @"alertsNoDataCellIdentifier
     
     
     
-    UITableViewRowAction *clearAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"清空" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+    UITableViewRowAction *clearAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"删除" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+        NSDictionary *dataDic;
         
+        YDInBoxRowsModel *inrow = weakself.inboxArray[indexPath.row];
+        if (weakself.mailType == YUDIANBeenDeletedtTYPE ) {
+            dataDic = @{@"id":inrow.ID,@"datastate":@"-1"};
+        }else{
+            dataDic = @{@"id":inrow.ID,@"datastate":@"-2"};
+        }
+     
         
+        [weakself updateIsNewRequestWithType:@"POST" withURL:YDEmailUpdateStateUrl withDictionary:dataDic];
         
     }];
     clearAction.backgroundColor = YDRGB(255, 133, 0);
@@ -256,6 +263,10 @@ static NSString *const alertsNoDataCellIdentifier = @"alertsNoDataCellIdentifier
 - (void)rightBtnAction
 {
     YDWriteLetterViewController *writeVtr = [[YDWriteLetterViewController alloc]init];
+     __weak __typeof__(self) weakSelf = self;
+    writeVtr.refrushData = ^{
+        [weakSelf getDataFromNet];
+    };
     [self.navigationController pushViewController:writeVtr animated:NO];
     
 }
@@ -270,6 +281,8 @@ static NSString *const alertsNoDataCellIdentifier = @"alertsNoDataCellIdentifier
 - (void)readRequestWithType:(NSString *)requestType   withURL:(NSString *)urlString    withDictionary:(NSDictionary *)dictionary
 {
     [YDHttpRequest currentRequestType:requestType requestURL:urlString parameters:dictionary success:^(id responseObj) {
+        
+        [self.inboxTableView.mj_header endRefreshing];
         if ([responseObj isKindOfClass:[NSDictionary class]]){
 
             [self.hud hideAnimated:YES];
@@ -283,19 +296,19 @@ static NSString *const alertsNoDataCellIdentifier = @"alertsNoDataCellIdentifier
                         case YUDIANINBOXTYPE:
                         {
                             
-                             self.title = [NSString stringWithFormat:@"收件箱(%@)",self.inboxModel.isnew];
+                             self.title = [NSString stringWithFormat:@"收件箱(%@)",self.inboxModel.total];
                         }
                             break;
                         case YUDIANDraftBoxTYPE:
                         {
                             
-                            self.title = [NSString stringWithFormat:@"草稿箱(%@)",self.inboxModel.isnew];
+                            self.title = [NSString stringWithFormat:@"草稿箱(%@)",self.inboxModel.total];
                         }
                             break;
                         case YUDIANBeenSentTYPE:
                         {
                          
-                            self.title = [NSString stringWithFormat:@"已发送(%@)",self.inboxModel.isnew];
+                            self.title = [NSString stringWithFormat:@"已发送(%@)",self.inboxModel.total];
                             
                             
                         }
@@ -303,13 +316,13 @@ static NSString *const alertsNoDataCellIdentifier = @"alertsNoDataCellIdentifier
                         case YUDIANBeenDeletedtTYPE:
                         {
                            
-                          self.title = [NSString stringWithFormat:@"已删除(%@)",self.inboxModel.isnew];
+                          self.title = [NSString stringWithFormat:@"已删除(%@)",self.inboxModel.total];
                             
                         }
                             break;
                         case YUDIANBeenTrashCansTYPE:
                         {
-                           self.title = [NSString stringWithFormat:@"垃圾箱(%@)",self.inboxModel.isnew];
+                           self.title = [NSString stringWithFormat:@"垃圾箱(%@)",self.inboxModel.total];
                         }
                             
                             
