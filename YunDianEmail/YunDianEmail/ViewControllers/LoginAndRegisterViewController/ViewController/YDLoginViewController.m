@@ -33,6 +33,10 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self.view endEditing:YES];
+}
 #pragma mark - ---------------- 初始化 -----------------
 #pragma mark - 参数初始化
 - (void)initParameters

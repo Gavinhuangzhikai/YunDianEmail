@@ -15,6 +15,12 @@ typedef NS_ENUM(NSInteger, YUDIANMailTYPE) {
     YUDIANBeenTrashCansTYPE,   //垃圾箱
 
 };
+
+typedef NS_ENUM(NSInteger, YUDIANMailRefreshTYPE) {
+    YUDIANMailRefreshHaveReadTYPE = 1,       //已读
+    YUDIANMailRefreshUpDataTYPE
+};
+
 @interface YDInboxViewController : YDBasicViewController
 
 @property (nonatomic, assign) YUDIANMailTYPE mailType;

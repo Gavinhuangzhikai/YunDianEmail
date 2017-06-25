@@ -26,4 +26,13 @@
  */
 + (void)currentRequestType:(NSString *)method requestURL:(NSString *)url parameters:(NSDictionary *)parameters success:(void(^)(id responseObj))success failure:(void(^)(NSError *error))failure;
 
+
+/**
+ *  当前下载请求
+ *
+ *  @param url         请求路径
+ *  @param success     请求成功后的回调
+ *  @param failure     请求失败后的回调
+ */
++ (void)download:(NSString *)url  success:(void(^)(id responseObj))success failure:(void(^)(NSError *error))failure;
 @end

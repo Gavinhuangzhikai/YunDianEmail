@@ -23,6 +23,8 @@
 
 @property(nonatomic,strong)UITableView *homeEmailTableView;
 
+
+@property(nonatomic,strong)NSMutableArray *isNewsArray;
 @end
 
 @implementation YDHomeViewController
@@ -55,7 +57,7 @@
 - (void)initParameters
 {
     [super initParameters];
-  
+    self.isNewsArray = [NSMutableArray array];
 }
 
 #pragma mark - 界面初始化
@@ -94,7 +96,7 @@
 #pragma mark - 网络请求
 - (void)getDataFromNet
 {
-  
+ 
 }
 
 #pragma mark -创建控件
@@ -233,6 +235,32 @@
     
 }
 
+
+- (void)isNewsRequestWithType:(NSString *)requestType   withURL:(NSString *)urlString    withDictionary:(NSDictionary *)dictionary
+{
+    [YDHttpRequest currentRequestType:requestType requestURL:urlString parameters:dictionary success:^(id responseObj) {
+        
+     
+        if ([responseObj isKindOfClass:[NSDictionary class]]){
+            
+            [self.hud hideAnimated:YES];
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                            dispatch_async(dispatch_get_main_queue(), ^{
+            
+                    
+                    
+                });
+            });
+        }else {
+            [YDTools loadFailedHUD:self.hud text:@"请求失败" ];
+            
+        }
+        
+        
+    } failure:^(NSError *error) {
+        [YDTools loadFailedHUD:self.hud text:YDRequestFailureNote ];
+    }];
+}
 
 
 @end

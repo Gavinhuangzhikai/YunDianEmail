@@ -130,6 +130,8 @@
     if (!_annexImage) {
         _annexImage = [[UIImageView alloc] init];
         _annexImage.contentMode = UIViewContentModeScaleAspectFit;
+        _annexImage.image =[UIImage imageNamed:@"email_notification_icon"];
+        _annexImage.hidden = YES;
     }
     return _annexImage;
 }
@@ -188,6 +190,12 @@
 //        
     }
     
+    if ([inboxrows.containAttach isEqualToString:@"0"]) {
+        self.annexImage.hidden = YES;
+    }else{
+        self.annexImage.hidden = NO;
+        
+    }
     
 }
 @end
