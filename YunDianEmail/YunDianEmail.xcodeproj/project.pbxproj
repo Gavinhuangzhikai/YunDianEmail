@@ -40,6 +40,7 @@
 		0C62439C1EFD712F00EB0357 /* LMWordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C6243891EFD712F00EB0357 /* LMWordView.m */; };
 		0C6243A31EFD765300EB0357 /* NSTextAttachment+LMText.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C6243A01EFD765300EB0357 /* NSTextAttachment+LMText.m */; };
 		0C6243A41EFD765300EB0357 /* UIFont+LMText.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C6243A21EFD765300EB0357 /* UIFont+LMText.m */; };
+		0C7BE7B11F01674E002D9C93 /* YDEmailFileFindModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7BE7B01F01674E002D9C93 /* YDEmailFileFindModel.m */; };
 		0C9BE2EF1EE04215000794D6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C9BE2EE1EE04215000794D6 /* main.m */; };
 		0C9BE2F21EE04215000794D6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C9BE2F11EE04215000794D6 /* AppDelegate.m */; };
 		0C9BE2F51EE04215000794D6 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C9BE2F41EE04215000794D6 /* ViewController.m */; };
@@ -138,6 +139,8 @@
 		0C6243A01EFD765300EB0357 /* NSTextAttachment+LMText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTextAttachment+LMText.m"; sourceTree = "<group>"; };
 		0C6243A11EFD765300EB0357 /* UIFont+LMText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+LMText.h"; sourceTree = "<group>"; };
 		0C6243A21EFD765300EB0357 /* UIFont+LMText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+LMText.m"; sourceTree = "<group>"; };
+		0C7BE7AF1F01674E002D9C93 /* YDEmailFileFindModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YDEmailFileFindModel.h; sourceTree = "<group>"; };
+		0C7BE7B01F01674E002D9C93 /* YDEmailFileFindModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YDEmailFileFindModel.m; sourceTree = "<group>"; };
 		0C9BE2EA1EE04215000794D6 /* YunDianEmail.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YunDianEmail.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C9BE2EE1EE04215000794D6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		0C9BE2F01EE04215000794D6 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -423,6 +426,8 @@
 				0CBCD0BB1EEEE28E007A3AC3 /* YDInBoxModel.m */,
 				0C29175C1EF43D1C00730F84 /* YDUserDataModel.h */,
 				0C29175D1EF43D1C00730F84 /* YDUserDataModel.m */,
+				0C7BE7AF1F01674E002D9C93 /* YDEmailFileFindModel.h */,
+				0C7BE7B01F01674E002D9C93 /* YDEmailFileFindModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -668,6 +673,7 @@
 				0C62438F1EFD712F00EB0357 /* LMStyleFontStyleCell.m in Sources */,
 				0C6243981EFD712F00EB0357 /* LMImagePreviewController.m in Sources */,
 				0C1D9CDB1EE3F8700089BBE6 /* ThemeManager.m in Sources */,
+				0C7BE7B11F01674E002D9C93 /* YDEmailFileFindModel.m in Sources */,
 				0C9BE2F21EE04215000794D6 /* AppDelegate.m in Sources */,
 				0C62438C1EFD712F00EB0357 /* LMPhotoCollectionCell.m in Sources */,
 				0C2917611EF440F200730F84 /* YDUserDataManager.m in Sources */,

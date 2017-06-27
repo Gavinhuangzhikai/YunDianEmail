@@ -46,8 +46,11 @@
 
 #pragma mark - 网络请求
 - (void)getDataFromNet
-{   NSDictionary *dataDic = @{@"ID":@"-2"};
-    [self attachmentsRequestwithURL:YDEmailFileDownloadUrl ];
+{
+//    NSDictionary *dataDic = @{@"ID":@"-2"};
+//    [self attachmentsRequestwithURL:YDEmailFileDownloadUrl ];
+    
+    [self isSavedFileToLocalWithfileName:@"https://220.165.162.14:8443/mailSY/controller/email/file/download?fileId=20170621113643125001"];
 }
 
 #pragma mark -创建控件
@@ -87,15 +90,17 @@
 }
 
 
-- (void)attachmentsRequestwithURL:(NSString *)urlString
+- (void)attachmentsRequestwithURL:(NSString *)urlString  withDictionary:(NSDictionary *)dictionary
 {
+    [YDHttpRequest download:urlString parameters:dictionary success:^(id responseObj) {
+            [YDTools loadFailedHUD:self.hud text:@"加载失败" ];
+    } failure:^(NSError *error) {
+            [YDTools loadFailedHUD:self.hud text:@"加载失败" ];
+    }];
+    
 
     
-    [YDHttpRequest download:urlString success:^(id responseObj) {
-           [YDTools loadFailedHUD:self.hud text:@"加载失败" ];
-    } failure:^(NSError * error) {
-          [YDTools loadFailedHUD:self.hud text:@"加载失败" ];
-    }];
+
 
 }
 
@@ -106,11 +111,11 @@
 }
 
 
-- (void)isSavedFileToLocalWithCreated:(UInt32)created fileName:(NSString *)fileName
+- (void)isSavedFileToLocalWithfileName:(NSString *)fileName
 {
     // 判断是否已经离线下载了
     NSString *documentsDirectory = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
-    NSString *path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%d/%@", created, fileName]];
+    NSString *path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@", fileName]];
     
     NSFileManager *filemanager = [NSFileManager defaultManager];
     
@@ -121,7 +126,7 @@
     }else{
         
         NSDictionary *dataDic = @{@"ID":@"-2"};
-        [self attachmentsRequestwithURL:YDEmailFileDownloadUrl];
+        [self attachmentsRequestwithURL:YDEmailFileDownloadUrl withDictionary:dataDic];
     }
 }
 

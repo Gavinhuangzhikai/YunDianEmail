@@ -91,9 +91,9 @@
     [self.contentView addSubview:self.annexImage];
     [self.annexImage mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.senderLabel.mas_right).with.offset(5);
-        make.bottom.equalTo(self.contentView.mas_centerY).with.offset(-10);
-        make.height.equalTo(@20);
-        make.width.equalTo(@20);
+        make.centerY.equalTo(self.isOrRead.mas_centerY);
+        make.height.equalTo(@12);
+        make.width.equalTo(@12);
     }];
     
 }

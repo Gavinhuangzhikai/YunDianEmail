@@ -397,46 +397,63 @@ static NSString *const alertsNoDataCellIdentifier = @"alertsNoDataCellIdentifier
     NSLog(@"%ld",(long)_isNewInteger);
     
    
-  
+     [self.inboxArray removeObjectAtIndex:_isNewInteger];
     
     
-    [YDHttpRequest currentRequestType:requestType requestURL:urlString parameters:dictionary success:^(id responseObj) {
-        if ([responseObj isKindOfClass:[NSDictionary class]]){
-            
-            [self.hud hideAnimated:YES];
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-             
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    
-                    if (self.refreshType == YUDIANMailRefreshHaveReadTYPE) {
-                        YDInBoxRowsModel *inrow = self.inboxArray[_isNewInteger];
-                        inrow.isNew = @"1";
-                        [self.inboxArray replaceObjectAtIndex:_isNewInteger withObject:inrow];
-                        [self.inboxTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:_isNewInteger inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-                    }else{
-            
-                        YDInBoxRowsModel *inrow = self.inboxArray[_isNewInteger];
-                        NSLog(@"%@",inrow.ID);
-                        NSLog(@"%ld",(long)_isNewInteger);
-                       [self.inboxArray removeObjectAtIndex:_isNewInteger];
-                           NSLog(@"%@",_inboxArray);
-                       [self.inboxTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
-
-                    }
-                   
-
-                    
-                });
-            });
-        }else {
-            [YDTools loadFailedHUD:self.hud text:@"请求失败" ];
-            
-        }
-        
-        
-    } failure:^(NSError *error) {
-        [YDTools loadFailedHUD:self.hud text:YDRequestFailureNote ];
-    }];
+    
+    [self.inboxTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:_isNewInteger inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+    
+    
+//    [YDHttpRequest currentRequestType:requestType requestURL:urlString parameters:dictionary success:^(id responseObj) {
+//        if ([responseObj isKindOfClass:[NSDictionary class]]){
+//            
+//            [self.hud hideAnimated:YES];
+//            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//             
+//                dispatch_async(dispatch_get_main_queue(), ^{
+//                    
+//                    if (self.refreshType == YUDIANMailRefreshHaveReadTYPE) {
+//                        YDInBoxRowsModel *inrow = self.inboxArray[_isNewInteger];
+//                        inrow.isNew = @"1";
+//                        [self.inboxArray replaceObjectAtIndex:_isNewInteger withObject:inrow];
+//                        [self.inboxTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:_isNewInteger inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+//                    }else{
+//            
+//                        YDInBoxRowsModel *inrow = self.inboxArray[_isNewInteger];
+//                        NSLog(@"%@",inrow.ID);
+//                        NSLog(@"%ld",(long)_isNewInteger);
+//                       [self.inboxArray removeObjectAtIndex:_isNewInteger];
+//                           NSLog(@"%@",_inboxArray);
+//                        
+//                        
+//                        NSInteger countOfRowsToInsert = [self.inboxArray count];
+//                        NSMutableArray *indexPathsToInsert = [[NSMutableArray alloc] init];
+//                        for (NSInteger i = 0; i < countOfRowsToInsert; i++) {
+//                            [indexPathsToInsert addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+//                        }
+//                        
+//                
+//                        [self.inboxArray removeAllObjects];
+//                        
+//                        
+//                        
+//                        [self.inboxTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:_isNewInteger inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+//
+//                    }
+//                   
+//
+//                    
+//                });
+//            });
+//        }else {
+//            [YDTools loadFailedHUD:self.hud text:@"请求失败" ];
+//            
+//        }
+//        
+//        
+//    } failure:^(NSError *error) {
+//        [YDTools loadFailedHUD:self.hud text:YDRequestFailureNote ];
+//    }];
 }
 
 

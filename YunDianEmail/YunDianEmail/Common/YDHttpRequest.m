@@ -20,12 +20,7 @@
         switch (status) {
             case AFNetworkReachabilityStatusUnknown:
             case AFNetworkReachabilityStatusNotReachable: {
-//                UIAlertView *networkAlterView = [[UIAlertView alloc] initWithTitle:@"当前网络不可用，请检查您的网络设置。"
-//                                                                           message:nil
-//                                                                          delegate:self
-//                                                                 cancelButtonTitle:@"好"
-//                                                                 otherButtonTitles:nil, nil];
-//                [networkAlterView show];
+
                 UIAlertController *networkAlterView = [UIAlertController alertControllerWithTitle:nil message:@"当前网络不可用，请检查您的网络设置。" preferredStyle:UIAlertControllerStyleAlert];
                 
                 // 取消按钮
@@ -250,32 +245,54 @@
     }];
 }
 
-+ (void)download:(NSString *)url  success:(void(^)(id responseObj))success failure:(void(^)(NSError *error))failure
++ (void)download:(NSString *)url parameters:(NSDictionary *)parameters success:(void (^)(id))success failure:(void (^)(NSError *))failure
 {
     //沙盒路径    //NSString *savedPath = [NSHomeDirectory() stringByAppendingString:@"/Documents/xxx.zip"];
+     AFHTTPRequestSerializer *serializer = [AFHTTPRequestSerializer serializer];
+     NSMutableURLRequest *request =[serializer requestWithMethod:@"GET" URLString:url parameters:parameters error:nil];
     
-    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-    AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
-
-    NSURL *URL = [NSURL URLWithString:url];
-    NSURLRequest *request = [NSURLRequest requestWithURL:URL];
-     NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:^(NSProgress * _Nonnull downloadProgress) {
-         
-     } destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response) {
-         NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
-         return [documentsDirectoryURL URLByAppendingPathComponent:[response suggestedFilename]];
-
-     } completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error) {
-         if (error) {
-             failure(error);
-         }else{
-             success(response);
-         }
-         
-         
-     }];
+//    YDUserDataModel *userModel = [YDUserDataModel mj_objectWithKeyValues:[YDUserDataManager readUserData]];
+//    [serializer.HTTPRequestHeaders setValue:userModel.session forHTTPHeaderField:@"Cookie"];
     
-       [downloadTask resume];
+    
+    NSURLSessionDownloadTask *task = [[AFHTTPSessionManager manager] downloadTaskWithRequest:request progress:nil destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response) {
+        NSString *path = [[NSHomeDirectory()stringByAppendingPathComponent:@"Documents"]stringByAppendingPathComponent:response.suggestedFilename];//下载文件的存储目录
+        return [NSURL fileURLWithPath:path];
+     
+    }completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error) {
+        
+    }];
+    
+    [task resume];
+//    NSURL *URL = [NSURL URLWithString:url];
+//    NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+//    
+//    manager downloadTaskWithRequest:<#(nonnull NSURLRequest *)#> progress:^(NSProgress * _Nonnull downloadProgress) {
+//        <#code#>
+//    } destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response) {
+//        <#code#>
+//    } completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error) {
+//        <#code#>
+//    }
+//    
+//    
+//     NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:^(NSProgress * _Nonnull downloadProgress) {
+//         
+//     } destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response) {
+//         NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
+//         return [documentsDirectoryURL URLByAppendingPathComponent:[response suggestedFilename]];
+//
+//     } completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error) {
+//         if (error) {
+//             failure(error);
+//         }else{
+//             success(response);
+//         }
+//         
+//         
+//     }];
+    
+//       [downloadTask resume];
 
 }
 

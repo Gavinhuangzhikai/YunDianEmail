@@ -7,6 +7,8 @@
 //
 
 #import "YDCheckMailViewController.h"
+#import "YDEmailFileFindModel.h"
+#import "YDViewAttachmentsViewController.h"
 
 @interface YDCheckMailViewController ()
 
@@ -24,6 +26,8 @@
 @property (nonatomic,strong)UITextView *contentEmail;
 
 @property (nonatomic,strong)UIButton *annexBtn;
+
+@property (nonatomic,strong)YDEmailFileFindModel *emailFile;
 
 @end
 
@@ -61,6 +65,8 @@
 {   self.hud = [YDTools HUDLoadingOnView:self.view delegate:self]; 
      NSDictionary *dataDic = @{@"id":self.emailID};
     [self getEmailRequestWithType:@"GET" withURL:YDEmailGetUrl withDictionary:dataDic];
+    
+ 
 }
 
 #pragma mark -创建控件
@@ -231,8 +237,8 @@
         _contentEmail.backgroundColor = [UIColor whiteColor];
         _contentEmail.alwaysBounceVertical = NO;
         
-        _contentEmail.scrollEnabled = NO;
-        [_contentEmail setEditable:NO];
+        _contentEmail.scrollEnabled = YES;
+//        [_contentEmail setEditable:NO];
         
     }
     return _contentEmail;
@@ -299,8 +305,10 @@
                     }
                     
                     CGFloat height =  [self.contentEmail.attributedText boundingRectWithSize:CGSizeMake(YDScreenWidth-10, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin context:nil].size.height;
-                    self.contentEmail.height = height;
+                    self.contentEmail.height = height+50;
                     
+                    NSDictionary *dataFileDic = @{@"emailid":self.emailID};
+                    [self getEmailFileFindRequestWithType:@"GET" withURL:YDEmailFileFindoUrl withDictionary:dataFileDic];
                     
                 });
             });
@@ -314,7 +322,56 @@
         [YDTools loadFailedHUD:self.hud text:YDRequestFailureNote ];
     }];
 }
- 
+
+- (void)getEmailFileFindRequestWithType:(NSString *)requestType   withURL:(NSString *)urlString    withDictionary:(NSDictionary *)dictionary
+{
+    [YDHttpRequest currentRequestType:requestType requestURL:urlString parameters:dictionary success:^(id responseObj) {
+        if ([responseObj isKindOfClass:[NSDictionary class]]){
+            
+            [self.hud hideAnimated:YES];
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+             
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    self.emailFile = [[YDEmailFileFindModel alloc] initWithDictionary:responseObj];
+                    
+                    for ( int i = 0 ; i < self.emailFile.rows.count ; i++) {
+                        
+                        YDEmailFileFindRowsModel *emailFileRows = self.emailFile.rows[i];
+                        UIButton *labelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+                        [labelBtn setTitle:emailFileRows.filename forState:UIControlStateNormal];
+                       labelBtn.titleLabel.font = YDFont(13);
+                        [labelBtn setTitleColor:YDRGB(111, 111, 111) forState:UIControlStateNormal];
+                    
+                        labelBtn.backgroundColor = YDRGB(245, 245, 245);
+                        labelBtn.tag = 100 + i;
+                        [labelBtn addTarget:self action:@selector(pushToFileView:) forControlEvents:UIControlEventTouchUpInside];
+                        labelBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
+                        [self.checkMailScrollView addSubview:labelBtn];
+                        [labelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+                            make.left.equalTo(self.view.mas_left).with.offset(0);
+                            make.top.equalTo(self.contentEmail.mas_bottom).with.offset(i*30 + 5);
+                            make.width.mas_equalTo(self.view.width);;
+                            make.height.greaterThanOrEqualTo(@30);
+                        }];
+                        
+                        
+                        
+                        
+                    }
+                
+                });
+            });
+        }else {
+            [YDTools loadFailedHUD:self.hud text:@"请求失败" ];
+            
+        }
+        
+        
+    } failure:^(NSError *error) {
+        [YDTools loadFailedHUD:self.hud text:YDRequestFailureNote ];
+    }];
+}
+
  -(void)analyseData:(id)responseObj
 {
     self.inboxRows = [[YDInBoxRowsModel alloc] initWithDictionary:responseObj] ;
@@ -328,6 +385,14 @@
     
 }
 
+- (void)pushToFileView:(UIButton*)button
+{
+    YDEmailFileFindRowsModel *emailFileRows = self.emailFile.rows[button.tag -100];
 
+    YDViewAttachmentsViewController *attchVtr = [[YDViewAttachmentsViewController alloc] init];
+    attchVtr.emailFileModel = emailFileRows ;
+    [self.navigationController pushViewController:attchVtr animated:NO];
+    
+}
 
 @end

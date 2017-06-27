@@ -7,7 +7,9 @@
 //
 
 #import "YDBasicViewController.h"
+#import "YDEmailFileFindModel.h"
 
 @interface YDViewAttachmentsViewController : YDBasicViewController
 
+@property(nonatomic,strong)YDEmailFileFindRowsModel *emailFileModel;
 @end

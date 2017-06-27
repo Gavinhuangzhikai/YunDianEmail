@@ -9,22 +9,6 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "YunDianEmail/Common/YDHttpRequest.m"
-            timestampString = "519380275.271288"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "29"
-            endingLineNumber = "29"
-            landmarkName = "+netWorkReachabilityWithURLString:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "YunDianEmail/ViewControllers/HomeViewController/ViewController/YDHomeViewController.m"
             timestampString = "520098680.884172"
             startingColumnNumber = "9223372036854775807"
@@ -48,22 +32,6 @@
             startingLineNumber = "234"
             endingLineNumber = "234"
             landmarkName = "+login:parameters:success:failure:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "YunDianEmail/Common/YDHttpRequest.m"
-            timestampString = "519398216.600533"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "185"
-            endingLineNumber = "185"
-            landmarkName = "+post:parameters:success:failure:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -159,7 +127,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "249"
             endingLineNumber = "249"
-            landmarkName = "+login:parameters:success:failure:"
+            landmarkName = "+download:parameters:success:failure:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -217,22 +185,6 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "YunDianEmail/Common/YDHttpRequest.m"
-            timestampString = "520007926.462028"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "187"
-            endingLineNumber = "187"
-            landmarkName = "+post:parameters:success:failure:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "YunDianEmail/ViewControllers/HomeViewController/ViewController/YDInboxViewController.m"
             timestampString = "520014439.928924"
             startingColumnNumber = "9223372036854775807"
@@ -250,11 +202,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "YunDianEmail/ViewControllers/HomeViewController/ViewController/YDInboxViewController.m"
-            timestampString = "520046956.991503"
+            timestampString = "520179552.1782"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "414"
-            endingLineNumber = "414"
+            startingLineNumber = "418"
+            endingLineNumber = "418"
             landmarkName = "-updateIsNewRequestWithType:withURL:withDictionary:"
             landmarkType = "7">
          </BreakpointContent>
@@ -266,11 +218,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "YunDianEmail/ViewControllers/HomeViewController/ViewController/YDInboxViewController.m"
-            timestampString = "520047049.727886"
+            timestampString = "520179552.1782"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "422"
-            endingLineNumber = "422"
+            startingLineNumber = "428"
+            endingLineNumber = "428"
             landmarkName = "-updateIsNewRequestWithType:withURL:withDictionary:"
             landmarkType = "7">
          </BreakpointContent>
@@ -330,7 +282,7 @@
                   moduleName = "YunDianEmail"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/hzk/Documents/%E4%BA%91%E7%94%B5%E4%BC%81%E4%B8%9A%E9%82%AE%E7%AE%B1/YunDianEmail/YunDianEmail/ViewControllers/HomeViewController/ViewController/YDWriteLetterViewController.m"
-                  timestampString = "520100431.384334"
+                  timestampString = "520271245.425885"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "897"
@@ -345,7 +297,7 @@
                   moduleName = "YunDianEmail"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/hzk/Documents/%E4%BA%91%E7%94%B5%E4%BC%81%E4%B8%9A%E9%82%AE%E7%AE%B1/YunDianEmail/YunDianEmail/ViewControllers/HomeViewController/ViewController/YDWriteLetterViewController.m"
-                  timestampString = "520100431.388826"
+                  timestampString = "520271245.428772"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "898"
@@ -384,6 +336,118 @@
             startingLineNumber = "766"
             endingLineNumber = "766"
             landmarkName = "-addContactAction:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "YunDianEmail/Common/YDHttpRequest.m"
+            timestampString = "520178381.26111"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "165"
+            endingLineNumber = "165"
+            landmarkName = "+post:parameters:success:failure:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "YunDianEmail/ViewControllers/HomeViewController/ViewController/YDCheckMailViewController.m"
+            timestampString = "520188013.51578"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "371"
+            endingLineNumber = "371"
+            landmarkName = "-getEmailFileFindRequestWithType:withURL:withDictionary:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "YunDianEmail/Common/YDHttpRequest.m"
+            timestampString = "520267521.989189"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "286"
+            endingLineNumber = "286"
+            landmarkName = "+download:parameters:success:failure:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "YunDianEmail/ViewControllers/HomeViewController/ViewController/YDCheckMailViewController.m"
+            timestampString = "520188124.000572"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "390"
+            endingLineNumber = "390"
+            landmarkName = "-pushToFileView:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "YunDianEmail/Common/YDHttpRequest.m"
+            timestampString = "520267521.989189"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "282"
+            endingLineNumber = "282"
+            landmarkName = "+download:parameters:success:failure:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "YunDianEmail/Common/YDHttpRequest.m"
+            timestampString = "520268200.626845"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "260"
+            endingLineNumber = "260"
+            landmarkName = "+download:parameters:success:failure:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "YunDianEmail/Common/YDHttpRequest.m"
+            timestampString = "520268487.694295"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "244"
+            endingLineNumber = "244"
+            landmarkName = "+login:parameters:success:failure:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

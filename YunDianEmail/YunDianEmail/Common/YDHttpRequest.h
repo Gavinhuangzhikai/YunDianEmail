@@ -34,5 +34,5 @@
  *  @param success     请求成功后的回调
  *  @param failure     请求失败后的回调
  */
-+ (void)download:(NSString *)url  success:(void(^)(id responseObj))success failure:(void(^)(NSError *error))failure;
++ (void)download:(NSString *)url   parameters:(NSDictionary *)parameters success:(void (^)(id responseObj))success failure:(void (^)(NSError * error))failure;
 @end
