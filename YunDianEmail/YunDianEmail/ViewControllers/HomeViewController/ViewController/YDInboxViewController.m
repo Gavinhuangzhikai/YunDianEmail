@@ -25,7 +25,7 @@ static NSString *const alertsNoDataCellIdentifier = @"alertsNoDataCellIdentifier
 
 @property(nonatomic ,strong) YDInBoxModel *inboxModel;
 
-@property(nonatomic ,assign) NSInteger isNewInteger;
+@property(nonatomic ,strong) NSIndexPath* isNewIndexPath;
 
 @property(nonatomic, assign)YUDIANMailRefreshTYPE refreshType;
 @end
@@ -215,10 +215,9 @@ static NSString *const alertsNoDataCellIdentifier = @"alertsNoDataCellIdentifier
     UITableViewRowAction *clearAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"删除" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
 
         NSDictionary *dataDic;
-        weakself.isNewInteger = indexPath.row;
+        weakself.isNewIndexPath = [indexPath copy];
         
         NSLog(@"%ld-----",(long)indexPath.row);
-        NSLog(@"%ld+++++", (long)weakself.isNewInteger);
         NSLog(@"%ldxxxxx", (long)indexPath.section);
         weakself.refreshType = YUDIANMailRefreshUpDataTYPE;
         YDInBoxRowsModel *inrow = weakself.inboxArray[indexPath.row];
@@ -237,12 +236,12 @@ static NSString *const alertsNoDataCellIdentifier = @"alertsNoDataCellIdentifier
     
     
     UITableViewRowAction *readAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"标为已读" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
-        weakself.isNewInteger = indexPath.row;
+        weakself.isNewIndexPath = [indexPath copy];
         weakself.refreshType = YUDIANMailRefreshHaveReadTYPE;
         YDInBoxRowsModel *inrow = weakself.inboxArray[indexPath.row];
         
         NSLog(@"%ld-----",(long)indexPath.row);
-         NSLog(@"%ld+++++", (long)weakself.isNewInteger);
+\
         NSLog(@"%ldxxxxx", (long)indexPath.section);
          NSDictionary *dataDic = @{@"id":inrow.ID,@"isNew":@1};
         [weakself updateIsNewRequestWithType:@"POST" withURL:YDEmailUpdateUrl withDictionary:dataDic];
@@ -279,10 +278,11 @@ static NSString *const alertsNoDataCellIdentifier = @"alertsNoDataCellIdentifier
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     
-    if (self.inboxModel.rows.count == 0) {
+    if (self.inboxArray.count == 0) {
         return 1;
     }
-    return self.inboxModel.rows.count;
+    return self.inboxArray.count;
+
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -303,7 +303,7 @@ static NSString *const alertsNoDataCellIdentifier = @"alertsNoDataCellIdentifier
     
     NSLog(@"%ld",(long)indexPath.row);
     YDInboxTableViewCell *cell = [YDInboxTableViewCell cellWithTableView:tableView];
-    [cell refreshDataWithCell:self.inboxModel.rows[indexPath.row]];
+    [cell refreshDataWithCell:self.inboxArray[indexPath.row]];
     return cell;
 }
 
@@ -394,66 +394,42 @@ static NSString *const alertsNoDataCellIdentifier = @"alertsNoDataCellIdentifier
 
 - (void)updateIsNewRequestWithType:(NSString *)requestType   withURL:(NSString *)urlString    withDictionary:(NSDictionary *)dictionary
 {
-    NSLog(@"%ld",(long)_isNewInteger);
-    
-   
-     [self.inboxArray removeObjectAtIndex:_isNewInteger];
-    
-    
-    
-    [self.inboxTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:_isNewInteger inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-    
-    
-//    [YDHttpRequest currentRequestType:requestType requestURL:urlString parameters:dictionary success:^(id responseObj) {
-//        if ([responseObj isKindOfClass:[NSDictionary class]]){
-//            
-//            [self.hud hideAnimated:YES];
-//            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//             
-//                dispatch_async(dispatch_get_main_queue(), ^{
-//                    
-//                    if (self.refreshType == YUDIANMailRefreshHaveReadTYPE) {
-//                        YDInBoxRowsModel *inrow = self.inboxArray[_isNewInteger];
-//                        inrow.isNew = @"1";
-//                        [self.inboxArray replaceObjectAtIndex:_isNewInteger withObject:inrow];
-//                        [self.inboxTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:_isNewInteger inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-//                    }else{
-//            
-//                        YDInBoxRowsModel *inrow = self.inboxArray[_isNewInteger];
-//                        NSLog(@"%@",inrow.ID);
-//                        NSLog(@"%ld",(long)_isNewInteger);
-//                       [self.inboxArray removeObjectAtIndex:_isNewInteger];
-//                           NSLog(@"%@",_inboxArray);
-//                        
-//                        
-//                        NSInteger countOfRowsToInsert = [self.inboxArray count];
-//                        NSMutableArray *indexPathsToInsert = [[NSMutableArray alloc] init];
-//                        for (NSInteger i = 0; i < countOfRowsToInsert; i++) {
-//                            [indexPathsToInsert addObject:[NSIndexPath indexPathForRow:i inSection:0]];
-//                        }
-//                        
-//                
-//                        [self.inboxArray removeAllObjects];
-//                        
-//                        
-//                        
-//                        [self.inboxTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:_isNewInteger inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-//
-//                    }
-//                   
-//
-//                    
-//                });
-//            });
-//        }else {
-//            [YDTools loadFailedHUD:self.hud text:@"请求失败" ];
-//            
-//        }
-//        
-//        
-//    } failure:^(NSError *error) {
-//        [YDTools loadFailedHUD:self.hud text:YDRequestFailureNote ];
-//    }];
+
+    [YDHttpRequest currentRequestType:requestType requestURL:urlString parameters:dictionary success:^(id responseObj) {
+        if ([responseObj isKindOfClass:[NSDictionary class]]){
+            
+            [self.hud hideAnimated:YES];
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+             
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    
+                    if (self.refreshType == YUDIANMailRefreshHaveReadTYPE) {
+                        YDInBoxRowsModel *inrow = self.inboxArray[_isNewIndexPath.row];
+                        inrow.isNew = @"1";
+                        [self.inboxArray replaceObjectAtIndex:_isNewIndexPath.row withObject:inrow];
+                        [self.inboxTableView reloadRowsAtIndexPaths:@[_isNewIndexPath] withRowAnimation:UITableViewRowAnimationNone];
+                    }else{
+            
+
+                       [self.inboxArray removeObjectAtIndex:_isNewIndexPath.row];
+                      
+                       [self.inboxTableView deleteRowsAtIndexPaths:@[_isNewIndexPath] withRowAnimation:UITableViewRowAnimationNone];
+
+                    }
+                   
+
+                    
+                });
+            });
+        }else {
+            [YDTools loadFailedHUD:self.hud text:@"请求失败" ];
+            
+        }
+        
+        
+    } failure:^(NSError *error) {
+        [YDTools loadFailedHUD:self.hud text:YDRequestFailureNote ];
+    }];
 }
 
 
@@ -463,7 +439,7 @@ static NSString *const alertsNoDataCellIdentifier = @"alertsNoDataCellIdentifier
     
       [self.inboxArray removeAllObjects];
     
-      self.inboxArray=  [self.inboxModel.rows  mutableCopy];
+      [self.inboxArray  addObjectsFromArray:self.inboxModel.rows];
     
     
 }

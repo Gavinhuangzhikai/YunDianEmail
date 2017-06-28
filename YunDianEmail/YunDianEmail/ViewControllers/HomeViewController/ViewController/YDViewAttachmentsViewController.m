@@ -8,9 +8,9 @@
 
 #import "YDViewAttachmentsViewController.h"
 #import <WebKit/WebKit.h>
+#import <QuickLook/QuickLook.h>
 
-
-@interface YDViewAttachmentsViewController ()
+@interface YDViewAttachmentsViewController ()<UIWebViewDelegate,QLPreviewControllerDataSource,QLPreviewControllerDelegate>
 @property (nonatomic,strong) WKWebView *webView;
 
 @property (nonatomic,strong) UIImageView *attcthImage;
@@ -50,7 +50,7 @@
 //    NSDictionary *dataDic = @{@"ID":@"-2"};
 //    [self attachmentsRequestwithURL:YDEmailFileDownloadUrl ];
     
-    [self isSavedFileToLocalWithfileName:@"https://220.165.162.14:8443/mailSY/controller/email/file/download?fileId=20170621113643125001"];
+    [self isSavedFileToLocalWithfileName:self.emailFileModel.filename];
 }
 
 #pragma mark -创建控件
@@ -75,7 +75,9 @@
 
         config.preferences.javaScriptCanOpenWindowsAutomatically = NO;
         
-       _webView = [[WKWebView alloc]initWithFrame:self.view.frame configuration:config];
+       _webView = [[WKWebView alloc]initWithFrame:CGRectMake(0, 20, YDScreenWidth, YDScreenHeight -80) configuration:config];
+        _webView.backgroundColor = [UIColor redColor];
+        [self.view addSubview: _webView];
     }
     return _webView;
 }
@@ -93,9 +95,17 @@
 - (void)attachmentsRequestwithURL:(NSString *)urlString  withDictionary:(NSDictionary *)dictionary
 {
     [YDHttpRequest download:urlString parameters:dictionary success:^(id responseObj) {
-            [YDTools loadFailedHUD:self.hud text:@"加载失败" ];
+//        NSString *documentsDirectory = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+//        NSString *path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@", self.emailFileModel.filename]];
+//          [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.path]]];
+        
     } failure:^(NSError *error) {
             [YDTools loadFailedHUD:self.hud text:@"加载失败" ];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.navigationController popViewControllerAnimated:YES];
+            
+        });
+
     }];
     
 
@@ -116,16 +126,18 @@
     // 判断是否已经离线下载了
     NSString *documentsDirectory = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
     NSString *path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@", fileName]];
-    
+
     NSFileManager *filemanager = [NSFileManager defaultManager];
     
     if ([filemanager fileExistsAtPath:path]) {
         NSURL *url = [NSURL URLWithString:path];
         NSURLRequest *request = [NSURLRequest requestWithURL:url];
         [self.webView loadRequest:request];
+
+        
     }else{
         
-        NSDictionary *dataDic = @{@"ID":@"-2"};
+        NSDictionary *dataDic = @{@"fileId":_emailFileModel.ID};
         [self attachmentsRequestwithURL:YDEmailFileDownloadUrl withDictionary:dataDic];
     }
 }

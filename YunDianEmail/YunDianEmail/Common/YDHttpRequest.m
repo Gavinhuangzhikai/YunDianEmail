@@ -83,7 +83,8 @@
     YDUserDataModel *userModel = [YDUserDataModel mj_objectWithKeyValues:[YDUserDataManager readUserData]];
     [session.requestSerializer setValue:userModel.session forHTTPHeaderField:@"Cookie"];
     
-
+    
+    NSLog(@"%@",userModel.session);
     
     
     [session GET:url parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
@@ -143,7 +144,7 @@
     YDUserDataModel *userModel = [YDUserDataModel mj_objectWithKeyValues:[YDUserDataManager readUserData]];
     [session.requestSerializer setValue:userModel.session forHTTPHeaderField:@"Cookie"];
 
-    
+    NSLog(@"%@",userModel.session);
 
     session.securityPolicy.allowInvalidCertificates=YES;
     
@@ -247,53 +248,51 @@
 
 + (void)download:(NSString *)url parameters:(NSDictionary *)parameters success:(void (^)(id))success failure:(void (^)(NSError *))failure
 {
-    //沙盒路径    //NSString *savedPath = [NSHomeDirectory() stringByAppendingString:@"/Documents/xxx.zip"];
+//    //沙盒路径    //NSString *savedPath = [NSHomeDirectory() stringByAppendingString:@"/Documents/xxx.zip"];
      AFHTTPRequestSerializer *serializer = [AFHTTPRequestSerializer serializer];
      NSMutableURLRequest *request =[serializer requestWithMethod:@"GET" URLString:url parameters:parameters error:nil];
+    [request setHTTPShouldHandleCookies:YES];
+    YDUserDataModel *userModel = [YDUserDataModel mj_objectWithKeyValues:[YDUserDataManager readUserData]];
+    [request setValue:userModel.session forHTTPHeaderField:@"Cookie"];
     
-//    YDUserDataModel *userModel = [YDUserDataModel mj_objectWithKeyValues:[YDUserDataManager readUserData]];
-//    [serializer.HTTPRequestHeaders setValue:userModel.session forHTTPHeaderField:@"Cookie"];
+    AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
     
+    session.securityPolicy.allowInvalidCertificates=YES;
+    //也不验证域名一致性
     
-    NSURLSessionDownloadTask *task = [[AFHTTPSessionManager manager] downloadTaskWithRequest:request progress:nil destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response) {
-        NSString *path = [[NSHomeDirectory()stringByAppendingPathComponent:@"Documents"]stringByAppendingPathComponent:response.suggestedFilename];//下载文件的存储目录
-        return [NSURL fileURLWithPath:path];
-     
-    }completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error) {
-        
-    }];
+    session.securityPolicy.validatesDomainName=NO;
     
-    [task resume];
-//    NSURL *URL = [NSURL URLWithString:url];
-//    NSURLRequest *request = [NSURLRequest requestWithURL:URL];
-//    
-//    manager downloadTaskWithRequest:<#(nonnull NSURLRequest *)#> progress:^(NSProgress * _Nonnull downloadProgress) {
-//        <#code#>
-//    } destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response) {
-//        <#code#>
-//    } completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error) {
-//        <#code#>
-//    }
-//    
-//    
-//     NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:^(NSProgress * _Nonnull downloadProgress) {
-//         
-//     } destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response) {
-//         NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
-//         return [documentsDirectoryURL URLByAppendingPathComponent:[response suggestedFilename]];
-//
-//     } completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error) {
-//         if (error) {
-//             failure(error);
-//         }else{
-//             success(response);
-//         }
-//         
-//         
-//     }];
+    //关闭缓存避免干扰测试
     
-//       [downloadTask resume];
+    session.requestSerializer.cachePolicy=NSURLRequestReloadIgnoringLocalCacheData;
 
+     NSURLSessionDownloadTask *downloadTask = [session downloadTaskWithRequest:request progress:^(NSProgress * _Nonnull downloadProgress) {
+         
+     } destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response) {
+                 NSString *path = [[NSHomeDirectory()stringByAppendingPathComponent:@"Documents"]stringByAppendingPathComponent:response.suggestedFilename];//下载文件的存储目录
+                 return [NSURL fileURLWithPath:path];
+     } completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error) {
+         if (error == nil) {
+             success(@{@"success": @"success",@"result":[filePath path]});
+         }else{//下载失败的时候，只列举判断了两种错误状态码
+             NSString * message = nil;
+             if (error.code == - 1005) {
+                 message = @"网络异常";
+             }else if (error.code == -1001){
+                 message = @"请求超时";
+             }else{
+                 message = @"未知错误";
+             }
+             failure(error);
+         }
+     }];
+    
+
+    
+    [downloadTask resume];
+    
+ 
+    
 }
 
 
