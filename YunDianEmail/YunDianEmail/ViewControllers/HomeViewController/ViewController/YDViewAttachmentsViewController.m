@@ -95,9 +95,10 @@
 - (void)attachmentsRequestwithURL:(NSString *)urlString  withDictionary:(NSDictionary *)dictionary
 {
     [YDHttpRequest download:urlString parameters:dictionary success:^(id responseObj) {
-//        NSString *documentsDirectory = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
-//        NSString *path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@", self.emailFileModel.filename]];
-//          [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.path]]];
+        NSString *documentsDirectory = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+        NSString *path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@", self.emailFileModel.filename]];
+         NSURL *url = [NSURL fileURLWithPath:path];
+        [self.webView loadFileURL:url allowingReadAccessToURL:url];
         
     } failure:^(NSError *error) {
             [YDTools loadFailedHUD:self.hud text:@"加载失败" ];
@@ -130,9 +131,8 @@
     NSFileManager *filemanager = [NSFileManager defaultManager];
     
     if ([filemanager fileExistsAtPath:path]) {
-        NSURL *url = [NSURL URLWithString:path];
-        NSURLRequest *request = [NSURLRequest requestWithURL:url];
-        [self.webView loadRequest:request];
+        NSURL *url = [NSURL fileURLWithPath:path];
+        [self.webView loadFileURL:url allowingReadAccessToURL:url];
 
         
     }else{

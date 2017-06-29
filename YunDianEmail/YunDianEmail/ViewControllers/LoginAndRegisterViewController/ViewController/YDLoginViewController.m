@@ -77,7 +77,7 @@
         make.height.equalTo(@44);
     }];
     
-    UIView *line=[[UIView alloc]initWithFrame:CGRectMake(40,43, 180, 1)];
+    UIView *line=[[UIView alloc]initWithFrame:CGRectMake(40,38, 180, 1)];
     line.backgroundColor=YDRGB(90, 139, 210);
     [_accountTextField addSubview:line];
     
@@ -88,7 +88,7 @@
         make.width.equalTo(@250);
         make.height.equalTo(@44);
     }];
-    UIView *linetwo=[[UIView alloc]initWithFrame:CGRectMake(40,43, 180, 1)];
+    UIView *linetwo=[[UIView alloc]initWithFrame:CGRectMake(40,38, 180, 1)];
     linetwo.backgroundColor=YDRGB(90, 139, 210);
     [_passwordTextField addSubview:linetwo];
     
@@ -140,7 +140,7 @@
         accountLeftView.backgroundColor = [UIColor clearColor];
         UIImageView *accountImage = [[UIImageView alloc]init];
         accountImage.contentMode = UIViewContentModeScaleAspectFit;
-        accountImage.frame = CGRectMake(0, 0, 32, 44);
+        accountImage.frame = CGRectMake(10, 6, 25, 27);
         accountImage.image = [UIImage imageNamed:@"login_username.png"];
         [accountLeftView addSubview:accountImage];
         
@@ -172,7 +172,7 @@
         passwordLeftView.backgroundColor = [UIColor clearColor];
         UIImageView *passwordImage = [[UIImageView alloc]init];
         passwordImage.contentMode = UIViewContentModeScaleAspectFit;
-        passwordImage.frame = CGRectMake(0, 0, 32, 44);
+        passwordImage.frame = CGRectMake(10, 6, 25, 27);
         passwordImage.image = [UIImage imageNamed:@"login_password.png"];
         [passwordLeftView addSubview:passwordImage];
         

@@ -43,6 +43,7 @@
 - (void)initUIView
 {
     [super initUIView];
+    self.title = @"邮件搜索";
     [self createInterface];
     
 }

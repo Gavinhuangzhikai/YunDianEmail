@@ -99,7 +99,7 @@
 {
     [super initUIView];
     
-    self.title = @"发送";
+    self.title = @"写信";
     self.automaticallyAdjustsScrollViewInsets = NO;
     UIButton *rightBtn=[UIButton buttonWithType:UIButtonTypeCustom];
     rightBtn.frame = CGRectMake(0, 0, 40, 40);

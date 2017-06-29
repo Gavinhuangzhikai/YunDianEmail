@@ -26,53 +26,31 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
   
-//    NSString *documentsPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
-//    
-//    // 文件路径
-//    
-//    NSString *filePath = [documentsPath stringByAppendingPathComponent:@"contacts.sqlite"];
-//    
-//    // 实例化FMDataBase对象
-//    
-//    _db = [FMDatabase databaseWithPath:filePath];
-//    
-//    if ([_db open]) {
-//        //4.创表
-//        BOOL result=[_db executeUpdate:@"CREATETABLE IF NOT EXISTS emailInfo (id integer PRIMARY KEY AUTOINCREMENT, name text NOT NULL,person_id' VARCHAR(255));"];
-//        if (result) {
-//            NSLog(@"创表成功");
-//        }else
-//        {
-//            NSLog(@"创表失败");
-//        }
-//    }
-//    
-//    
-//    [_db close];
+
 
     
     if (TEXTFONT == nil) {
-        SetTEXTFONT(@18);
+        SetTEXTFONT(@15);
     }
 
     YDUserDataModel *userModel = [YDUserDataModel mj_objectWithKeyValues:[YDUserDataManager readUserData]];
-    if (  userModel.loginStatus == YES  && userModel.session != nil  ) {
+//    if (  userModel.loginStatus == YES  && userModel.session != nil  ) {
         self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
         YDHomeViewController *controller = [[YDHomeViewController alloc] init];
         self.window.rootViewController = [[YDBasicNavgationViewController alloc] initWithRootViewController:controller];
         [self.window makeKeyAndVisible];
         return YES;
-
-        }else{
-
-           self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-           YDLoginViewController *controller = [[YDLoginViewController alloc] init];
-           self.window.rootViewController = controller;
-           [self.window makeKeyAndVisible];
-           return YES;
-
-             
-    }
+//
+//        }else{
+//
+//           self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+//           YDLoginViewController *controller = [[YDLoginViewController alloc] init];
+//           self.window.rootViewController = controller;
+//           [self.window makeKeyAndVisible];
+//           return YES;
+//
+//             
+//    }
     
 
 }

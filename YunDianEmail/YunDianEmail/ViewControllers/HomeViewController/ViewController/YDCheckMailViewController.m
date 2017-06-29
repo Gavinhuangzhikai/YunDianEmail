@@ -23,9 +23,15 @@
 
 @property (nonatomic,strong)UILabel *timeLabel;
 
+@property (nonatomic,strong)UILabel *theRecipientTitle;
+
+@property (nonatomic,strong)UILabel *timeTitle;
+
 @property (nonatomic,strong)UITextView *contentEmail;
 
 @property (nonatomic,strong)UIButton *annexBtn;
+
+@property (nonatomic,strong)UIView *nextView;
 
 @property (nonatomic,strong)YDEmailFileFindModel *emailFile;
 
@@ -95,6 +101,15 @@
         make.height.equalTo(@20);
     }];
 
+    [self.checkMailScrollView addSubview:self.annexBtn];
+    [self.annexBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.checkMailScrollView.mas_right).with.offset(-5);
+        make.top.equalTo(self.captionLabel.mas_bottom).with.offset(5);
+        make.width.mas_equalTo(20);;
+        make.height.greaterThanOrEqualTo(@20);
+    }];
+    
+    
     [self.checkMailScrollView addSubview:self.theSenderLabel];
     [self.theSenderLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(senderLabel.mas_right).with.offset(5);
@@ -103,55 +118,13 @@
         make.height.greaterThanOrEqualTo(@20);
     }];
     
-    
-    UILabel *recipientLabel = [[UILabel alloc] init];
-    recipientLabel.text = @"收件人:";
-    recipientLabel.font = YDFont(12);
-    recipientLabel.textAlignment = NSTextAlignmentRight;
-    recipientLabel.textColor =YDRGB(111, 111, 111);
-    [self.checkMailScrollView addSubview:recipientLabel];
-    [recipientLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.checkMailScrollView.mas_left).with.offset(10);
-        make.top.equalTo(self.theSenderLabel.mas_bottom).with.offset(5);
-        make.width.equalTo(@45);
-        make.height.equalTo(@20);
-    }];
-    
-    [self.checkMailScrollView addSubview:self.theRecipientLabel];
-    [self.theRecipientLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(recipientLabel.mas_right).with.offset(5);
-        make.top.equalTo(self.theSenderLabel.mas_bottom).with.offset(5);
-        make.width.mas_equalTo(self.view.width -110);;
-        make.height.greaterThanOrEqualTo(@20);
-    }];
-
-    UILabel *timLabel = [[UILabel alloc] init];
-    timLabel.text = @"时间:";
-    timLabel.font = YDFont(12);
-    timLabel.textAlignment = NSTextAlignmentRight;
-    timLabel.textColor =YDRGB(111, 111, 111);
-    [self.checkMailScrollView addSubview:timLabel];
-    [timLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.checkMailScrollView.mas_left).with.offset(10);
-        make.top.equalTo(self.theRecipientLabel.mas_bottom).with.offset(5);
-        make.width.equalTo(@45);
-        make.height.equalTo(@20);
-    }];
-    
-    [self.checkMailScrollView addSubview:self.timeLabel];
-    [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(timLabel.mas_right).with.offset(5);
-        make.top.equalTo(self.theRecipientLabel.mas_bottom).with.offset(5);
-        make.width.mas_equalTo(self.view.width -110);;
-        make.height.greaterThanOrEqualTo(@20);
-    }];
 
     UIImageView *line = [[UIImageView alloc] init];
     line.backgroundColor = YDRGB(244, 244, 244);
     [self.checkMailScrollView addSubview:line];
     [line mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(timLabel.mas_right).with.offset(5);
-        make.top.equalTo(self.timeLabel.mas_bottom).with.offset(5);
+        make.left.equalTo(self.checkMailScrollView.mas_left).with.offset(5);
+        make.top.equalTo(self.theSenderLabel.mas_bottom).with.offset(5);
         make.width.mas_equalTo(self.view.width -10);;
         make.height.greaterThanOrEqualTo(@1);
     }];
@@ -228,6 +201,37 @@
     return _timeLabel;
 }
 
+- (UILabel *)timeTitle
+{
+    if (!_timeTitle) {
+        _timeTitle = [[UILabel alloc] init];
+        _timeTitle.textColor = YDRGB(111, 111, 111);
+        _timeTitle.font = YDFont(12);
+        _timeTitle.text = @"时间:";
+        _timeTitle.textAlignment = NSTextAlignmentRight;
+
+        [self.checkMailScrollView addSubview:_timeTitle];
+
+    }
+    
+    return _timeTitle;
+}
+
+- (UILabel *)theRecipientTitle
+{
+    if (!_theRecipientTitle) {
+        _theRecipientTitle = [[UILabel alloc] init];
+        _theRecipientTitle.textColor = YDRGB(111, 111, 111);
+        _theRecipientTitle.font = YDFont(12);
+        _theRecipientTitle.text = @"收件人:";
+        _theRecipientTitle.textAlignment = NSTextAlignmentRight;
+        [self.checkMailScrollView addSubview:_theRecipientTitle];
+        
+    }
+    
+    return _theRecipientTitle;
+}
+
 - (UITextView *)contentEmail
 {
     if (!_contentEmail) {
@@ -258,23 +262,28 @@
     return _annexBtn;
 }
 
-//- (void)setInboxRows:(YDInBoxRowsModel *)inboxRows
-//{
-//    
-//    self.captionLabel.text = inboxRows.subject;
-//    
-//    
-//    self.theSenderLabel.text = inboxRows.tomail;
-//    
-//    self.theRecipientLabel.text = inboxRows.formmail;
-//    
-//    self.timeLabel.text = inboxRows.sentDate;
-//    
-//    self.contentEmail.text = inboxRows.bodyText;
-//    
-//    _inboxRows = inboxRows;
-//}
-     
+-(UIView *)nextView
+{
+    if (!_nextView) {
+        _nextView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.height -30, YDScreenWidth, 30)];
+        _nextView.backgroundColor = YDRGB(111, 111, 111);
+        
+        UIButton *upButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        upButton.frame = CGRectMake(20, 0, 30, 30);
+        [upButton setImage:[UIImage imageNamed:@"pull_up_select_icon"] forState:UIControlStateNormal];
+        [upButton addTarget:self action:@selector(upBtnAction:) forControlEvents:UIControlEventTouchUpInside];
+        [_nextView addSubview:upButton];
+        
+        UIButton *nextButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        nextButton.frame = CGRectMake(20, 0, 30, 30);
+        [nextButton setImage:[UIImage imageNamed:@"keyboard_detail_icon"] forState:UIControlStateNormal];
+        [nextButton addTarget:self action:@selector(nextBtnAction:) forControlEvents:UIControlEventTouchUpInside];
+        [_nextView addSubview:nextButton];
+        
+    }
+    
+    return _nextView;
+}
      
      
  - (void)getEmailRequestWithType:(NSString *)requestType   withURL:(NSString *)urlString    withDictionary:(NSDictionary *)dictionary
@@ -381,7 +390,44 @@
      
 - (void)checkAnnex:(UIButton *)button
 {
+    if (button.selected == YES) {
+        button.selected = false;
+    }else{
     
+    button.selected = YES;
+  
+
+    [self.theRecipientTitle mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.checkMailScrollView.mas_left).with.offset(10);
+        make.top.equalTo(self.theSenderLabel.mas_bottom).with.offset(5);
+        make.width.equalTo(@45);
+        make.height.equalTo(@20);
+    }];
+    
+    [self.checkMailScrollView addSubview:self.theRecipientLabel];
+    [self.theRecipientLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.theRecipientTitle.mas_right).with.offset(5);
+        make.top.equalTo(self.theSenderLabel.mas_bottom).with.offset(5);
+        make.width.mas_equalTo(self.view.width -110);;
+        make.height.greaterThanOrEqualTo(@20);
+    }];
+    
+    [self.timeTitle mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.checkMailScrollView.mas_left).with.offset(10);
+            make.top.equalTo(self.theRecipientLabel.mas_bottom).with.offset(5);
+            make.width.equalTo(@45);
+            make.height.equalTo(@20);
+        }];
+
+        
+    [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.timeTitle.mas_right).with.offset(5);
+        make.top.equalTo(self.theRecipientLabel.mas_bottom).with.offset(5);
+        make.width.mas_equalTo(self.view.width -110);;
+        make.height.greaterThanOrEqualTo(@20);
+    }];
+
+    }
     
 }
 
@@ -395,4 +441,17 @@
     
 }
 
+-(void)upBtnAction:(id)sender
+{
+    self.hud = [YDTools HUDLoadingOnView:self.view delegate:self];
+    NSDictionary *dataDic = @{@"id":self.emailID,@"eg":@2};
+    [self getEmailRequestWithType:@"GET" withURL:YDEmailGetUrl withDictionary:dataDic];
+}
+
+-(void)nextBtnAction:(id)sender
+{
+    self.hud = [YDTools HUDLoadingOnView:self.view delegate:self];
+    NSDictionary *dataDic = @{@"id":self.emailID,@"eg":@2};
+    [self getEmailRequestWithType:@"GET" withURL:YDEmailGetUrl withDictionary:dataDic];
+}
 @end

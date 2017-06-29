@@ -17,6 +17,7 @@
 #import "YDUserDataManager.h"
 #import "YDUserDataModel.h"
 
+
 #define  titleNameArray @[@"写信",@"收件箱",@"通讯录",@"草稿箱",@"已发送",@"已删除",@"垃圾箱"]
 #define  titleNameImageArray @[@"write_letter.png",@"inbox.png",@"contacts.png",@"draft_box.png",@"been_sent.png",@"deleted.png",@"trash_cans.png"]
 @interface YDHomeViewController ()<UITableViewDelegate,UITableViewDataSource>
@@ -174,8 +175,12 @@
         inboxVtr.mailType = YUDIANBeenTrashCansTYPE;
         [self.navigationController pushViewController:inboxVtr animated:NO];
         
+       
+        
     }else if (indexPath.row == 7)
     {
+        
+        
         
     }
 }

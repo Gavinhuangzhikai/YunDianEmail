@@ -64,7 +64,8 @@ static NSString *const alertsNoDataCellIdentifier = @"alertsNoDataCellIdentifier
     
     UIButton *rightSettingBtn=[UIButton buttonWithType:UIButtonTypeCustom];
     rightSettingBtn.frame = CGRectMake(40, 0, 30, 30);
-    [rightSettingBtn setImage:[UIImage imageNamed:@"setting.png"] forState:UIControlStateNormal];
+    rightSettingBtn.backgroundColor = [UIColor yellowColor];
+    [rightSettingBtn setImage:[UIImage imageNamed:@"can_write_icon"] forState:UIControlStateNormal];
     
     [rightSettingBtn addTarget:self action:@selector(rightBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [rightView addSubview:rightSearchBtn];

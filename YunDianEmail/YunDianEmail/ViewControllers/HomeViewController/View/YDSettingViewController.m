@@ -13,7 +13,7 @@
 #import "YDLoginViewController.h"
 #import "YDUserDataModel.h"
 #import "YDUserDataManager.h"
-#define  titleArray @[@"密码修改",@"新邮件通知提醒",@"通知显示邮件详情",@"清除缓存",@"字体大小",@"检测更新",@"意见反馈"]
+#define  titleArray @[@"密码修改",@"新消息通知提醒",@"清除缓存",@"字体大小",@"检测更新",@"意见反馈"]
 @interface YDSettingViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 @property(nonatomic,strong)UIScrollView *bgScrollView;
@@ -144,7 +144,16 @@
         [tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
     }else if (indexPath.row ==4){
         UIAlertController *settingFontAlterView = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *smallAction = [UIAlertAction actionWithTitle:@"小" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction *action) {
+        
+        UIAlertAction *smallAction = [UIAlertAction actionWithTitle:@"小号" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction *action) {
+            
+            SetTEXTFONT(@12);
+            [tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:4 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [self dismissViewControllerAnimated:YES completion:nil];
+            
+        }];
+        
+        UIAlertAction *defaultAction = [UIAlertAction actionWithTitle:@"默认" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction *action) {
             
             SetTEXTFONT(@15);
             [tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:4 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
@@ -152,7 +161,7 @@
             
         }];
         
-        UIAlertAction *middleAction = [UIAlertAction actionWithTitle:@"中" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction *action) {
+        UIAlertAction *middleAction = [UIAlertAction actionWithTitle:@"中号" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction *action) {
             
             SetTEXTFONT(@18);
                [tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:4 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
@@ -160,7 +169,7 @@
             
         }];
         
-        UIAlertAction *bigAction = [UIAlertAction actionWithTitle:@"大" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction *action) {
+        UIAlertAction *bigAction = [UIAlertAction actionWithTitle:@"大号" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction *action) {
             
             SetTEXTFONT(@21);
             [tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:4 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
@@ -168,11 +177,19 @@
             
         }];
       
+        UIAlertAction *biggerAction = [UIAlertAction actionWithTitle:@"超大" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction *action) {
+            
+            SetTEXTFONT(@25);
+            [tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:4 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [self dismissViewControllerAnimated:YES completion:nil];
+            
+        }];
 
         [settingFontAlterView addAction:smallAction];
+        [settingFontAlterView addAction:defaultAction];
         [settingFontAlterView addAction:middleAction];
         [settingFontAlterView addAction:bigAction];
-        
+        [settingFontAlterView addAction:biggerAction];
         [self presentViewController:settingFontAlterView animated:YES completion:nil];
         
 
@@ -217,31 +234,19 @@
         };
         
         return cell;
-    }else if (indexPath.row ==2){
-        __weak __typeof__(self) weakSelf = self;
-        YDNotificationTableViewCell *cell = [YDNotificationTableViewCell cellWithTableView:tableView];
-        cell.titleName.text = titleArray[indexPath.row];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.switchbutton = ^(UISwitch *switc) {
-            
-            
-        };
-        
-        return cell;
-        
-    }else if(indexPath.row == 3){
+    }else if(indexPath.row == 2){
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ideitifier ];
         if (!cell) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:ideitifier];
         }
             cell.textLabel.text = @"清除缓存";
-            cell.detailTextLabel.text =[NSString stringWithFormat:@"%.2fKB",([self readCacheSize]*1024)];
+            cell.detailTextLabel.text =[NSString stringWithFormat:@"%.2fMB",([self readCacheSize])];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.textLabel.font = YDFont(15);
         
         return  cell;
         
-    }else if (indexPath.row == 4)
+    }else if (indexPath.row == 3)
     {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ideitifier ];
         if (!cell) {
@@ -253,21 +258,28 @@
             NSNumber *textfont = TEXTFONT;
             if( [textfont   isEqual: @18])
             {
-                cell.detailTextLabel.text =@"中";
+                cell.detailTextLabel.text =@"中号";
             }else if ([textfont   isEqual: @21]){
                 
-                cell.detailTextLabel.text =@"大";
+                cell.detailTextLabel.text =@"大号";
             }else if ([textfont   isEqual: @15]){
                 
-                cell.detailTextLabel.text =@"小";
+                cell.detailTextLabel.text =@"默认";
+            }else if ([textfont   isEqual: @12]){
+                
+                cell.detailTextLabel.text =@"小号";
+            }else if ([textfont   isEqual: @25]){
+                
+                cell.detailTextLabel.text =@"超大";
             }
+        
             
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.textLabel.font = YDFont(15);
         
         return  cell;
         
-    }else if (indexPath.row == 5){
+    }else if (indexPath.row == 4){
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ideitifier ];
         if (!cell) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:ideitifier];
