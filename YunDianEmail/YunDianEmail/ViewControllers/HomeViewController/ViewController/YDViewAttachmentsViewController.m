@@ -47,9 +47,7 @@
 #pragma mark - 网络请求
 - (void)getDataFromNet
 {
-//    NSDictionary *dataDic = @{@"ID":@"-2"};
-//    [self attachmentsRequestwithURL:YDEmailFileDownloadUrl ];
-    
+    self.hud = [YDTools HUDLoadingOnView:self.view delegate:self];
     [self isSavedFileToLocalWithfileName:self.emailFileModel.filename];
 }
 
@@ -75,8 +73,8 @@
 
         config.preferences.javaScriptCanOpenWindowsAutomatically = NO;
         
-       _webView = [[WKWebView alloc]initWithFrame:CGRectMake(0, 20, YDScreenWidth, YDScreenHeight -80) configuration:config];
-        _webView.backgroundColor = [UIColor redColor];
+       _webView = [[WKWebView alloc]initWithFrame:self.view.frame configuration:config];
+        _webView.backgroundColor = [UIColor whiteColor];
         [self.view addSubview: _webView];
     }
     return _webView;
@@ -95,6 +93,7 @@
 - (void)attachmentsRequestwithURL:(NSString *)urlString  withDictionary:(NSDictionary *)dictionary
 {
     [YDHttpRequest download:urlString parameters:dictionary success:^(id responseObj) {
+          [self.hud hideAnimated:YES];
         NSString *documentsDirectory = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
         NSString *path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@", self.emailFileModel.filename]];
          NSURL *url = [NSURL fileURLWithPath:path];
@@ -131,6 +130,7 @@
     NSFileManager *filemanager = [NSFileManager defaultManager];
     
     if ([filemanager fileExistsAtPath:path]) {
+          [self.hud hideAnimated:YES];
         NSURL *url = [NSURL fileURLWithPath:path];
         [self.webView loadFileURL:url allowingReadAccessToURL:url];
 

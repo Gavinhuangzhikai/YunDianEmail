@@ -12,7 +12,7 @@
 
 @interface YDCheckMailViewController ()
 
-@property (nonatomic,strong)UIScrollView *checkMailScrollView;
+//@property (nonatomic,strong)UIScrollView *checkMailScrollView;
 
 @property (nonatomic,strong)UILabel *captionLabel;
 
@@ -78,14 +78,14 @@
 #pragma mark -创建控件
 - (void)createInterface
 {
-    [self.view addSubview:self.checkMailScrollView];
+//    [self.view addSubview:self.checkMailScrollView];
     
-    [self.checkMailScrollView addSubview:self.captionLabel];
+    [self.view addSubview:self.captionLabel];
     [self.captionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.checkMailScrollView.mas_right).with.offset(15);
-        make.top.equalTo(self.checkMailScrollView.mas_top).with.offset(10);
-        make.width.mas_equalTo(self.view.width -30);;
-        make.height.greaterThanOrEqualTo(@40);
+        make.left.equalTo(self.view.mas_left).with.offset(15);
+        make.top.equalTo(self.view.mas_top).with.offset(10);
+        make.right.equalTo(self.view.mas_right).with.offset(-15);
+        make.height.equalTo(@40);
     }];
     
     UILabel *senderLabel = [[UILabel alloc] init];
@@ -93,67 +93,67 @@
     senderLabel.font = YDFont(12);
     senderLabel.textAlignment = NSTextAlignmentRight;
     senderLabel.textColor =YDRGB(111, 111, 111);
-    [self.checkMailScrollView addSubview:senderLabel];
+    [self.view addSubview:senderLabel];
     [senderLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.checkMailScrollView.mas_left).with.offset(10);
+        make.left.equalTo(self.view.mas_left).with.offset(10);
         make.top.equalTo(self.captionLabel.mas_bottom).with.offset(5);
         make.width.equalTo(@45);
         make.height.equalTo(@20);
     }];
 
-    [self.checkMailScrollView addSubview:self.annexBtn];
+    [self.view addSubview:self.annexBtn];
     [self.annexBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self.checkMailScrollView.mas_right).with.offset(-5);
+        make.right.equalTo(self.view.mas_right).with.offset(-5);
         make.top.equalTo(self.captionLabel.mas_bottom).with.offset(5);
-        make.width.mas_equalTo(20);;
-        make.height.greaterThanOrEqualTo(@20);
+        make.width.mas_equalTo(40);;
+        make.height.equalTo(@20);
     }];
     
     
-    [self.checkMailScrollView addSubview:self.theSenderLabel];
+    [self.view addSubview:self.theSenderLabel];
     [self.theSenderLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(senderLabel.mas_right).with.offset(5);
         make.top.equalTo(self.captionLabel.mas_bottom).with.offset(5);
         make.width.mas_equalTo(self.view.width -110);;
-        make.height.greaterThanOrEqualTo(@20);
+        make.height.equalTo(@20);
     }];
+
     
 
-    UIImageView *line = [[UIImageView alloc] init];
-    line.backgroundColor = YDRGB(244, 244, 244);
-    [self.checkMailScrollView addSubview:line];
-    [line mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.checkMailScrollView.mas_left).with.offset(5);
-        make.top.equalTo(self.theSenderLabel.mas_bottom).with.offset(5);
-        make.width.mas_equalTo(self.view.width -10);;
-        make.height.greaterThanOrEqualTo(@1);
+    
+    
+    [self.view insertSubview:self.nextView atIndex:0];
+    [self.nextView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.view.mas_left);
+        make.bottom.equalTo(self.view.mas_bottom);
+        make.right.equalTo(self.view.mas_right);;
+        make.height.equalTo(@30);
     }];
     
     
-    [self.checkMailScrollView addSubview:self.contentEmail];
+    [self.view addSubview:self.contentEmail];
     [self.contentEmail mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view.mas_left).with.offset(5);
-        make.top.equalTo(line.mas_bottom).with.offset(5);
-        make.width.mas_equalTo(self.view.width -10);;
-        make.height.greaterThanOrEqualTo(@80);
+        make.top.equalTo(self.theSenderLabel.mas_bottom).with.offset(10);
+        make.right.equalTo(self.view.mas_right).with.offset(-5);
+        make.bottom.equalTo(self.nextView.mas_top);
     }];
-    
 }
 
 #pragma mark - Layz init
-- (UIScrollView *)checkMailScrollView
-{
-    if (!_checkMailScrollView) {
-        _checkMailScrollView = [[UIScrollView alloc]initWithFrame:self.view.frame];
-        _checkMailScrollView.showsHorizontalScrollIndicator = NO;
-        _checkMailScrollView.showsVerticalScrollIndicator = NO;
-        _checkMailScrollView.backgroundColor = [UIColor whiteColor];
-        _checkMailScrollView.alwaysBounceHorizontal = NO;
-        _checkMailScrollView.backgroundColor =[UIColor whiteColor];
-    }
-    
-    return _checkMailScrollView;
-}
+//- (UIScrollView *)checkMailScrollView
+//{
+//    if (!_checkMailScrollView) {
+//        _checkMailScrollView = [[UIScrollView alloc]initWithFrame:self.view.frame];
+//        _checkMailScrollView.showsHorizontalScrollIndicator = NO;
+//        _checkMailScrollView.showsVerticalScrollIndicator = NO;
+//        _checkMailScrollView.backgroundColor = [UIColor whiteColor];
+//        _checkMailScrollView.alwaysBounceHorizontal = NO;
+//        _checkMailScrollView.backgroundColor =[UIColor whiteColor];
+//    }
+//    
+//    return _checkMailScrollView;
+//}
 
 - (UILabel *)captionLabel
 {
@@ -185,6 +185,7 @@
         _theRecipientLabel = [[UILabel alloc] init];
         _theRecipientLabel.textColor = YDRGB(111, 111, 111);
         _theRecipientLabel.font = YDFont(15);
+        [self.view addSubview:self.theRecipientLabel];
     }
     
     return _theRecipientLabel;
@@ -196,6 +197,7 @@
         _timeLabel = [[UILabel alloc] init];
         _timeLabel.textColor = YDRGB(111, 111, 111);
         _timeLabel.font = YDFont(15);
+        [self.view addSubview:_timeLabel];
     }
     
     return _timeLabel;
@@ -210,7 +212,7 @@
         _timeTitle.text = @"时间:";
         _timeTitle.textAlignment = NSTextAlignmentRight;
 
-        [self.checkMailScrollView addSubview:_timeTitle];
+        [self.view addSubview:_timeTitle];
 
     }
     
@@ -225,7 +227,7 @@
         _theRecipientTitle.font = YDFont(12);
         _theRecipientTitle.text = @"收件人:";
         _theRecipientTitle.textAlignment = NSTextAlignmentRight;
-        [self.checkMailScrollView addSubview:_theRecipientTitle];
+        [self.view addSubview:_theRecipientTitle];
         
     }
     
@@ -242,7 +244,13 @@
         _contentEmail.alwaysBounceVertical = NO;
         
         _contentEmail.scrollEnabled = YES;
-//        [_contentEmail setEditable:NO];
+        [_contentEmail setEditable:NO];
+        
+        UIImageView *line = [[UIImageView alloc] init];
+        line.frame = CGRectMake(0, 0, YDScreenWidth-10, 1);
+        line.backgroundColor = YDRGB(244, 244, 244);
+        
+        [_contentEmail addSubview:line];
         
     }
     return _contentEmail;
@@ -253,8 +261,7 @@
     if (!_annexBtn) {
         _annexBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         _annexBtn.backgroundColor = YDRGB(30, 118, 156);
-        [_annexBtn setTitleColor:YDRGB(255, 255, 255) forState:UIControlStateNormal];
-        [_annexBtn setTitleColor:YDRGB(160, 160, 160) forState:UIControlStateHighlighted];
+        [_annexBtn setImage:[UIImage imageNamed:@"clear_icon"] forState:UIControlStateNormal];
         [_annexBtn addTarget:self action:@selector(checkAnnex:) forControlEvents:UIControlEventTouchUpInside];
 
     }
@@ -265,7 +272,7 @@
 -(UIView *)nextView
 {
     if (!_nextView) {
-        _nextView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.height -30, YDScreenWidth, 30)];
+        _nextView = [[UIView alloc] init];
         _nextView.backgroundColor = YDRGB(111, 111, 111);
         
         UIButton *upButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -275,7 +282,7 @@
         [_nextView addSubview:upButton];
         
         UIButton *nextButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        nextButton.frame = CGRectMake(20, 0, 30, 30);
+        nextButton.frame = CGRectMake(60, 0, 30, 30);
         [nextButton setImage:[UIImage imageNamed:@"keyboard_detail_icon"] forState:UIControlStateNormal];
         [nextButton addTarget:self action:@selector(nextBtnAction:) forControlEvents:UIControlEventTouchUpInside];
         [_nextView addSubview:nextButton];
@@ -313,8 +320,8 @@
                         self.refrushData();
                     }
                     
-                    CGFloat height =  [self.contentEmail.attributedText boundingRectWithSize:CGSizeMake(YDScreenWidth-10, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin context:nil].size.height;
-                    self.contentEmail.height = height+50;
+//                    CGFloat height =  [self.contentEmail.attributedText boundingRectWithSize:CGSizeMake(YDScreenWidth-10, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin context:nil].size.height;
+//                    self.contentEmail.height = height+50;
                     
                     NSDictionary *dataFileDic = @{@"emailid":self.emailID};
                     [self getEmailFileFindRequestWithType:@"GET" withURL:YDEmailFileFindoUrl withDictionary:dataFileDic];
@@ -355,18 +362,25 @@
                         labelBtn.tag = 100 + i;
                         [labelBtn addTarget:self action:@selector(pushToFileView:) forControlEvents:UIControlEventTouchUpInside];
                         labelBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
-                        [self.checkMailScrollView addSubview:labelBtn];
-                        [labelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+                        [self.view addSubview:labelBtn];
+                        [labelBtn mas_updateConstraints:^(MASConstraintMaker *make) {
                             make.left.equalTo(self.view.mas_left).with.offset(0);
-                            make.top.equalTo(self.contentEmail.mas_bottom).with.offset(i*30 + 5);
-                            make.width.mas_equalTo(self.view.width);;
-                            make.height.greaterThanOrEqualTo(@30);
+                            make.bottom.equalTo(self.nextView.mas_top).with.offset(-i*20);
+                            make.right.equalTo(self.view.mas_right);
+                            make.height.equalTo(@20);
                         }];
-                        
-                        
-                        
-                        
+
                     }
+                    
+                    NSUInteger i = self.emailFile.rows.count;
+                    NSLog(@"%lu",i*20);
+                    [self.contentEmail mas_updateConstraints:^(MASConstraintMaker *make) {
+                        make.left.equalTo(self.view.mas_left).with.offset(5);
+                        make.top.equalTo(self.theSenderLabel.mas_bottom).with.offset(10);
+                        make.right.equalTo(self.view.mas_right).with.offset(-5);
+                        make.bottom.equalTo(self.nextView.mas_top).with.offset(-20);
+                    }];
+                    
                 
                 });
             });
@@ -392,39 +406,81 @@
 {
     if (button.selected == YES) {
         button.selected = false;
+
+        
+    [self.theRecipientTitle mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.view.mas_left).with.offset(10);
+        make.top.equalTo(self.theSenderLabel.mas_bottom).with.offset(5);
+        make.width.equalTo(@0);
+        make.height.equalTo(@0);
+    }];
+
+    [self.view addSubview:self.theRecipientLabel];
+    [self.theRecipientLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.theRecipientTitle.mas_right).with.offset(5);
+        make.top.equalTo(self.theSenderLabel.mas_bottom).with.offset(5);
+        make.width.mas_equalTo(0);;
+        make.height.equalTo(@0);
+    }];
+    
+    [self.timeTitle mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.view.mas_left).with.offset(10);
+        make.top.equalTo(self.theRecipientLabel.mas_bottom).with.offset(5);
+        make.width.equalTo(@0);
+        make.height.equalTo(@0);
+    }];
+    
+    
+    [self.timeLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.timeTitle.mas_right).with.offset(5);
+        make.top.equalTo(self.theRecipientLabel.mas_bottom).with.offset(5);
+        make.width.mas_equalTo(0);;
+        make.height.equalTo(@0);
+    }];
+    
+
+        
     }else{
     
     button.selected = YES;
   
 
-    [self.theRecipientTitle mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.checkMailScrollView.mas_left).with.offset(10);
+    [self.theRecipientTitle mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.view.mas_left).with.offset(10);
         make.top.equalTo(self.theSenderLabel.mas_bottom).with.offset(5);
         make.width.equalTo(@45);
         make.height.equalTo(@20);
     }];
     
-    [self.checkMailScrollView addSubview:self.theRecipientLabel];
-    [self.theRecipientLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    
+    [self.theRecipientLabel mas_updateConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.theRecipientTitle.mas_right).with.offset(5);
         make.top.equalTo(self.theSenderLabel.mas_bottom).with.offset(5);
         make.width.mas_equalTo(self.view.width -110);;
-        make.height.greaterThanOrEqualTo(@20);
+        make.height.equalTo(@20);
     }];
     
-    [self.timeTitle mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.checkMailScrollView.mas_left).with.offset(10);
-            make.top.equalTo(self.theRecipientLabel.mas_bottom).with.offset(5);
+    [self.timeTitle mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.view.mas_left).with.offset(10);
+            make.top.equalTo(self.theRecipientTitle.mas_bottom).with.offset(5);
             make.width.equalTo(@45);
             make.height.equalTo(@20);
         }];
 
         
-    [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.timeLabel mas_updateConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.timeTitle.mas_right).with.offset(5);
         make.top.equalTo(self.theRecipientLabel.mas_bottom).with.offset(5);
         make.width.mas_equalTo(self.view.width -110);;
-        make.height.greaterThanOrEqualTo(@20);
+        make.height.equalTo(@20);
+    }];
+
+    
+    [self.contentEmail mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.view.mas_left).with.offset(5);
+        make.top.equalTo(self.timeLabel.mas_bottom).with.offset(8);
+        make.right.equalTo(self.view.mas_right).with.offset(-5);
+        make.bottom.equalTo(self.nextView.mas_top);
     }];
 
     }

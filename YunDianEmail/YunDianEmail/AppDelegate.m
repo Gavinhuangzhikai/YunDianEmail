@@ -34,24 +34,24 @@
     }
 
     YDUserDataModel *userModel = [YDUserDataModel mj_objectWithKeyValues:[YDUserDataManager readUserData]];
-//    if (  userModel.loginStatus == YES  && userModel.session != nil  ) {
+    if (  userModel.loginStatus == YES  && userModel.session != nil  ) {
         self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
         YDHomeViewController *controller = [[YDHomeViewController alloc] init];
         self.window.rootViewController = [[YDBasicNavgationViewController alloc] initWithRootViewController:controller];
         [self.window makeKeyAndVisible];
         return YES;
-//
-//        }else{
-//
-//           self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-//           YDLoginViewController *controller = [[YDLoginViewController alloc] init];
-//           self.window.rootViewController = controller;
-//           [self.window makeKeyAndVisible];
-//           return YES;
-//
-//             
-//    }
-    
+
+        }else{
+
+           self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+           YDLoginViewController *controller = [[YDLoginViewController alloc] init];
+           self.window.rootViewController = controller;
+           [self.window makeKeyAndVisible];
+           return YES;
+
+             
+    }
+
 
 }
 
