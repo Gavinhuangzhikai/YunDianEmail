@@ -1,4 +1,4 @@
-//
+ //
 //  YDWriteLetterViewController.m
 //  YunDianEmail
 //
@@ -137,7 +137,7 @@
     [self.writeLetterScroller addSubview:self.recipientTextField];
     [self.recipientTextField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(recipientLabel.mas_right).with.offset(5);
-        make.top.equalTo(self.writeLetterScroller.mas_top).with.offset(8);
+        make.top.equalTo(self.writeLetterScroller.mas_top).with.offset(5);
         make.height.equalTo(@30);
         make.width.mas_equalTo(self.view.width -110);
     }];
@@ -169,7 +169,7 @@
     [self.writeLetterScroller addSubview:self.scopyForTetxField];
     [self.scopyForTetxField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(scopyForLabel.mas_right).with.offset(5);
-        make.top.equalTo(lineImage.mas_bottom).with.offset(8);
+        make.top.equalTo(lineImage.mas_bottom).with.offset(5);
         make.height.equalTo(@30);
         make.width.mas_equalTo(self.view.width -110);
     }];
@@ -201,7 +201,7 @@
     [self.writeLetterScroller addSubview:self.hedgecopyForTextField];
     [self.hedgecopyForTextField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(hedgecopyForLabel.mas_right).with.offset(5);
-        make.top.equalTo(lineTWOImage.mas_bottom).with.offset(8);
+        make.top.equalTo(lineTWOImage.mas_bottom).with.offset(5);
         make.height.equalTo(@30);
         make.width.mas_equalTo(self.view.width -110);
     }];
@@ -232,7 +232,7 @@
     [self.writeLetterScroller addSubview:self.themeTetxField];
     [self.themeTetxField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(themeTetxLabel.mas_right).with.offset(5);
-        make.top.equalTo(lineTHREEImage.mas_bottom).with.offset(8);
+        make.top.equalTo(lineTHREEImage.mas_bottom).with.offset(5);
         make.height.equalTo(@30);
         make.width.mas_equalTo(self.view.width -110);;
     }];
@@ -579,14 +579,7 @@
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
     if ([textView isEqual:  self.recipientTextField] ||   [textView isEqual: self.scopyForTetxField ]||  [textView isEqual: self.hedgecopyForTextField]  ) {
-   
-        float height = [self heightForTextView:textView WithText:[NSString stringWithFormat:@"%@%@",textView.text,text]];
 
-        [UIView animateWithDuration:0.5 animations:^{
-            [textView mas_updateConstraints:^(MASConstraintMaker *make) {
-                make.height.mas_equalTo(height);
-            }];
-        } completion:nil];
 
         if ([text isEqualToString:@"\n"]){
             if ([textView.text rangeOfString:@"、"].location != NSNotFound) {
@@ -602,6 +595,15 @@
                 [attribute addAttribute:NSFontAttributeName value:YDFont(15) range:NSMakeRange(0, textView.text.length + 1  )];
                 textView.attributedText = attribute;
             }
+            
+            float height = [self heightForTextView:textView WithText:[NSString stringWithFormat:@"%@",textView.text]];
+            
+            [UIView animateWithDuration:0.5 animations:^{
+                [textView mas_updateConstraints:^(MASConstraintMaker *make) {
+                    make.height.mas_equalTo(height);
+                }];
+            } completion:nil];
+            
          return NO;
         }
         if ([text isEqualToString:@""]) {
@@ -614,15 +616,31 @@
                     NSNumber *sepnumber =separator[separator.count - 2];
                     NSString *textString =  [textView.text substringToIndex:[sepnumber intValue] ];
                     NSMutableAttributedString *attribute = [[NSMutableAttributedString alloc] initWithString:[textString stringByAppendingString:@"、"]];
-                    [attribute addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0, textString.length+1)];
+                    [attribute addAttribute:NSForegroundColorAttributeName value:YDRGB(0, 0, 0) range:NSMakeRange(0, textString.length+1)];
                     [attribute addAttribute:NSFontAttributeName value:YDFont(15) range:NSMakeRange(0, textString.length +1 )];
                     textView.attributedText = attribute;
                 
                 }
                 [self textViewDidChange:textView];
+                
+                float height = [self heightForTextView:textView WithText:[NSString stringWithFormat:@"%@",textView.text]];
+                
+                [UIView animateWithDuration:0.5 animations:^{
+                    [textView mas_updateConstraints:^(MASConstraintMaker *make) {
+                        make.height.mas_equalTo(height);
+                    }];
+                } completion:nil];
                 return NO;
             }
         }
+        
+        float height = [self heightForTextView:textView WithText:[NSString stringWithFormat:@"%@%@",textView.text,text]];
+        
+        [UIView animateWithDuration:0.5 animations:^{
+            [textView mas_updateConstraints:^(MASConstraintMaker *make) {
+                make.height.mas_equalTo(height);
+            }];
+        } completion:nil];
     }
     
     if ([textView isEqual:self.textView]) {
@@ -1290,11 +1308,11 @@
 }
 
 - (float) heightForTextView: (UITextView *)textView WithText: (NSString *) strText{
-    CGSize constraint = CGSizeMake(textView.contentSize.width -2, CGFLOAT_MAX);
-     NSNumber *textfont = TEXTFONT;
+    CGSize constraint = CGSizeMake(textView.contentSize.width -10, CGFLOAT_MAX);
+   
     CGRect size = [strText boundingRectWithSize:constraint
                                         options:(NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading)
-                                     attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:[textfont floatValue]]}
+                                     attributes:@{NSFontAttributeName: YDFont(15)}
                                         context:nil];
     float textHeight = size.size.height + 10.0;
     return textHeight;

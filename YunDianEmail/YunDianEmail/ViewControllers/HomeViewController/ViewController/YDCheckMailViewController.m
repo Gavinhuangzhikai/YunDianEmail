@@ -130,6 +130,36 @@
         make.height.equalTo(@30);
     }];
     
+    [self.theRecipientTitle mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.view.mas_left).with.offset(10);
+        make.top.equalTo(self.theSenderLabel.mas_bottom).with.offset(5);
+        make.width.equalTo(@0);
+        make.height.equalTo(@0);
+    }];
+    
+    [self.view addSubview:self.theRecipientLabel];
+    [self.theRecipientLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.theRecipientTitle.mas_right).with.offset(5);
+        make.top.equalTo(self.theSenderLabel.mas_bottom).with.offset(5);
+        make.width.mas_equalTo(0);;
+        make.height.equalTo(@0);
+    }];
+    
+    [self.timeTitle mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.view.mas_left).with.offset(10);
+        make.top.equalTo(self.theRecipientLabel.mas_bottom).with.offset(5);
+        make.width.equalTo(@0);
+        make.height.equalTo(@0);
+    }];
+    
+    
+    [self.timeLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.timeTitle.mas_right).with.offset(5);
+        make.top.equalTo(self.theRecipientLabel.mas_bottom).with.offset(5);
+        make.width.mas_equalTo(0);;
+        make.height.equalTo(@0);
+    }];
+
     
     [self.view addSubview:self.contentEmail];
     [self.contentEmail mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -320,10 +350,8 @@
                         self.refrushData();
                     }
                     
-//                    CGFloat height =  [self.contentEmail.attributedText boundingRectWithSize:CGSizeMake(YDScreenWidth-10, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin context:nil].size.height;
-//                    self.contentEmail.height = height+50;
                     
-                    NSDictionary *dataFileDic = @{@"emailid":self.emailID};
+                    NSDictionary *dataFileDic = @{@"emailid":self.inboxRows.ID};
                     [self getEmailFileFindRequestWithType:@"GET" withURL:YDEmailFileFindoUrl withDictionary:dataFileDic];
                     
                 });
@@ -361,7 +389,8 @@
                         labelBtn.backgroundColor = YDRGB(245, 245, 245);
                         labelBtn.tag = 100 + i;
                         [labelBtn addTarget:self action:@selector(pushToFileView:) forControlEvents:UIControlEventTouchUpInside];
-                        labelBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
+                        labelBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+                        labelBtn.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
                         [self.view addSubview:labelBtn];
                         [labelBtn mas_updateConstraints:^(MASConstraintMaker *make) {
                             make.left.equalTo(self.view.mas_left).with.offset(0);
@@ -378,7 +407,7 @@
                         make.left.equalTo(self.view.mas_left).with.offset(5);
                         make.top.equalTo(self.theSenderLabel.mas_bottom).with.offset(10);
                         make.right.equalTo(self.view.mas_right).with.offset(-5);
-                        make.bottom.equalTo(self.nextView.mas_top).with.offset(-20);
+                        make.bottom.equalTo(self.nextView.mas_top).with.offset(-40);
                     }];
                     
                 
@@ -480,10 +509,10 @@
         make.left.equalTo(self.view.mas_left).with.offset(5);
         make.top.equalTo(self.timeLabel.mas_bottom).with.offset(8);
         make.right.equalTo(self.view.mas_right).with.offset(-5);
-        make.bottom.equalTo(self.nextView.mas_top);
+        make.bottom.equalTo(self.nextView.mas_top).with.offset(-40);
     }];
 
-    }
+  }
     
 }
 
@@ -500,14 +529,14 @@
 -(void)upBtnAction:(id)sender
 {
     self.hud = [YDTools HUDLoadingOnView:self.view delegate:self];
-    NSDictionary *dataDic = @{@"id":self.emailID,@"eg":@2};
+    NSDictionary *dataDic = @{@"id":self.emailID,@"previous":@1};
     [self getEmailRequestWithType:@"GET" withURL:YDEmailGetUrl withDictionary:dataDic];
 }
 
 -(void)nextBtnAction:(id)sender
 {
     self.hud = [YDTools HUDLoadingOnView:self.view delegate:self];
-    NSDictionary *dataDic = @{@"id":self.emailID,@"eg":@2};
+    NSDictionary *dataDic = @{@"id":self.emailID,@"next":@3};
     [self getEmailRequestWithType:@"GET" withURL:YDEmailGetUrl withDictionary:dataDic];
 }
 @end

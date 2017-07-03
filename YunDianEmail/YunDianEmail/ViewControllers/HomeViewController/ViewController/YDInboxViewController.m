@@ -57,7 +57,7 @@ static NSString *const alertsNoDataCellIdentifier = @"alertsNoDataCellIdentifier
     UIView *rightView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 60, 30)];
     
     UIButton *rightSearchBtn=[UIButton buttonWithType:UIButtonTypeCustom];
-    rightSearchBtn.frame = CGRectMake(0, 0, 30, 30);
+    rightSearchBtn.frame = CGRectMake(10, 0, 30, 30);
     [rightSearchBtn setImage:[UIImage imageNamed:@"search.png"] forState:UIControlStateNormal];
     
     [rightSearchBtn addTarget:self action:@selector(searchBtnAction) forControlEvents:UIControlEventTouchUpInside];

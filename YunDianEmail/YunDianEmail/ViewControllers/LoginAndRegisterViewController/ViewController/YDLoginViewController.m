@@ -198,6 +198,7 @@
         [_rememberPasswordBtn setImage:[UIImage imageNamed:@"同意_none"] forState:UIControlStateNormal];
         [_rememberPasswordBtn setImage:[UIImage imageNamed:@"同意_selected"] forState:UIControlStateSelected];
         [_rememberPasswordBtn addTarget:self action:@selector(rememberPassword:) forControlEvents:UIControlEventTouchUpInside];
+          _rememberPasswordBtn.selected = YES;
     }
     return _rememberPasswordBtn;
 }
@@ -215,6 +216,7 @@
         [_loginButton.layer setMasksToBounds:YES];
         [_loginButton.layer setCornerRadius:5.0];
         [_loginButton addTarget:self action:@selector(LoginAction:) forControlEvents:UIControlEventTouchUpInside];
+      
     }
     return _loginButton;
 }

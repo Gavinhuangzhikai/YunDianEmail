@@ -127,7 +127,7 @@
     if (indexPath.row == 0) {
         YDChangePasswordViewController *changPasswordVtr = [[YDChangePasswordViewController alloc]init];
         [self.navigationController pushViewController:changPasswordVtr animated:NO];
-    }else if(indexPath.row == 3){
+    }else if(indexPath.row == 2){
         NSString * cachePath = [NSSearchPathForDirectoriesInDomains (NSCachesDirectory , NSUserDomainMask , YES ) firstObject];
         NSArray * files = [[NSFileManager defaultManager ] subpathsAtPath :cachePath];
         //NSLog ( @"cachpath = %@" , cachePath);
@@ -141,14 +141,14 @@
                 [[NSFileManager defaultManager ] removeItemAtPath :fileAbsolutePath error :&error];
             }
         }
-        [tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-    }else if (indexPath.row ==4){
+        [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }else if (indexPath.row ==3){
         UIAlertController *settingFontAlterView = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleAlert];
         
         UIAlertAction *smallAction = [UIAlertAction actionWithTitle:@"小号" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction *action) {
             
             SetTEXTFONT(@12);
-            [tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:4 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
             [self dismissViewControllerAnimated:YES completion:nil];
             
         }];
@@ -156,7 +156,7 @@
         UIAlertAction *defaultAction = [UIAlertAction actionWithTitle:@"默认" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction *action) {
             
             SetTEXTFONT(@15);
-            [tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:4 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
               [self dismissViewControllerAnimated:YES completion:nil];
             
         }];
@@ -164,7 +164,7 @@
         UIAlertAction *middleAction = [UIAlertAction actionWithTitle:@"中号" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction *action) {
             
             SetTEXTFONT(@18);
-               [tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:4 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+               [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
             [self dismissViewControllerAnimated:YES completion:nil];
             
         }];
@@ -172,7 +172,7 @@
         UIAlertAction *bigAction = [UIAlertAction actionWithTitle:@"大号" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction *action) {
             
             SetTEXTFONT(@21);
-            [tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:4 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
             [self dismissViewControllerAnimated:YES completion:nil];
             
         }];
@@ -180,7 +180,7 @@
         UIAlertAction *biggerAction = [UIAlertAction actionWithTitle:@"超大" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction *action) {
             
             SetTEXTFONT(@25);
-            [tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:4 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
             [self dismissViewControllerAnimated:YES completion:nil];
             
         }];
@@ -194,7 +194,7 @@
         
 
         
-    }else if (indexPath.row == 6){
+    }else if (indexPath.row == 5){
   
         YDFeedbackViewController *feedbackVtr = [[YDFeedbackViewController alloc]init];
         [self.navigationController pushViewController:feedbackVtr animated:NO];

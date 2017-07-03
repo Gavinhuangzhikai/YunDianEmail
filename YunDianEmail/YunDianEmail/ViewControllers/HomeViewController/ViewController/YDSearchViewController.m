@@ -9,6 +9,7 @@
 #import "YDSearchViewController.h"
 #import <CoreGraphics/CoreGraphics.h>
 #import "EmailDataBase.h"
+#import "YDInBoxModel.h"
 
 @interface YDSearchViewController ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
 
@@ -17,6 +18,8 @@
 @property (nonatomic,strong)UITableView *searchEmailTabelView;
 
 @property (nonatomic,strong)UIButton *searchBtn;
+
+@property(nonatomic ,strong) YDInBoxModel *searchModel;
 
 @end
 
@@ -37,6 +40,7 @@
 - (void)initParameters
 {
     [super initParameters];
+    self.searchType = YUDIANMailSearchTYPESender;
 }
 
 #pragma mark - 界面初始化
@@ -88,22 +92,21 @@
         _searchEmail.placeholder = @"搜索所有邮件";
         _searchEmail.backgroundColor = YDRGB(230, 230, 230);
   
-        UIImageView *searchImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 40, 44)];
+        UIImageView *searchImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 8, 25, 25)];
         searchImage.contentMode = UIViewContentModeScaleAspectFit;
-        searchImage.frame = CGRectMake(0, 0, 32, 44);
-        searchImage.image = [UIImage imageNamed:@"search.png"];
+        searchImage.image = [UIImage imageNamed:@"tool_search.png"];
   
         
         _searchEmail.leftView = searchImage;
         _searchEmail.leftViewMode = UITextFieldViewModeAlways;
-        [_searchEmail setBorderStyle:UITextBorderStyleNone];
-        _searchEmail.autocorrectionType = UITextAutocorrectionTypeNo;
+        [_searchEmail setBorderStyle:UITextBorderStyleRoundedRect];
+        _searchEmail.autocorrectionType = UITextAutocorrectionTypeDefault;
         _searchEmail.delegate =self;
         _searchEmail.font = YDFont(15);
         _searchEmail.textColor = YDRGB(0, 0, 0);
-        
-        _searchEmail.backgroundColor = [UIColor clearColor];
         _searchEmail.keyboardType =UIKeyboardTypeDefault;
+        _searchEmail.layer.cornerRadius = 6;
+        _searchEmail.layer.masksToBounds = YES;
 
     }
     return _searchEmail;
@@ -147,7 +150,11 @@
 #pragma mark - UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 60;
+    if (indexPath.section == 0) {
+        return  30;
+    }
+
+    return 40;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -205,7 +212,7 @@
     if (section == 0) {
         return [[[EmailDataBase sharedDataBase]querySearchInfo] count];
     }
-    return 1 ;
+    return self.searchModel.rows.count ;
 }
 
 
@@ -231,7 +238,41 @@
     }
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
+        
+        
+        YDInBoxRowsModel *cellModel = self.searchModel.rows[indexPath.row];
+        
+        switch (self.searchType) {
+            case YUDIANMailSearchTYPESender:
+            {
+               cell.textLabel.text = cellModel.tomail;
+            }
+                break;
+            case YUDIANMailSearchTYPERecipient:
+            {
+               cell.textLabel.text = cellModel.formmail;
+            }
+                
+                break;
+            case YUDIANMailSearchTYPESubject:
+            {
+                
+                cell.textLabel.text = cellModel.bodyText;
+            }
+                
+                break;
+            case YUDIANMailSearchTYPEAll:
+            {
+               
+            }
+                
+                break;
+                
+            default:
+                break;
+        }
+
+
     return  cell;
     }
 
@@ -271,13 +312,16 @@
 - (void)searchRequestWithType:(NSString *)requestType   withURL:(NSString *)urlString    withDictionary:(NSDictionary *)dictionary
 {
     [YDHttpRequest currentRequestType:requestType requestURL:urlString parameters:dictionary success:^(id responseObj) {
+ 
         if ([responseObj isKindOfClass:[NSDictionary class]]){
             
             [self.hud hideAnimated:YES];
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//                [self analyseData:responseObj];
+                self.searchModel = [[YDInBoxModel alloc] initWithDictionary:responseObj] ;
+                
                 dispatch_async(dispatch_get_main_queue(), ^{
-//                    [self.inboxTableView  reloadData];
+                    [self.searchEmailTabelView  reloadData];
+     
                     
                 });
             });
@@ -294,27 +338,71 @@
 
 - (void)searchClassification:(UIButton *)button
 {
+    [self.view endEditing:YES];
     if (button.tag == 1000) {
-        
+          self.searchType = YUDIANMailSearchTYPESender;
+        [self searchRequest];
     }else if (button.tag == 1001){
-        
+          self.searchType = YUDIANMailSearchTYPERecipient;
+        [self searchRequest];
     }else if (button.tag == 1002){
-        
+          self.searchType = YUDIANMailSearchTYPESubject;
+        [self searchRequest];
     }else if (button.tag == 1003){
-        
+          self.searchType = YUDIANMailSearchTYPEAll;
+        [self searchRequest];
     }
     
 }
 
 - (void)searchAction:(id)sender
-{   self.hud = [YDTools HUDLoadingOnView:self.view delegate:self];
+{
+    [self.view endEditing:YES];
+    self.hud = [YDTools HUDLoadingOnView:self.view delegate:self];
 
     if (self.searchEmail.text.length > 0) {
         [[EmailDataBase sharedDataBase] addSearchInfo:self.searchEmail.text];
-        [self.searchEmailTabelView  reloadData];
-    }
-//    NSDictionary *dataDic = @{@"subject":self.searchEmail.text,@"emailType":[YDTools md5: _passwordTextField.text]};
-//    [self searchRequestWithType:<#(NSString *)#> withURL:YDEmailFindoUrl withDictionary:<#(NSDictionary *)#>]
+        [self searchRequest];
+ }
+
 }
+
+- (void)searchRequest
+{
+    switch (self.searchType) {
+        case YUDIANMailSearchTYPESender:
+        {
+            NSDictionary *dataDic = @{@"name":self.searchEmail.text};
+            [self searchRequestWithType:@"GET" withURL:YDEmailFindoUrl withDictionary:dataDic];
+        }
+            break;
+        case YUDIANMailSearchTYPERecipient:
+        {
+            NSDictionary *dataDic = @{@"name":self.searchEmail.text};
+            [self searchRequestWithType:@"GET" withURL:YDEmailFindoUrl withDictionary:dataDic];
+        }
+            
+            break;
+        case YUDIANMailSearchTYPESubject:
+        {
+            NSDictionary *dataDic = @{@"subject":self.searchEmail.text};
+            [self searchRequestWithType:@"GET" withURL:YDEmailFindoUrl withDictionary:dataDic];
+        }
+            
+            break;
+        case YUDIANMailSearchTYPEAll:
+        {
+            NSDictionary *dataDic = @{@"name":self.searchEmail.text};
+            [self searchRequestWithType:@"GET" withURL:YDEmailFindoUrl withDictionary:dataDic];
+        }
+            
+            break;
+            
+        default:
+            break;
+    }
+
+}
+
 
 @end
